@@ -32,6 +32,10 @@ repo_name: hellowac/pydantic-zh-cn
 repo_url: https://github.com/hellowac/pydantic-zh-cn
 edit_uri: edit/main/docs/
 
+extra:
+  version:
+    provider: mike
+    default: stable
 extra_css:
 - 'extra/terminal.css'
 - 'extra/tweaks.css'
@@ -83,6 +87,7 @@ markdown_extensions:
 
 plugins:
 - search
+- mike
 - exclude:
     glob:
     - _build/*

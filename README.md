@@ -22,7 +22,8 @@ pdm add <package name>
 
 ## 文档版本工具
 
-参考: <https://pypi.org/project/mike/>
+* 参考: <https://squidfunk.github.io/mkdocs-material/setup/setting-up-versioning/#publishing-a-new-version>
+* 参考: <https://pypi.org/project/mike/>
 
 这里使用mike
 
