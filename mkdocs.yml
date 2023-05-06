@@ -1,0 +1,91 @@
+site_name: Pydantic
+site_description: 使用Python类型注解进行数据校验
+strict: true
+site_url: https://hellowac.github.io/pydantic-zh-cn/
+
+theme:
+  name: 'material'
+  custom_dir: 'docs/theme'
+  language: zh
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: pink
+    accent: pink
+    toggle:
+      icon: material/lightbulb-outline
+      name: "Switch to dark mode"
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: pink
+    accent: pink
+    toggle:
+      icon: material/lightbulb
+      name: "Switch to light mode"
+  features:
+    - content.tabs.link
+    - navigation.top  # 返回顶部按钮
+  logo: 'logo-white.svg'
+  favicon: 'favicon.png'
+
+repo_name: hellowac/pydantic-zh-cn
+repo_url: https://github.com/hellowac/pydantic-zh-cn
+edit_uri: edit/main/docs/
+
+extra_css:
+- 'extra/terminal.css'
+- 'extra/tweaks.css'
+extra_javascript:
+- 'extra/redirects.js'
+
+nav:
+- 概览: index.md
+- 安装: install.md
+- 使用指南:
+  - 模型: usage/models.md
+  - 字段类型: usage/types.md
+  - 字段校验: usage/validators.md
+  - 模型配置: usage/model_config.md
+  - 模型图式(schema): usage/schema.md
+  - 模型导出: usage/exporting_models.md
+  - 数据类: usage/dataclasses.md
+  - 校验装饰器: usage/validation_decorator.md
+  - 配置管理: usage/settings.md
+  - 延迟注解: usage/postponed_annotations.md
+  - 和mypy一起使用: usage/mypy.md
+  - 和rich一起使用: usage/rich.md
+  - 和devtools一起使用: usage/devtools.md
+- 博客:
+  - Pydantic V2 版本计划: blog/pydantic-v2.md
+- 贡献参与: contributing.md
+- Mypy插件: mypy_plugin.md
+- PyCharm插件: pycharm_plugin.md
+- VSCode使用: visual_studio_code.md
+- Hypothesis插件': hypothesis_plugin.md
+- 代码生成: datamodel_code_generator.md
+- 更新日志: changelog.md
+
+markdown_extensions:
+- tables
+- markdown_include.include:
+    base_path: docs
+- toc:
+    permalink: true
+- admonition
+- pymdownx.highlight
+- pymdownx.extra
+- mdx_truly_sane_lists
+- pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji
+    emoji_generator: !!python/name:materialx.emoji.to_svg
+- pymdownx.tabbed:
+    alternate_style: true 
+
+plugins:
+- search
+- exclude:
+    glob:
+    - _build/*
+    - build/*
+    - examples/*
+    - requirements.txt
