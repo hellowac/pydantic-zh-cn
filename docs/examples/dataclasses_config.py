@@ -2,21 +2,21 @@ from pydantic import ConfigDict
 from pydantic.dataclasses import dataclass
 
 
-# Option 1 - use directly a dict
-# Note: `mypy` will still raise typo error
+# 方式 1 - 直接使用字典
+# 注意: `mypy` 仍然会引发拼写错误
 @dataclass(config=dict(validate_assignment=True))
 class MyDataclass1:
     a: int
 
 
-# Option 2 - use `ConfigDict`
-# (same as before at runtime since it's a `TypedDict` but with intellisense)
+# 方式 2 - 使用`ConfigDict`
+# （在运行时与之前相同，因为它是一个 TypedDict 但具有智能感知）
 @dataclass(config=ConfigDict(validate_assignment=True))
 class MyDataclass2:
     a: int
 
 
-# Option 3 - use a `Config` class like for a `BaseModel`
+# Option 3 - 使用类似于 BaseModel 的 `Config` 类 
 class Config:
     validate_assignment = True
 

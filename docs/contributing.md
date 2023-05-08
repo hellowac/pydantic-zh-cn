@@ -1,75 +1,63 @@
-We'd love you to contribute to *pydantic*!
+我们希望您能为 *pydantic* 做出贡献！
 
-## Issues
+## 问题 Issues
 
-Questions, feature requests and bug reports are all welcome as [discussions or issues](https://github.com/pydantic/pydantic/issues/new/choose). **However, to report a security
-vulnerability, please see our [security policy](https://github.com/pydantic/pydantic/security/policy).**
+欢迎问题、功能请求和错误报告作为 [讨论或问题](https://github.com/pydantic/pydantic/issues/new/choose)。 **但是，要报告安全漏洞，请参阅我们的[安全政策](https://github.com/pydantic/pydantic/security/policy)。**
 
-To make it as simple as possible for us to help you, please include the output of the following call in your issue:
+为了让我们尽可能简单地帮助您，请在您的问题中包含以下调用的输出：
 
 ```bash
 python -c "import pydantic.utils; print(pydantic.utils.version_info())"
 ```
-If you're using *pydantic* prior to **v1.3** (when `version_info()` was added), please manually include OS, Python
-version and pydantic version.
 
-Please try to always include the above unless you're unable to install *pydantic* or **know** it's not relevant
-to your question or feature request.
+如果您在 **v1.3** 之前使用 *pydantic*（添加 `version_info()` 时），请手动包括操作系统、Python 版本和 pydantic 版本。
 
-## Pull Requests
+请尝试始终包括以上内容，除非您无法安装 *pydantic* 或 **知道** 它与您的问题或功能请求无关。
 
-It should be extremely simple to get started and create a Pull Request.
-*pydantic* is released regularly so you should see your improvements release in a matter of days or weeks.
+## 拉取请求 Pull Requests
+
+开始创建合并请求应该非常简单。 *pydantic* 定期发布，因此您应该会在几天或几周内看到您的改进版本。
 
 !!! note
-    Unless your change is trivial (typo, docs tweak etc.), please create an issue to discuss the change before
-    creating a pull request.
+    除非您的更改是微不足道的（错字、文档调整等），否则请在创建拉取请求之前创建一个问题来讨论更改。
 
-If you're looking for something to get your teeth into, check out the
-["help wanted"](https://github.com/pydantic/pydantic/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)
-label on github.
+如果您正在寻找让您咬牙切齿的东西，请查看github 上的[“需要帮助”](https://github.com/pydantic/pydantic/issues?q=is%3Aopen+is%3Aissue+label%3A %22help+wanted%22) 标签。
 
-To make contributing as easy and fast as possible, you'll want to run tests and linting locally. Luckily,
-*pydantic* has few dependencies, doesn't require compiling and tests don't need access to databases, etc.
-Because of this, setting up and running the tests should be very simple.
+为了尽可能简单快速地做出贡献，您需要在本地运行测试和 linting。 幸运的是，*pydantic* 几乎没有依赖项，不需要编译，测试不需要访问数据库等。因此，设置和运行测试应该非常简单。
 
-You'll need to have a version between **Python 3.7 and 3.11**, **virtualenv**, **git**, and **make** installed.
+您需要安装 **Python 3.7 和 3.11**、**virtualenv**、**git** 和 **make** 之间的版本。
 
 ```bash
-# 1. clone your fork and cd into the repo directory
+# 1. 克隆你fork的仓库并cd到该目录下
 git clone git@github.com:<your username>/pydantic.git
 cd pydantic
 
-# 2. Set up a virtualenv for running tests
+# 2. 设置用于测试的虚拟环境
 virtualenv -p `which python3.8` env
 source env/bin/activate
-# Building docs requires 3.8. If you don't need to build docs you can use
-# whichever version; 3.7 will work too.
+# 构建文档需要 3.8。 如果您不需要构建文档，则可以使用任何版本； 3.7 也可以。
 
-# 3. Install pydantic, dependencies, test dependencies and doc dependencies
+# 3. 安装pydantic、依赖、测试依赖和doc依赖
 make install
 
-# 4. Checkout a new branch and make your changes
+# 4. 签出一个新分支并进行更改
 git checkout -b my-new-feature-branch
-# make your changes...
+# 进行更改...
 
-# 5. Fix formatting and imports
+# 5. 修复格式和导入
 make format
-# Pydantic uses black to enforce formatting and isort to fix imports
+# Pydantic 使用black来强制格式化并使用 isort 来完善导入
 # (https://github.com/ambv/black, https://github.com/timothycrosley/isort)
 
-# 6. Run tests and linting
+# 6. 运行测试和 linting
 make
-# there are a few sub-commands in Makefile like `test`, `testcov` and `lint`
-# which you might want to use, but generally just `make` should be all you need
+# Makefile 中有一些子命令，例如您可能想要使用的 `test`、`testcov` 和 `lint`，但通常您只需要 `make` 就可以了
 
-# 7. Build documentation
+# 7. 构建文档
 make docs
-# if you have changed the documentation make sure it builds successfully
-# you can also use `make docs-serve` to serve the documentation at localhost:8000
+# 如果您更改了文档，请确保它成功构建，您还可以使用 `make docs-serve` 在 localhost:8000 提供文档
 
-# ... commit, push, and create your pull request
+# ... commit, push, 并创建您的拉取请求
 ```
 
-**tl;dr**: use `make format` to fix formatting, `make` to run tests and linting & `make docs`
-to build the docs.
+**总结**: 使用 `make format` 完善格式，`make` 运行测试和 linting 同时使用 `make docs` 构建文档。

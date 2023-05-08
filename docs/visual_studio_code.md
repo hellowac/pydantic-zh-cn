@@ -6,25 +6,25 @@ This means that you will have **autocompletion** (or "IntelliSense") and **error
 
 ![pydantic autocompletion in VS Code](./img/vs_code_01.png)
 
-## Configure VS Code
+## 配置VScode Configure VS Code
 
 To take advantage of these features, you need to make sure you configure VS Code correctly, using the recommended settings.
 
 In case you have a different configuration, here's a short overview of the steps.
 
-### Install Pylance
+### 安装Pylance Install Pylance
 
 You should use the [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) extension for VS Code. It is the recommended, next-generation, official VS Code plug-in for Python.
 
 Pylance is installed as part of the [Python Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-python.python) by default, so it should probably just work. Otherwise, you can double check it's installed and enabled in your editor.
 
-### Configure your environment
+### 配置你的环境 Configure your environment
 
 Then you need to make sure your editor knows the [Python environment](https://code.visualstudio.com/docs/python/python-tutorial#_install-and-use-packages) (probably a virtual environment) for your Python project.
 
 This would be the environment in where you installed *pydantic*.
 
-### Configure Pylance
+### 配置Pylance Configure Pylance
 
 With the default configurations, you will get support for autocompletion, but Pylance might not check for type errors.
 
@@ -50,7 +50,7 @@ And you will also get error checks for **invalid data types**.
 
     You can read more about it in the [Pylance Frequently Asked Questions](https://github.com/microsoft/pylance-release/blob/main/FAQ.md#what-is-the-relationship-between-pylance-pyright-and-the-python-extension).
 
-### Configure mypy
+### 配置mypy Configure mypy
 
 You might also want to configure mypy in VS Code to get mypy error checks inline in your editor (alternatively/additionally to Pylance).
 
@@ -65,11 +65,11 @@ To enable mypy in VS Code, do the following:
 
 ![mypy enabled in VS Code](./img/vs_code_05.png)
 
-## Tips and tricks
+## 提示和小技巧 Tips and tricks
 
 Here are some additional tips and tricks to improve your developer experience when using VS Code with *pydantic*.
 
-### Strict errors
+### 严格错误 Strict errors
 
 The way this additional editor support works is that Pylance will treat your *pydantic* models as if they were Python's pure `dataclasses`.
 
@@ -126,7 +126,7 @@ In those cases, there are several ways to disable or ignore strict errors in ver
 
 Below are several techniques to achieve it.
 
-#### Disable type checks in a line
+#### 在行中禁用类型检查 Disable type checks in a line
 
 You can disable the errors for a specific line using a comment of:
 
@@ -163,7 +163,7 @@ that way Pylance and mypy will ignore errors in that line.
 
 **Cons**: any other error in that line will also be omitted, including type checks, misspelled arguments, required arguments not provided, etc.
 
-#### Override the type of a variable
+#### 覆盖变量的类型 Override the type of a variable
 
 You can also create a variable with the value you want to use and declare it's type explicitly with `Any`.
 
@@ -188,7 +188,7 @@ that way Pylance and mypy will interpret the variable `age_str` as if they didn'
 
 **Cons**: it requires importing `Any` and a new variable in a new line for each argument that needs ignoring errors.
 
-#### Override the type of a value with `cast`
+#### 用 `cast` 覆盖值的类型 Override the type of a value with `cast`
 
 The same idea from the previous example can be put on the same line with the help of `cast()`.
 
@@ -216,7 +216,7 @@ So, this is the equivalent of the previous example, without the additional varia
 
 **Cons**: it requires importing `Any` and `cast`, and if you are not used to using `cast()`, it could seem strange at first.
 
-### Config in class arguments
+### 在类参数中配置 Config in class arguments
 
 *pydantic* has a rich set of [Model Configurations](./usage/model_config.md) available.
 
@@ -251,15 +251,15 @@ The specific configuration **`frozen`** (in beta) has a special meaning.
 
 It prevents other code from changing a model instance once it's created, keeping it **"frozen"**.
 
-When using the second version to declare `frozen=True` (with **keyword arguments** in the class definition), 
-Pylance can use it to help you check in your code and **detect errors** when something is trying to set values 
+When using the second version to declare `frozen=True` (with **keyword arguments** in the class definition),
+Pylance can use it to help you check in your code and **detect errors** when something is trying to set values
 in a model that is "frozen".
 
 ![VS Code strict type errors with model](./img/vs_code_08.png)
 
-## BaseSettings and ignoring Pylance/pyright errors
+## 基础设置并忽略 Pylance/pyright 错误 BaseSettings and ignoring Pylance/pyright errors
 
-Pylance/pyright does not work well with [`BaseSettings`](./usage/settings.md) - fields in settings classes can be 
+Pylance/pyright does not work well with [`BaseSettings`](./usage/settings.md) - fields in settings classes can be
 configured via environment variables and therefore "required" fields do not have to be explicitly set when
 initialising a settings instance. However, pyright considers these fields as "required" and will therefore
 show an error when they're not set.
@@ -272,7 +272,7 @@ There are two potential workarounds:
 * use an ignore comment (`# pyright: ignore`) when initialising `settings`
 * or, use `settings.parse_obj({})` to avoid the warning
 
-## Adding a default with `Field`
+## 使用`Field`添加默认值 Adding a default with `Field`
 
 Pylance/pyright requires `default` to be a keyword argument to `Field` in order to infer that the field is optional.
 
@@ -289,7 +289,7 @@ lance = Knight()  # error: Argument missing for parameter "age"
 
 Like the issue with `BaseSettings`, this is a limitation of dataclass transforms and cannot be fixed in pydantic.
 
-## Technical Details
+## 技术细节 Technical Details
 
 !!! warning
     As a *pydantic* user, you don't need the details below. Feel free to skip the rest of this section.

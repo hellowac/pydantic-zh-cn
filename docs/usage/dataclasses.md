@@ -1,123 +1,98 @@
-If you don't want to use _pydantic_'s `BaseModel` you can instead get the same data validation on standard
-[dataclasses](https://docs.python.org/3/library/dataclasses.html) (introduced in Python 3.7).
-
-
+如果您不想使用 _pydantic_ 的 `BaseModel`，您可以在标准 [dataclasses](https://docs.python.org/3/library/dataclasses.html) 上获得相同的数据验证（在 Python 3.7 中引入） .
 
 {!.tmp_examples/dataclasses_main.md!}
 
 !!! note
-    Keep in mind that `pydantic.dataclasses.dataclass` is a drop-in replacement for `dataclasses.dataclass`
-    with validation, **not** a replacement for `pydantic.BaseModel` (with a small difference in how [initialization hooks](#initialize-hooks) work). There are cases where subclassing
-    `pydantic.BaseModel` is the better choice.
+    请记住，`pydantic.dataclasses.dataclass` 是带验证的 `dataclasses.dataclass` 的直接替代品，**不是** `pydantic.BaseModel` 的替代品（[初始化挂钩](#initialize-hooks)的工作方式略有不同）。 在某些情况下，子类化 `pydantic.BaseModel` 是更好的选择。
 
-    For more information and discussion see
-    [pydantic/pydantic#710](https://github.com/pydantic/pydantic/issues/710).
+    有关更多信息和讨论，请参阅 [pydantic/pydantic#710](https://github.com/pydantic/pydantic/issues/710)。
 
-You can use all the standard _pydantic_ field types, and the resulting dataclass will be identical to the one
-created by the standard library `dataclass` decorator.
+您可以使用所有标准 _pydantic_ 字段类型，生成的数据类将与标准库`dataclass`装饰器创建的数据类相同。
 
-The underlying model and its schema can be accessed through `__pydantic_model__`.
-Also, fields that require a `default_factory` can be specified by either a `pydantic.Field` or a `dataclasses.field`.
+可以通过 `__pydantic_model__` 访问底层模型及其模式。 此外，需要 `default_factory` 的字段可以由 `pydantic.Field` 或 `dataclasses.field` 指定。
 
 {!.tmp_examples/dataclasses_default_schema.md!}
 
-`pydantic.dataclasses.dataclass`'s arguments are the same as the standard decorator, except one extra
-keyword argument `config` which has the same meaning as [Config](model_config.md).
+`pydantic.dataclasses.dataclass` 的参数与标准装饰器相同，除了一个额外的关键字参数 `config` 与 [Config](model_config.md) 具有相同的含义。
 
 !!! warning
-    After v1.2, [The Mypy plugin](../mypy_plugin.md) must be installed to type check _pydantic_ dataclasses.
+    在 v1.2 之后，必须安装 [Mypy 插件](../mypy_plugin.md) 来类型检查 _pydantic_ 数据类。
 
-For more information about combining validators with dataclasses, see
-[dataclass validators](validators.md#dataclass-validators).
+有关将验证器与数据类组合的更多信息，请参阅 [数据类验证器](validators.md#dataclass-validators)。
 
 ## 数据类配置(Dataclass Config)
 
-If you want to modify the `Config` like you would with a `BaseModel`, you have three options:
+如果您想像修改 `BaseModel` 一样修改 `Config`，您有以下三种选择：
 
 {!.tmp_examples/dataclasses_config.md!}
 
 !!! warning
-    After v1.10, _pydantic_ dataclasses support `Config.extra` but some default behaviour of stdlib dataclasses
-    may prevail. For example, when `print`ing a _pydantic_ dataclass with allowed extra fields, it will still
-    use the `__str__` method of stdlib dataclass and show only the required fields.
-    This may be improved further in the future.
+    在 v1.10 之后，_pydantic_ 数据类支持 `Config.extra` 但 标准库 数据类的一些默认行为可能会占上风。 例如，当 `print`时带有允许的额外字段的 _pydantic_ 数据类时，它仍将使用 标准库 数据类的 `__str__` 方法并仅显示必需的字段。 未来可能会进一步改进这一点。
 
 ## 嵌套数据类(Nested dataclasses)
 
-Nested dataclasses are supported both in dataclasses and normal models.
+数据类和普通模型都支持嵌套数据类。
 
 {!.tmp_examples/dataclasses_nested.md!}
 
-Dataclasses attributes can be populated by tuples, dictionaries or instances of the dataclass itself.
+数据类属性可以由元组、字典或数据类本身的实例填充。
 
 ## 标准库数据类和_pydantic_数据类(Stdlib dataclasses and _pydantic_ dataclasses)
 
 ### 转换标准库数据类为_pydantic_数据类(Convert stdlib dataclasses into _pydantic_ dataclasses)
 
-Stdlib dataclasses (nested or not) can be easily converted into _pydantic_ dataclasses by just decorating
-them with `pydantic.dataclasses.dataclass`.
-_Pydantic_ will enhance the given stdlib dataclass but won't alter the default behaviour (i.e. without validation).
-It will instead create a wrapper around it to trigger validation that will act like a plain proxy.
-The stdlib dataclass can still be accessed via the `__dataclass__` attribute (see example below).
+标准库 数据类（嵌套或非嵌套）只需用 `pydantic.dataclasses.dataclass` 装饰即可轻松转换为 _pydantic_ 数据类。
+_Pydantic_ 将增强给定的 标准库 数据类，但不会改变默认行为（即未经验证）。
+相反，它将围绕它创建一个包装器来触发验证，就像一个普通代理一样。
+仍然可以通过 `__dataclass__` 属性访问 标准库 数据类（参见下面的示例）。
 
 {!.tmp_examples/dataclasses_stdlib_to_pydantic.md!}
 
 ### 选择何时触发校验(Choose when to trigger validation)
 
-As soon as your stdlib dataclass has been decorated with _pydantic_ dataclass decorator, magic methods have been
-added to validate input data. If you want, you can still keep using your dataclass and choose when to trigger it.
+一旦你的 标准库 数据类被 _pydantic_ 数据类装饰器装饰，魔法方法就被添加来验证输入数据。 如果你愿意，你仍然可以继续使用你的数据类并选择何时触发它。
 
 {!.tmp_examples/dataclasses_stdlib_run_validation.md!}
 
 ### 从标准库数据类继承(Inherit from stdlib dataclasses)
 
-Stdlib dataclasses (nested or not) can also be inherited and _pydantic_ will automatically validate
-all the inherited fields.
+标准库 数据类（嵌套或非嵌套）也可以被继承，_pydantic_ 将自动验证所有继承的字段。
 
 {!.tmp_examples/dataclasses_stdlib_inheritance.md!}
 
 ### 将标准库数据类与 `BaseModel` 一起使用(Use of stdlib dataclasses with `BaseModel`)
 
-Bear in mind that stdlib dataclasses (nested or not) are **automatically converted** into _pydantic_
-dataclasses when mixed with `BaseModel`! Furthermore the generated _pydantic_ dataclass will have
-the **exact same configuration** (`order`, `frozen`, ...) as the original one.
+请记住，标准库 数据类（嵌套或非嵌套）在与 `BaseModel` 混合时会**自动转换**为_pydantic_数据类！ 此外，生成的 _pydantic_ 数据类将与原始配置具有**完全相同的配置**（`order`、`frozen`、...）。
 
 {!.tmp_examples/dataclasses_stdlib_with_basemodel.md!}
 
 ### 使用自定义类型(Use custom types)
 
-Since stdlib dataclasses are automatically converted to add validation using
-custom types may cause some unexpected behaviour.
-In this case you can simply add `arbitrary_types_allowed` in the config!
+由于 标准库 数据类会自动转换为使用自定义类型添加验证，因此可能会导致一些意外行为。 在这种情况下，您只需在配置中添加 `arbitrary_types_allowed` 即可！
 
 {!.tmp_examples/dataclasses_arbitrary_types_allowed.md!}
 
 ## 初始化钩子(Initialize hooks)
 
-When you initialize a dataclass, it is possible to execute code *after* validation
-with the help of `__post_init_post_parse__`. This is not the same as `__post_init__`, which executes
-code *before* validation.
+初始化数据类时，可以在 `__post_init_post_parse__` 的帮助下在 _验证后_ 执行代码。 这与 `__post_init__` 不同，它在验证之前执行代码。
 
 !!! tip
-    If you use a stdlib `dataclass`, you may only have `__post_init__` available and wish the validation to
-    be done before. In this case you can set `Config.post_init_call = 'after_validation'`
-
+    如果您使用 标准库 `dataclass`，您可能只有 `__post_init__` 可用，并希望在之前完成验证。 在这种情况下，您可以设置 `Config.post_init_call = 'after_validation'`
 
 {!.tmp_examples/dataclasses_post_init_post_parse.md!}
 
-Since version **v1.0**, any fields annotated with `dataclasses.InitVar` are passed to both `__post_init__` *and*
-`__post_init_post_parse__`.
+从版本 **v1.0** 开始，任何用 `dataclasses.InitVar` 注释的字段都会传递给 `__post_init__` _和_ `__post_init_post_parse__`。
 
 {!.tmp_examples/dataclasses_initvars.md!}
 
 ### 与标准库数据类的区别(Difference with stdlib dataclasses)
 
-Note that the `dataclasses.dataclass` from Python stdlib implements only the `__post_init__` method since it doesn't run a validation step.
+请注意，Python 标准库中的`dataclasses.dataclass`仅实现了`__post_init__`方法，因为它不运行验证步骤。
 
-When substituting usage of `dataclasses.dataclass` with `pydantic.dataclasses.dataclass`, it is recommended to move the code executed in the `__post_init__` method to the `__post_init_post_parse__` method, and only leave behind part of code which needs to be executed before validation.
+当用 `pydantic.dataclasses.dataclass` 替换 `dataclasses.dataclass` 的用法时，建议将 `__post_init__` 方法中执行的代码移动到 `__post_init_post_parse__` 方法中，只留下需要的部分代码 在验证之前执行。
 
 ## JSON Dumping
 
-_Pydantic_ dataclasses do not feature a `.json()` function. To dump them as JSON, you will need to make use of the `pydantic_encoder` as follows:
+_Pydantic_ 数据类没有 `.json()` 函数。 要将它们转储为 JSON，您需要按如下方式使用 `pydantic_encoder`：
 
 {!.tmp_examples/dataclasses_json_dumps.md!}

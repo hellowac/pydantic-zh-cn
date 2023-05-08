@@ -66,7 +66,7 @@ nav:
 - Mypy插件: mypy_plugin.md
 - PyCharm插件: pycharm_plugin.md
 - VSCode使用: visual_studio_code.md
-- Hypothesis插件': hypothesis_plugin.md
+- Hypothesis插件: hypothesis_plugin.md
 - 代码生成: datamodel_code_generator.md
 - 更新日志: changelog.md
 

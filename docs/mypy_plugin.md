@@ -6,13 +6,14 @@ features to mypy that improve its ability to type-check your code.
 For example, consider the following script:
 {!.tmp_examples/mypy_main.md!}
 
-
 Without any special configuration, mypy catches one of the errors (see [here](usage/mypy.md) for usage instructions):
+
 ```
 13: error: "Model" has no attribute "middle_name"
 ```
 
 But [with the plugin enabled](#enabling-the-plugin), it catches both:
+
 ```
 13: error: "Model" has no attribute "middle_name"
 16: error: Missing named argument "age" for "Model"
@@ -24,9 +25,10 @@ if your field names or types change.
 
 There are other benefits too! See below for more details.
 
-### Plugin Capabilities
+### 插件功能 Plugin Capabilities
 
-#### Generate a signature for `Model.__init__`
+#### 为 `Model.__init__` 生成签名 Generate a signature for `Model.__init__`
+
 * Any required fields that don't have dynamically-determined aliases will be included as required
   keyword arguments.
 * If `Config.allow_population_by_field_name=True`, the generated signature will use the field names,
@@ -35,56 +37,64 @@ There are other benefits too! See below for more details.
   read from the environment.
 * If `Config.extra="forbid"` and you don't make use of dynamically-determined aliases, the generated signature
   will not allow unexpected inputs.
-* **Optional:** If the [`init_forbid_extra` **plugin setting**](#plugin-settings) is set to `True`, unexpected inputs to
+* __Optional:__ If the [`init_forbid_extra` __plugin setting__](#plugin-settings) is set to `True`, unexpected inputs to
   `__init__` will raise errors even if `Config.extra` is not `"forbid"`.
-* **Optional:** If the [`init_typed` **plugin setting**](#plugin-settings) is set to `True`, the generated signature
+* __Optional:__ If the [`init_typed` __plugin setting__](#plugin-settings) is set to `True`, the generated signature
   will use the types of the model fields (otherwise they will be annotated as `Any` to allow parsing).
 
-#### Generate a typed signature for `Model.construct`
+#### 为 `Model.construct` 生成类型签名 Generate a typed signature for `Model.construct`
+
 * The [`construct`](usage/models.md#creating-models-without-validation) method is a faster alternative to `__init__`
   when input data is known to be valid and does not need to be parsed. But because this method performs no runtime
   validation, static checking is important to detect errors.
 
-#### Respect `Config.allow_mutation`
+#### 注意 Respect `Config.allow_mutation`
+
 * If `Config.allow_mutation` is `False`, you'll get a mypy error if you try to change
   the value of a model field; cf. [faux immutability](usage/models.md#faux-immutability).
 
-#### Respect `Config.orm_mode`
+#### 注意 Respect `Config.orm_mode`
+
 * If `Config.orm_mode` is `False`, you'll get a mypy error if you try to call `.from_orm()`;
   cf. [ORM mode](usage/models.md#orm-mode-aka-arbitrary-class-instances)
 
-#### Generate a signature for `dataclasses`
+#### 为 `dataclasses` 生成签名 Generate a signature for `dataclasses`
+
 * classes decorated with [`@pydantic.dataclasses.dataclass`](usage/dataclasses.md) are type checked the same as standard Python dataclasses
 * The `@pydantic.dataclasses.dataclass` decorator accepts a `config` keyword argument which has the same meaning as [the `Config` sub-class](usage/model_config.md).
 
-#### Respect the type of the `Field`'s `default` and `default_factory`
+#### 注意 `Field` 的 `default` 和 `default_factory` 的类型 Respect the type of the `Field`'s `default` and `default_factory`
+
 * Field with both a `default` and a `default_factory` will result in an error during static checking.
 * The type of the `default` and `default_factory` value must be compatible with the one of the field.
 
-### Optional Capabilities:
-#### Prevent the use of required dynamic aliases
+### 可选功能 Optional Capabilities:
 
-* If the [`warn_required_dynamic_aliases` **plugin setting**](#plugin-settings) is set to `True`, you'll get a mypy
+#### 防止使用所需的动态别名 Prevent the use of required dynamic aliases
+
+* If the [`warn_required_dynamic_aliases` __plugin setting__](#plugin-settings) is set to `True`, you'll get a mypy
   error any time you use a dynamically-determined alias or alias generator on a model with
   `Config.allow_population_by_field_name=False`.
 * This is important because if such aliases are present, mypy cannot properly type check calls to `__init__`.
   In this case, it will default to treating all arguments as optional.
 
-#### Prevent the use of untyped fields
-* If the [`warn_untyped_fields` **plugin setting**](#plugin-settings) is set to `True`, you'll get a mypy error
+#### 防止使用非类型字段 Prevent the use of untyped fields
+
+* If the [`warn_untyped_fields` __plugin setting__](#plugin-settings) is set to `True`, you'll get a mypy error
   any time you create a field on a model without annotating its type.
 * This is important because non-annotated fields may result in
-  [**validators being applied in a surprising order**](usage/models.md#field-ordering).
+  [__validators being applied in a surprising order__](usage/models.md#field-ordering).
 * In addition, mypy may not be able to correctly infer the type of the field, and may miss
   checks or raise spurious errors.
 
-### Enabling the Plugin
+### 启用插件 Enabling the Plugin
 
 To enable the plugin, just add `pydantic.mypy` to the list of plugins in your
 [mypy config file](https://mypy.readthedocs.io/en/latest/config_file.html)
 (this could be `mypy.ini` or `setup.cfg`).
 
 To get started, all you need to do is create a `mypy.ini` file with following contents:
+
 ```ini
 [mypy]
 plugins = pydantic.mypy
@@ -94,7 +104,7 @@ The plugin is compatible with mypy versions `>=0.910`.
 
 See the [mypy usage](usage/mypy.md) and [plugin configuration](#configuring-the-plugin) docs for more details.
 
-### Plugin Settings
+### 插件设置 Plugin Settings
 
 The plugin offers a few optional strictness flags if you want even stronger checks:
 
@@ -118,12 +128,13 @@ The plugin offers a few optional strictness flags if you want even stronger chec
 
     If enabled, raise a mypy error whenever a field is declared on a model without explicitly specifying its type.
 
+#### 插件配置 Configuring the Plugin
 
-#### Configuring the Plugin
 To change the values of the plugin settings, create a section in your mypy config file called `[pydantic-mypy]`,
 and add any key-value pairs for settings you want to override.
 
 A `mypy.ini` file with all plugin strictness flags enabled (and some other mypy strictness flags, too) might look like:
+
 ```ini
 [mypy]
 plugins = pydantic.mypy
@@ -147,6 +158,7 @@ warn_untyped_fields = True
 
 As of `mypy>=0.900`, mypy config may also be included in the `pyproject.toml` file rather than `mypy.ini`.
 The same configuration as above would be:
+
 ```toml
 [tool.mypy]
 plugins = [

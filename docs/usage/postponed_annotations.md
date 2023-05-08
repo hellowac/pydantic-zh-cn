@@ -1,49 +1,41 @@
 !!! note
-    Both postponed annotations via the future import and `ForwardRef` require Python 3.7+.
+    通过 `future import` 和 `ForwardRef` 推迟的注释都需要 Python 3.7+。
 
-Postponed annotations (as described in [PEP563](https://www.python.org/dev/peps/pep-0563/))
-"just work".
+延时注解（如 [PEP563](https://www.python.org/dev/peps/pep-0563/) 中所述）“正常工作”。
 
 {!.tmp_examples/postponed_annotations_main.md!}
 
-Internally, *pydantic*  will call a method similar to `typing.get_type_hints` to resolve annotations.
+在内部，*pydantic* 将调用类似于`typing.get_type_hints`的方法来解析注释。
 
-In cases where the referenced type is not yet defined, `ForwardRef` can be used (although referencing the
-type directly or by its string is a simpler solution in the case of
-[self-referencing models](#self-referencing-models)).
+在尚未定义引用类型的情况下，可以使用`ForwardRef`（尽管在 [自引用模型](#self-referencing-models) 的情况下，直接引用类型或通过其字符串引用是一种更简单的解决方案） .
 
-In some cases, a `ForwardRef` won't be able to be resolved during model creation.
-For example, this happens whenever a model references itself as a field type.
-When this happens, you'll need to call `update_forward_refs` after the model has been created before it can be used:
+在某些情况下，`ForwardRef`在模型创建期间将无法解析。 例如，只要模型将自身引用为字段类型，就会发生这种情况。 发生这种情况时，您需要在创建模型后调用 `update_forward_refs` 才能使用它：
 
 {!.tmp_examples/postponed_annotations_forward_ref.md!}
 
 !!! warning
-    To resolve strings (type names) into annotations (types), *pydantic* needs a namespace dict in which to
-    perform the lookup. For this it uses `module.__dict__`, just like `get_type_hints`.
-    This means *pydantic* may not play well with types not defined in the global scope of a module.
+    要将字符串（类型名称）解析为注释（类型），*pydantic* 需要一个名称空间字典来执行查找。 为此，它使用 `module.__dict__` ，就像 `get_type_hints` 一样。
 
-For example, this works fine:
+    这意味着 *pydantic* 可能无法很好地处理未在模块全局范围内定义的类型。
+
+例如，这个可以正常工作：
 
 {!.tmp_examples/postponed_annotations_works.md!}
 
-While this will break:
+但这个就会中断：
 
 {!.tmp_examples/postponed_annotations_broken.md!}
 
-Resolving this is beyond the call for *pydantic*: either remove the future import or declare the types globally.
+解决这个问题超出了对 *pydantic* 的调用：要么删除未来的导入，要么在全局范围内声明类型。
 
-## Self-referencing Models
+## 自引用模型(Self-referencing Models)
 
-Data structures with self-referencing models are also supported. Self-referencing fields will be automatically
-resolved after model creation.
+还支持具有自引用模型的数据结构。 自引用字段将在模型创建后自动解析。
 
-Within the model, you can refer to the not-yet-constructed model using a string:
+在模型中，您可以使用字符串引用尚未构建的模型：
 
 {!.tmp_examples/postponed_annotations_self_referencing_string.md!}
 
-Since Python 3.7, you can also refer it by its type, provided you import `annotations` (see
-[above](postponed_annotations.md) for support depending on Python
-and *pydantic* versions).
+从 Python 3.7 开始，你也可以通过它的类型来引用它，前提是你导入了`annotations`（参见 [上面](postponed_annotations.md) 以获得依赖于 Python 和 *pydantic* 版本的支持）。
 
 {!.tmp_examples/postponed_annotations_self_referencing_annotations.md!}

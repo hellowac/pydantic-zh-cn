@@ -1,82 +1,64 @@
-One of pydantic's most useful applications is settings management.
+pydantic 最有用的应用程序之一是配置管理。
 
-If you create a model that inherits from `BaseSettings`, the model initialiser will attempt to determine
-the values of any fields not passed as keyword arguments by reading from the environment. (Default values
-will still be used if the matching environment variable is not set.)
+如果您创建一个继承自 `BaseSettings` 的模型，模型初始化程序将尝试通过从环境中读取来确定未作为关键字参数传递的任何字段的值。 （如果未设置匹配的环境变量，仍将使用默认值。）
 
-This makes it easy to:
+这使得很容易：
 
-* Create a clearly-defined, type-hinted application configuration class
-* Automatically read modifications to the configuration from environment variables
-* Manually override specific settings in the initialiser where desired (e.g. in unit tests)
+* 创建明确定义的类型提示应用程序配置类
+* 自动从环境变量中读取对配置的修改
+* 在需要的地方手动覆盖初始化程序中的特定设置（例如在单元测试中）
 
-For example:
+例如：
 
 {!.tmp_examples/settings_main.md!}
 
-## Environment variable names
+## 环境变量名称(Environment variable names)
 
-The following rules are used to determine which environment variable(s) are read for a given field:
+以下规则用于确定为给定字段读取哪些环境变量：
 
-* By default, the environment variable name is built by concatenating the prefix and field name.
-  * For example, to override `special_function` above, you could use:
+* 默认情况下，环境变量名称是通过连接前缀和字段名称构建的。
+  * 例如，要覆盖上面的 `special_function`，您可以使用：
 
-          export my_prefix_special_function='foo.bar'
+        export my_prefix_special_function='foo.bar'
 
-  * Note 1: The default prefix is an empty string.
-  * Note 2: Field aliases are ignored when building the environment variable name.
+  * 注1: 默认前缀是一个空字符串。
+  * 注2: 构建环境变量名称时忽略字段别名。
 
-* Custom environment variable names can be set in two ways:
-  * `Config.fields['field_name']['env']` (see `auth_key` and `redis_dsn` above)
-  * `Field(..., env=...)` (see `api_key` above)
-* When specifying custom environment variable names, either a string or a list of strings may be provided.
-  * When specifying a list of strings, order matters: the first detected value is used.
-  * For example, for `redis_dsn` above, `service_redis_dsn` would take precedence over `redis_url`.
+* 可以通过两种方式设置自定义环境变量名称：
+  * `Config.fields['field_name']['env']` (见上面的 `auth_key` 和 `redis_dsn` )
+  * `Field(..., env=...)` (见上面的 `api_key` )
+* 在指定自定义环境变量名称时，可以提供字符串或字符串列表。
+  * 指定字符串列表时，顺序很重要：使用第一个检测到的值。
+  * 例如，对于上面的`redis_dsn`，`service_redis_dsn`将优先于`redis_url`。
 
 !!! warning
-    Since **v1.0** *pydantic* does not consider field aliases when finding environment variables to populate settings
-    models, use `env` instead as described above.
+    由于 **v1.0** *pydantic* 在查找环境变量以填充设置模型时不考虑字段别名，因此请如上所述使用 `env`。
 
-    To aid the transition from aliases to `env`, a warning will be raised when aliases are used on settings models
-    without a custom env var name. If you really mean to use aliases, either ignore the warning or set `env` to
-    suppress it.
+    为了帮助从别名过渡到 `env`，当在没有自定义环境变量名称的设置模型上使用别名时，将发出警告。 如果你真的想使用别名，要么忽略警告，要么设置 `env` 来抑制它。
 
-Case-sensitivity can be turned on through the `Config`:
+区分大小写可以通过 `Config` 打开：
 
 {!.tmp_examples/settings_case_sensitive.md!}
 
-When `case_sensitive` is `True`, the environment variable names must match field names (optionally with a prefix),
-so in this example
-`redis_host` could only be modified via `export redis_host`. If you want to name environment variables
-all upper-case, you should name attribute all upper-case too. You can still name environment variables anything
-you like through `Field(..., env=...)`.
+当 `case_sensitive` 为 `True` 时，环境变量名称必须与字段名称匹配（可选地带有前缀），因此在此示例中，`redis_host` 只能通过 `export redis_host` 进行修改。 如果你想命名环境变量全部大写，你也应该命名属性全部大写。 您仍然可以通过`Field(..., env=...)`随意命名环境变量。
 
-In Pydantic **v1** `case_sensitive` is `False` by default and all variable names are converted to lower-case internally.
-If you want to define upper-case variable names on nested models like `SubModel` you have to
-set `case_sensitive=True` to disable this behaviour.
+在 Pydantic **v1** 中，`case_sensitive` 默认为 `False`，并且所有变量名称都在内部转换为小写。 如果你想在嵌套模型上定义大写变量名，比如 `SubModel`，你必须设置 `case_sensitive=True` 来禁用这种行为。
 
 !!! note
-    On Windows, Python's `os` module always treats environment variables as case-insensitive, so the
-    `case_sensitive` config setting will have no effect - settings will always be updated ignoring case.
+    在 Windows 上，Python 的 `os` 模块始终将环境变量视为不区分大小写，因此 `case_sensitive` 配置设置将无效 - 设置将始终忽略大小写进行更新。
 
-## Parsing environment variable values
+## 解析环境变量值(Parsing environment variable values)
 
-For most simple field types (such as `int`, `float`, `str`, etc.),
-the environment variable value is parsed the same way it would
-be if passed directly to the initialiser (as a string).
+对于大多数简单字段类型（例如`int`、`float`、`str`等），环境变量值的解析方式与直接传递给初始化程序（作为字符串）时的解析方式相同。
 
-Complex types like `list`, `set`, `dict`, and sub-models are populated from the environment
-by treating the environment variable's value as a JSON-encoded string.
+`list`、`set`、`dict` 和子模型等复杂类型是通过将环境变量的值视为 JSON 编码字符串来从环境中填充的。
 
-Another way to populate nested complex variables is to configure your model with the `env_nested_delimiter`
-config setting, then use an env variable with a name pointing to the nested module fields.
-What it does is simply explodes your variable into nested models or dicts.
-So if you define a variable `FOO__BAR__BAZ=123` it will convert it into `FOO={'BAR': {'BAZ': 123}}`
-If you have multiple variables with the same structure they will be merged.
+填充嵌套复杂变量的另一种方法是使用 `env_nested_delimiter` 配置设置配置模型，然后使用名称指向嵌套模块字段的环境变量。 它所做的只是将您的变量分解为嵌套模型或字典。 因此，如果您定义一个变量 `FOO__BAR__BAZ=123`，它会将其转换为 `FOO={'BAR': {'BAZ': 123}}` 如果您有多个具有相同结构的变量，它们将被合并。
 
-With the following environment variables:
+使用以下环境变量：
+
 ```bash
-# your environment
+# 你的环境
 export V0=0
 export SUB_MODEL='{"v1": "json-1", "v2": "json-2"}'
 export SUB_MODEL__V2=nested-2
@@ -84,34 +66,28 @@ export SUB_MODEL__V3=3
 export SUB_MODEL__DEEP__V4=v4
 ```
 
-You could load a settings module thus:
+您可以这样加载设置模块：
+
 {!.tmp_examples/settings_nested_env.md!}
 
-`env_nested_delimiter` can be configured via the `Config` class as shown above, or via the
-`_env_nested_delimiter` keyword argument on instantiation.
+`env_nested_delimiter` 可以通过如上所示的 `Config` 类进行配置，或者通过实例化时的 `_env_nested_delimiter` 关键字参数进行配置。
 
-JSON is only parsed in top-level fields, if you need to parse JSON in sub-models, you will need to implement
-validators on those models.
+JSON 仅在顶级字段中解析，如果您需要在子模型中解析 JSON，则需要在这些模型上实现验证器。
 
-Nested environment variables take precedence over the top-level environment variable JSON
-(e.g. in the example above, `SUB_MODEL__V2` trumps `SUB_MODEL`).
+嵌套环境变量优先于顶级环境变量 JSON（例如，在上面的示例中，`SUB_MODEL__V2` 胜过 `SUB_MODEL`）。
 
-You may also populate a complex type by providing your own parsing function to
-the `parse_env_var` classmethod in the Config object.
+您还可以通过向 Config 对象中的 `parse_env_var` 类方法提供您自己的解析函数来填充复杂类型。
 
 {!.tmp_examples/settings_with_custom_parsing.md!}
 
-## Dotenv (.env) support
+## Dotenv (.env) 支持(support)
 
 !!! note
-    dotenv file parsing requires [python-dotenv](https://pypi.org/project/python-dotenv/) to be installed.
-    This can be done with either `pip install python-dotenv` or `pip install pydantic[dotenv]`.
+    dotenv 文件解析需要安装 [python-dotenv](https://pypi.org/project/python-dotenv/)。 这可以通过`pip install python-dotenv`或`pip install pydantic[dotenv]`来完成。
 
-Dotenv files (generally named `.env`) are a common pattern that make it easy to use environment variables in a
-platform-independent manner.
+Dotenv 文件（通常命名为`.env`）是一种常见的模式，可以轻松地以独立于平台的方式使用环境变量。
 
-A dotenv file follows the same general principles of all environment variables,
-and looks something like:
+dotenv 文件遵循所有环境变量的相同一般原则，看起来像：
 
 ```bash
 # ignore comment
@@ -121,10 +97,9 @@ MEANING_OF_LIFE=42
 MY_VAR='Hello world'
 ```
 
-Once you have your `.env` file filled with variables, *pydantic* supports loading it in two ways:
+一旦你的 `.env` 文件充满了变量，*pydantic* 支持以两种方式加载它：
 
-**1.** setting `env_file` (and `env_file_encoding` if you don't want the default encoding of your OS) on `Config`
-in a `BaseSettings` class:
+**1.** 在 `BaseSettings` 类的 `Config` 上设置 `env_file`（如果您不想使用操作系统的默认编码，则设置 `env_file_encoding`）：
 
 ```py
 class Settings(BaseSettings):
@@ -135,31 +110,24 @@ class Settings(BaseSettings):
         env_file_encoding = 'utf-8'
 ```
 
-**2.** instantiating a `BaseSettings` derived class with the `_env_file` keyword argument
-(and the `_env_file_encoding` if needed):
+**2.** 使用 `_env_file` 关键字参数（以及 `_env_file_encoding` 如果需要）实例化 `BaseSettings` 派生类：
 
 ```py
 settings = Settings(_env_file='prod.env', _env_file_encoding='utf-8')
 ```
 
-In either case, the value of the passed argument can be any valid path or filename, either absolute or relative to the
-current working directory. From there, *pydantic* will handle everything for you by loading in your variables and
-validating them.
+在任何一种情况下，传递的参数的值都可以是任何有效的路径或文件名，可以是相对于当前工作目录的绝对路径或相对路径。 从那里，*pydantic* 将通过加载变量并验证它们来为您处理所有事情。
 
 !!! note
-    If a filename is specified for `env_file`, Pydantic will only check the current working directory and
-    won't check any parent directories for the `.env` file.
+    如果为 `env_file` 指定了文件名，Pydantic 将只检查当前工作目录，而不会检查 `.env` 文件的任何父目录。
 
-Even when using a dotenv file, *pydantic* will still read environment variables as well as the dotenv file,
-**environment variables will always take priority over values loaded from a dotenv file**.
+即使在使用 dotenv 文件时，*pydantic* 仍会读取环境变量以及 dotenv 文件，**环境变量将始终优先于从 dotenv 文件加载的值**。
 
-Passing a file path via the `_env_file` keyword argument on instantiation (method 2) will override
-the value (if any) set on the `Config` class. If the above snippets were used in conjunction, `prod.env` would be loaded
-while `.env` would be ignored.
+在实例化时通过 `_env_file` 关键字参数传递文件路径（方法 2）将覆盖在 `Config` 类上设置的值（如果有）。 如果结合使用上述代码片段，将加载 `prod.env` 而忽略 `.env` 。
 
-If you need to load multiple dotenv files, you can pass the file paths as a `list` or `tuple`.
+如果您需要加载多个 dotenv 文件，您可以将文件路径作为 `list` 或 `tuple` 传递。
 
-Later files in the list/tuple will take priority over earlier files.
+列表/元组中后面的文件将优先于前面的文件。
 
 ```py
 from pydantic import BaseSettings
@@ -172,28 +140,25 @@ class Settings(BaseSettings):
         env_file = '.env', '.env.prod'
 ```
 
-You can also use the keyword argument override to tell Pydantic not to load any file at all (even if one is set in
-the `Config` class) by passing `None` as the instantiation keyword argument, e.g. `settings = Settings(_env_file=None)`.
+您还可以使用关键字参数覆盖告诉 Pydantic 根本不要加载任何文件（即使在 `Config` 类中设置了一个文件）通过将 `None` 作为实例化关键字参数传递，例如 `settings = Settings(_env_file=None)`。
 
-Because python-dotenv is used to parse the file, bash-like semantics such as `export` can be used which
-(depending on your OS and environment) may allow your dotenv file to also be used with `source`,
-see [python-dotenv's documentation](https://saurabh-kumar.com/python-dotenv/#usages) for more details.
+因为 python-dotenv 用于解析文件，所以可以使用类似 bash 的语义，例如 `export`，这（取决于您的操作系统和环境）可能允许您的 dotenv 文件也可以与 `source` 一起使用，请参阅 [python-dotenv 的文档](https://saurabh-kumar.com/python-dotenv/#usages) 了解更多详情。
 
-## Secret Support
+## 保密支持(Secret Support)
 
-Placing secret values in files is a common pattern to provide sensitive configuration to an application.
+在文件中放置秘密值是为应用程序提供敏感配置的常见模式。
 
-A secret file follows the same principal as a dotenv file except it only contains a single value and the file name
-is used as the key. A secret file will look like the following:
+秘密文件遵循与 dotenv 文件相同的原则，只是它只包含一个值并且文件名用作密钥。 秘密文件如下所示：
 
 `/var/run/database_password`:
-```
+
+```text
 super_secret_database_password
 ```
 
-Once you have your secret files, *pydantic* supports loading it in two ways:
+一旦你有了你的秘密文件，*pydantic* 支持以两种方式加载它：
 
-**1.** setting `secrets_dir` on `Config` in a `BaseSettings` class to the directory where your secret files are stored:
+**1.** 将 `BaseSettings` 类中 `Config` 的 `secrets_dir` 设置为存储秘密文件的目录：
 
 ```py
 class Settings(BaseSettings):
@@ -204,30 +169,26 @@ class Settings(BaseSettings):
         secrets_dir = '/var/run'
 ```
 
-**2.** instantiating a `BaseSettings` derived class with the `_secrets_dir` keyword argument:
+**2.** 使用 `_secrets_dir` 关键字参数实例化 `BaseSettings` 派生类：
 
 ```py
 settings = Settings(_secrets_dir='/var/run')
 ```
 
-In either case, the value of the passed argument can be any valid directory, either absolute or relative to the
-current working directory. **Note that a non existent directory will only generate a warning**.
-From there, *pydantic* will handle everything for you by loading in your variables and validating them.
+在任何一种情况下，传递的参数的值都可以是任何有效目录，可以是相对于当前工作目录的绝对目录或相对目录。 **请注意，不存在的目录只会生成警告**。 从那里，*pydantic* 将通过加载变量并验证它们来为您处理所有事情。
 
-Even when using a secrets directory, *pydantic* will still read environment variables from a dotenv file or the environment,
-**a dotenv file and environment variables will always take priority over values loaded from the secrets directory**.
+即使在使用 secrets 目录时，*pydantic* 仍会从 dotenv 文件或环境中读取环境变量，**dotenv 文件和环境变量将始终优先于从 secrets 目录加载的值**。
 
-Passing a file path via the `_secrets_dir` keyword argument on instantiation (method 2) will override
-the value (if any) set on the `Config` class.
+在实例化时通过 `_secrets_dir` 关键字参数传递文件路径（方法 2）将覆盖在 `Config` 类上设置的值（如果有）。
 
-### Use Case: Docker Secrets
+### 使用案例(Use Case: Docker Secrets)
 
-Docker Secrets can be used to provide sensitive configuration to an application running in a Docker container.
-To use these secrets in a *pydantic* application the process is simple. More information regarding creating, managing
-and using secrets in Docker see the official
-[Docker documentation](https://docs.docker.com/engine/reference/commandline/secret/).
+Docker Secrets 可用于为在 Docker 容器中运行的应用程序提供敏感配置。
 
-First, define your Settings
+要在 *pydantic* 应用程序中使用这些秘密，过程很简单。 有关在 Docker 中创建、管理和使用机密的更多信息，请参阅官方 [Docker 文档](https://docs.docker.com/engine/reference/commandline/secret/)。
+
+首先，定义您的配置
+
 ```py
 class Settings(BaseSettings):
     my_secret_data: str
@@ -235,58 +196,56 @@ class Settings(BaseSettings):
     class Config:
         secrets_dir = '/run/secrets'
 ```
-!!! note
-    By default Docker uses `/run/secrets` as the target mount point. If you want to use a different location, change
-    `Config.secrets_dir` accordingly.
 
-Then, create your secret via the Docker CLI
+!!! note
+    默认情况下，Docker 使用`/run/secrets`作为目标挂载点。 如果您想使用不同的位置，请相应地更改`Config.secrets_dir`。
+
+然后，通过 Docker CLI 创建您的秘密
+
 ```bash
 printf "This is a secret" | docker secret create my_secret_data -
 ```
 
-Last, run your application inside a Docker container and supply your newly created secret
+最后，在 Docker 容器中运行您的应用程序并提供您新创建的密钥
+
 ```bash
 docker service create --name pydantic-with-secrets --secret my_secret_data pydantic-app:latest
 ```
 
-## Field value priority
+## 字段值优先级(Field value priority)
 
-In the case where a value is specified for the same `Settings` field in multiple ways,
-the selected value is determined as follows (in descending order of priority):
+在以多种方式为同一 `Settings` 字段指定值的情况下，选择的值确定如下（按优先级降序排列）：
 
-1. Arguments passed to the `Settings` class initialiser.
-2. Environment variables, e.g. `my_prefix_special_function` as described above.
-3. Variables loaded from a dotenv (`.env`) file.
-4. Variables loaded from the secrets directory.
-5. The default field values for the `Settings` model.
+1. 传递给`Settings`类初始化程序的参数。
+2. 环境变量，例如 `my_prefix_special_function` 如上所述。
+3. 从 dotenv (`.env`) 文件加载的变量。
+4. 从 secrets 目录加载的变量。
+5. `Settings`模型的默认字段值。
 
-## Customise settings sources
+## 自定义设置源(Customise settings sources)
 
-If the default order of priority doesn't match your needs, it's possible to change it by overriding
-the `customise_sources` method on the `Config` class of your `Settings` .
+如果默认的优先级顺序不符合您的需要，可以通过覆盖 `Settings` 的 `Config` 类上的 `customise_sources` 方法来更改它。
 
-`customise_sources` takes three callables as arguments and returns any number of callables as a tuple. In turn these
-callables are called to build the inputs to the fields of the settings class.
+`customise_sources` 将三个可调用对象作为参数，并以元组形式返回任意数量的可调用对象。 依次调用这些可调用对象来构建对设置类字段的输入。
 
-Each callable should take an instance of the settings class as its sole argument and return a `dict`.
+每个可调用对象都应将设置类的一个实例作为其唯一参数并返回一个`dict`。
 
-### Changing Priority
+### 更改优先级(Changing Priority)
 
-The order of the returned callables decides the priority of inputs; first item is the highest priority.
+返回的可调用对象的顺序决定了输入的优先级； 第一项是最高优先级。
 
 {!.tmp_examples/settings_env_priority.md!}
 
-By flipping `env_settings` and `init_settings`, environment variables now have precedence over `__init__` kwargs.
+通过翻转 `env_settings` 和 `init_settings`，环境变量现在优先于 `__init__` kwargs。
 
-### Adding sources
+### 添加源(Adding sources)
 
-As explained earlier, *pydantic* ships with multiples built-in settings sources. However, you may occasionally
-need to add your own custom sources, `customise_sources` makes this very easy:
+如前所述，*pydantic* 附带多个内置设置源。 但是，您可能偶尔需要添加自己的自定义源，`customise_sources` 使这变得非常简单：
 
 {!.tmp_examples/settings_add_custom_source.md!}
 
-### Removing sources
+### 删除源(Removing sources)
 
-You might also want to disable a source:
+您可能还想禁用源：
 
 {!.tmp_examples/settings_disable_source.md!}
