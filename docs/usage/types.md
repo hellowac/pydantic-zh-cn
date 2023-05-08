@@ -1,599 +1,646 @@
-Where possible *pydantic* uses [standard library types](#standard-library-types) to define fields, thus smoothing
-the learning curve. For many useful applications, however, no standard library type exists,
-so *pydantic* implements [many commonly used types](#pydantic-types).
+在可能的情况下 *pydantic* 使用 [标准库类型](#standard-library-types) 来定义字段，从而平滑学习曲线。 然而，对于许多有用的应用程序，不存在标准库类型，因此 *pydantic* 实现 [许多常用类型](#pydantic-types)。
 
-If no existing type suits your purpose you can also implement your [own pydantic-compatible types](#custom-data-types)
-with custom properties and validation.
+如果没有适合您目的的现有类型，您还可以使用自定义属性和验证来实现您的[自己的 pydantic 兼容类型](#custom-data-types)。
 
-## Standard Library Types
+## 标准库类型(Standard Library Types)
 
-*pydantic* supports many common types from the Python standard library. If you need stricter processing see
-[Strict Types](#strict-types); if you need to constrain the values allowed (e.g. to require a positive int) see
-[Constrained Types](#constrained-types).
+*pydantic* 支持 Python 标准库中的许多常见类型。 如果您需要更严格的处理，请参阅 [严格类型](#strict-types)； 如果您需要限制允许的值（例如需要一个正整数），请参阅 [Constrained Types](#constrained-types)。
 
-`None`, `type(None)` or `Literal[None]` (equivalent according to [PEP 484](https://www.python.org/dev/peps/pep-0484/#using-none))
-: allows only `None` value
+`None`、`type(None)` 或 `Literal[None]`（等同于 [PEP 484](https://www.python.org/dev/peps/pep-0484/#using-none)） : 只允许 `None` 值
 
 `bool`
-: see [Booleans](#booleans) below for details on how bools are validated and what values are permitted
+: 请参阅下面的 [Booleans](#booleans)，了解有关如何验证布尔值以及允许使用哪些值的详细信息
 
 `int`
-: *pydantic* uses `int(v)` to coerce types to an `int`;
-  see [this](models.md#data-conversion) warning on loss of information during data conversion
+: *pydantic* 使用 `int(v)` 将类型强制转换为 `int`； 请参阅 [this](models.md#data-conversion) 关于数据转换期间信息丢失的警告
 
 `float`
-: similarly, `float(v)` is used to coerce values to floats
+: 类似地，`float(v)` 用于将值强制转换为浮点数
 
 `str`
-: strings are accepted as-is, `int` `float` and `Decimal` are coerced using `str(v)`, `bytes` and `bytearray` are
-  converted using `v.decode()`, enums inheriting from `str` are converted using `v.value`,
-  and all other types cause an error
+: 字符串按原样接受，`int` `float` 和 `Decimal` 使用 `str(v)` 强制转换，`bytes` 和 `bytearray` 使用 `v.decode()` 转换，枚举继承自 `str` 使用 `v.value` 进行转换，所有其他类型都会导致错误
 
 `bytes`
-: `bytes` are accepted as-is, `bytearray` is converted using `bytes(v)`, `str` are converted using `v.encode()`,
-  and `int`, `float`, and `Decimal` are coerced using `str(v).encode()`
+: `bytes` 按原样接受，`bytearray` 使用 `bytes(v)` 转换，`str` 使用 `v.encode()` 转换，`int`、`float` 和 `Decimal` 是 使用 `str(v).encode()` 强制
 
 `list`
-: allows `list`, `tuple`, `set`, `frozenset`, `deque`, or generators and casts to a list;
-  see `typing.List` below for sub-type constraints
+: 允许 `list`、`tuple`、`set`、`frozenset`、`deque` 或生成器和转换为列表； 有关子类型约束，请参见下面的`typing.List`
 
 `tuple`
-: allows `list`, `tuple`, `set`, `frozenset`, `deque`, or generators and casts to a tuple;
-  see `typing.Tuple` below for sub-type constraints
+: 允许 `list`、`tuple`、`set`、`frozenset`、`deque` 或生成器和转换为元组； 有关子类型约束，请参见下面的`typing.Tuple`
 
 `dict`
-: `dict(v)` is used to attempt to convert a dictionary;
-  see `typing.Dict` below for sub-type constraints
+: `dict(v)` 用于尝试转换字典； 请参阅下面的 `typing.Dict` 了解子类型约束
 
 `set`
-: allows `list`, `tuple`, `set`, `frozenset`, `deque`, or generators and casts to a set;
-  see `typing.Set` below for sub-type constraints
+: 允许将 `list`、`tuple`、`set`、`frozenset`、`deque` 或生成器和强制转换为一个集合； 有关子类型约束，请参见下面的`typing.Set`
 
 `frozenset`
-: allows `list`, `tuple`, `set`, `frozenset`, `deque`, or generators and casts to a frozen set;
-  see `typing.FrozenSet` below for sub-type constraints
+: 允许 `list`、`tuple`、`set`、`frozenset`、`deque` 或生成器和强制转换为冻结集； 有关子类型约束，请参阅下面的`typing.FrozenSet`
 
 `deque`
-: allows `list`, `tuple`, `set`, `frozenset`, `deque`, or generators and casts to a deque;
-  see `typing.Deque` below for sub-type constraints
+: 允许 `list`、`tuple`、`set`、`frozenset`、`deque` 或生成器和转换为双端队列； 有关子类型约束，请参见下面的`typing.Deque`
 
 `datetime.date`
-: see [Datetime Types](#datetime-types) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Datetime Types](#datetime-types)
 
 `datetime.time`
-: see [Datetime Types](#datetime-types) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Datetime Types](#datetime-types)
 
 `datetime.datetime`
-: see [Datetime Types](#datetime-types) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Datetime Types](#datetime-types)
 
 `datetime.timedelta`
-: see [Datetime Types](#datetime-types) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Datetime Types](#datetime-types)
 
 `typing.Any`
-: allows any value including `None`, thus an `Any` field is optional
+: 允许任何值，包括`None`，因此`Any`字段是可选的
 
 `typing.Annotated`
-: allows wrapping another type with arbitrary metadata, as per [PEP-593](https://www.python.org/dev/peps/pep-0593/). The
-  `Annotated` hint may contain a single call to the [`Field` function](schema.md#typingannotated-fields), but otherwise
-  the additional metadata is ignored and the root type is used.
+: 根据 [PEP-593](https://www.python.org/dev/peps/pep-0593/)，允许使用任意元数据包装另一种类型。 `Annotated` 提示可能包含对 [`Field` 函数](schema.md#typingannotated-fields) 的单个调用，但其他元数据将被忽略并使用根类型。
 
 `typing.TypeVar`
-: constrains the values allowed based on `constraints` or `bound`, see [TypeVar](#typevar)
+: 根据 `constraints` 或 `bound` 限制允许的值，参见 [TypeVar](#typevar)
 
 `typing.Union`
-: see [Unions](#unions) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Union](#unions)
 
 `typing.Optional`
-: `Optional[x]` is simply short hand for `Union[x, None]`;
-  see [Unions](#unions) below for more detail on parsing and validation and [Required Fields](models.md#required-fields) for details about required fields that can receive `None` as a value.
+: `Optional[x]` 只是 `Union[x, None]` 的简写； 有关解析和验证的更多详细信息，请参阅下面的 [Union](#unions)，有关可以接收`None`作为值的必填字段的详细信息，请参阅 [Required Fields](models.md#required-fields)。
 
 `typing.List`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `typing.Tuple`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `subclass of typing.NamedTuple`
-: Same as `tuple` but instantiates with the given namedtuple and validates fields since they are annotated.
-  See [Annotated Types](#annotated-types) below for more detail on parsing and validation
+: 与 `tuple` 相同，但使用给定的 `namedtuple` 实例化并验证字段，因为它们是带注释的。 有关解析和验证的更多详细信息，请参阅下面的 [注释类型](#annotated-types)
 
 `subclass of collections.namedtuple`
-: Same as `subclass of typing.NamedTuple` but all fields will have type `Any` since they are not annotated
+: 与 `subclass of typing.NamedTuple` 相同，但所有字段都将具有 `Any` 类型，因为它们没有注释
 
 `typing.Dict`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `subclass of typing.TypedDict`
-: Same as `dict` but _pydantic_ will validate the dictionary since keys are annotated.
-  See [Annotated Types](#annotated-types) below for more detail on parsing and validation
+: 与 `dict` 相同，但 *pydantic* 将验证字典，因为键被注释了。 有关解析和验证的更多详细信息，请参阅下面的 [注释类型](#annotated-types)
 
 `typing.Set`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `typing.FrozenSet`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `typing.Deque`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `typing.Sequence`
-: see [Typing Iterables](#typing-iterables) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Typing Iterables](#typing-iterables)
 
 `typing.Iterable`
-: this is reserved for iterables that shouldn't be consumed. See [Infinite Generators](#infinite-generators) below for more detail on parsing and validation
+: 这是为不应使用的迭代器保留的。 有关解析和验证的更多详细信息，请参阅下面的 [Infinite Generators](#infinite-generators)
 
 `typing.Type`
-: see [Type](#type) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Type](#type)
 
 `typing.Callable`
-: see [Callable](#callable) below for more detail on parsing and validation
+: 有关解析和验证的更多详细信息，请参阅下面的 [Callable](#callable)
 
 `typing.Pattern`
-: will cause the input value to be passed to `re.compile(v)` to create a regex pattern
+: 将导致输入值被传递给 `re.compile(v)` 以创建正则表达式模式
 
 `ipaddress.IPv4Address`
-: simply uses the type itself for validation by passing the value to `IPv4Address(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv4Address(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ipaddress.IPv4Interface`
-: simply uses the type itself for validation by passing the value to `IPv4Address(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv4Address(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ipaddress.IPv4Network`
-: simply uses the type itself for validation by passing the value to `IPv4Network(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv4Network(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ipaddress.IPv6Address`
-: simply uses the type itself for validation by passing the value to `IPv6Address(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv6Address(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ipaddress.IPv6Interface`
-: simply uses the type itself for validation by passing the value to `IPv6Interface(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv6Interface(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ipaddress.IPv6Network`
-: simply uses the type itself for validation by passing the value to `IPv6Network(v)`;
-  see [Pydantic Types](#pydantic-types) for other custom IP address types
+: 通过将值传递给 `IPv6Network(v)` 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `enum.Enum`
-: checks that the value is a valid Enum instance
+: 检查该值是否为有效的 Enum 实例
 
 `subclass of enum.Enum`
-: checks that the value is a valid member of the enum;
-  see [Enums and Choices](#enums-and-choices) for more details
+: 检查该值是否是枚举的有效成员； 有关详细信息，请参阅 [枚举和选择](#enums-and-choices)
 
 `enum.IntEnum`
-: checks that the value is a valid IntEnum instance
+: 检查该值是否为有效的 IntEnum 实例
 
 `subclass of enum.IntEnum`
-: checks that the value is a valid member of the integer enum;
-  see [Enums and Choices](#enums-and-choices) for more details
+: 检查该值是否是整数枚举的有效成员； 有关详细信息，请参阅 [枚举和选择](#enums-and-choices)
 
 `decimal.Decimal`
-: *pydantic* attempts to convert the value to a string, then passes the string to `Decimal(v)`
+: *pydantic* 尝试将值转换为字符串，然后将字符串传递给“Decimal(v)”
 
 `pathlib.Path`
-: simply uses the type itself for validation by passing the value to `Path(v)`;
-  see [Pydantic Types](#pydantic-types) for other more strict path types
+: 通过将值传递给 `Path(v)` 来简单地使用类型本身进行验证； 有关其他更严格的路径类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `uuid.UUID`
-: strings and bytes (converted to strings) are passed to `UUID(v)`, with a fallback to `UUID(bytes=v)` for `bytes` and `bytearray`;
-  see [Pydantic Types](#pydantic-types) for other stricter UUID types
+: 字符串和字节（转换为字符串）被传递给 `UUID(v)`，对于 `bytes` 和 `bytearray` 回退到 `UUID(bytes=v)`； 有关其他更严格的 UUID 类型，请参阅 [Pydantic Types](#pydantic-types)
 
 `ByteSize`
-: converts a bytes string with units to bytes
+: 将带单位的字节字符串转换为字节
 
-### Typing Iterables
+### 可迭代类型(Typing Iterables)
 
-*pydantic* uses standard library `typing` types as defined in PEP 484 to define complex objects.
+*pydantic* 使用 PEP 484 中定义的标准库“键入”类型来定义复杂对象。
 
-{!.tmp_examples/types_iterables.md!}
+```python
+from typing import (
+    Deque, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
+)
 
-### Infinite Generators
+from pydantic import BaseModel
 
-If you have a generator you can use `Sequence` as described above. In that case, the
-generator will be consumed and stored on the model as a list and its values will be
-validated with the sub-type of `Sequence` (e.g. `int` in `Sequence[int]`).
 
-But if you have a generator that you don't want to be consumed, e.g. an infinite
-generator or a remote data loader, you can define its type with `Iterable`:
+class Model(BaseModel):
+    simple_list: list = None
+    list_of_ints: List[int] = None
 
-{!.tmp_examples/types_infinite_generator.md!}
+    simple_tuple: tuple = None
+    tuple_of_different_types: Tuple[int, float, str, bool] = None
+
+    simple_dict: dict = None
+    dict_str_float: Dict[str, float] = None
+
+    simple_set: set = None
+    set_bytes: Set[bytes] = None
+    frozen_set: FrozenSet[int] = None
+
+    str_or_bytes: Union[str, bytes] = None
+    none_or_str: Optional[str] = None
+
+    sequence_of_ints: Sequence[int] = None
+
+    compound: Dict[Union[str, bytes], List[Set[int]]] = None
+
+    deque: Deque[int] = None
+
+
+print(Model(simple_list=['1', '2', '3']).simple_list)
+print(Model(list_of_ints=['1', '2', '3']).list_of_ints)
+
+print(Model(simple_dict={'a': 1, b'b': 2}).simple_dict)
+print(Model(dict_str_float={'a': 1, b'b': 2}).dict_str_float)
+
+print(Model(simple_tuple=[1, 2, 3, 4]).simple_tuple)
+print(Model(tuple_of_different_types=[4, 3, 2, 1]).tuple_of_different_types)
+
+print(Model(sequence_of_ints=[1, 2, 3, 4]).sequence_of_ints)
+print(Model(sequence_of_ints=(1, 2, 3, 4)).sequence_of_ints)
+
+print(Model(deque=[1, 2, 3]).deque)
+```
+
+### 无限生成器(Infinite Generators)
+
+如果你有一个生成器，你可以使用上面描述的`Sequence`。 在这种情况下，生成器将被使用并作为列表存储在模型中，其值将使用`Sequence`的子类型（例如`Sequence[int]`中的`int`）进行验证。
+
+但是如果你有一个你不想被消耗的生成器，例如 无限生成器或远程数据加载器，您可以使用 `Iterable` 定义其类型：
+
+```python
+from typing import Iterable
+from pydantic import BaseModel
+
+
+class Model(BaseModel):
+    infinite: Iterable[int]
+
+
+def infinite_ints():
+    i = 0
+    while True:
+        yield i
+        i += 1
+
+
+m = Model(infinite=infinite_ints())
+print(m)
+
+for i in m.infinite:
+    print(i)
+    if i == 10:
+        break
+```
 
 !!! warning
-    `Iterable` fields only perform a simple check that the argument is iterable and
-    won't be consumed.
+    `Iterable` 字段只执行一个简单的检查，以确保参数是可迭代的并且不会被消耗。
 
-    No validation of their values is performed as it cannot be done without consuming
-    the iterable.
+    不会对它们的值进行验证，因为如果不使用可迭代对象就无法完成验证。
 
 !!! tip
-    If you want to validate the values of an infinite generator you can create a
-    separate model and use it while consuming the generator, reporting the validation
-    errors as appropriate.
+    如果您想验证无限生成器的值，您可以创建一个单独的模型并在使用生成器时使用它，并根据需要报告验证错误。
 
-    pydantic can't validate the values automatically for you because it would require
-    consuming the infinite generator.
+    pydantic 无法自动为您验证这些值，因为它需要使用无限生成器。
 
-#### Validating the first value
+#### 验证第一个值(Validating the first value)
 
-You can create a [validator](validators.md) to validate the first value in an infinite generator and still not consume it entirely.
+您可以创建一个 [validator](validators.md) 来验证无限生成器中的第一个值，但仍然不会完全消耗它。
 
-{!.tmp_examples/types_infinite_generator_validate_first.md!}
+```python
+{!./examples/types_infinite_generator_validate_first.py!}
+```
 
-### Unions
+### 联合(Unions)
 
-The `Union` type allows a model attribute to accept different types, e.g.:
+`Union` 类型允许模型属性接受不同的类型，例如：
 
 !!! info
-    You may get unexpected coercion with `Union`; see below.<br />
-    Know that you can also make the check slower but stricter by using [Smart Union](model_config.md#smart-union)
+    使用 `Union` 可能会得到意想不到的强制转换； 见下文。
 
-{!.tmp_examples/types_union_incorrect.md!}
+    不过您还可以通过使用 [智能联合](model_config.md#smart-union) 使检查更慢但更严格
 
-However, as can be seen above, *pydantic* will attempt to 'match' any of the types defined under `Union` and will use
-the first one that matches. In the above example the `id` of `user_03` was defined as a `uuid.UUID` class (which
-is defined under the attribute's `Union` annotation) but as the `uuid.UUID` can be marshalled into an `int` it
-chose to match against the `int` type and disregarded the other types.
+```python
+{!./examples/types_union_incorrect.py!}
+```
+
+但是，如上所示，*pydantic* 将尝试`match`在 `Union` 下定义的任何类型，并将使用第一个匹配的类型。 在上面的示例中，`user_03`的`id`被定义为`uuid.UUID`类（在属性的 `Union` 注释下定义），但`uuid.UUID`可以编组为`int` 它选择匹配`int`类型并忽略其他类型。
 
 !!! warning
-    `typing.Union` also ignores order when [defined](https://docs.python.org/3/library/typing.html#typing.Union),
-    so `Union[int, float] == Union[float, int]` which can lead to unexpected behaviour
-    when combined with matching based on the `Union` type order inside other type definitions, such as `List` and `Dict`
-    types (because Python treats these definitions as singletons).
-    For example, `Dict[str, Union[int, float]] == Dict[str, Union[float, int]]` with the order based on the first time it was defined.
-    Please note that this can also be [affected by third party libraries](https://github.com/pydantic/pydantic/issues/2835)
-    and their internal type definitions and the import orders.
+    `typing.Union` 在 [定义](https://docs.python.org/3/library/typing.html#typing.Union) 时也会忽略顺序，所以 `Union[int, float] == Union[float, int]` 当与基于其他类型定义中的 `Union` 类型顺序的匹配相结合时，例如 `List` 和 `Dict` 类型（因为 Python 将这些定义视为单例）。
 
-As such, it is recommended that, when defining `Union` annotations, the most specific type is included first and
-followed by less specific types.
+     例如，`Dict[str, Union[int, float]] == Dict[str, Union[float, int]]` 的顺序基于第一次定义。
+    
+     请注意，这也可能 [受第三方库影响](https://github.com/pydantic/pydantic/issues/2835) 及其内部类型定义和导入顺序。
 
-In the above example, the `UUID` class should precede the `int` and `str` classes to preclude the unexpected representation as such:
+因此，建议在定义 `Union` 注解时，首先包含最具体的类型，然后是不太具体的类型。
 
-{!.tmp_examples/types_union_correct.md!}
+在上面的示例中，`UUID` 类应该在 `int` 和 `str` 类之前，以排除这样的意外表示：
+
+```python
+{!./examples/types_union_correct.py!}
+```
 
 !!! tip
-    The type `Optional[x]` is a shorthand for `Union[x, None]`.
+    `Optional[x]` 类型是 `Union[x, None]` 的简写。
 
-    `Optional[x]` can also be used to specify a required field that can take `None` as a value.
+     `Optional[x]` 也可用于指定一个必填字段，该字段可以将 `None` 作为值。
 
-    See more details in [Required Fields](models.md#required-fields).
+     在[必填字段](models.md#required-fields) 中查看更多详细信息。
 
-#### Discriminated Unions (a.k.a. Tagged Unions)
+#### 区别联合【Discriminated Unions (a.k.a. Tagged Unions)】
 
-When `Union` is used with multiple submodels, you sometimes know exactly which submodel needs to
-be checked and validated and want to enforce this.
-To do that you can set the same field - let's call it `my_discriminator` - in each of the submodels
-with a discriminated value, which is one (or many) `Literal` value(s).
-For your `Union`, you can set the discriminator in its value: `Field(discriminator='my_discriminator')`.
+当 `Union` 与多个子模型一起使用时，您有时会确切地知道需要检查和验证哪个子模型并希望强制执行此操作。
 
-Setting a discriminated union has many benefits:
+为此，您可以在每个具有判别值的子模型中设置相同的字段 - 让我们称之为 `my_discriminator`，这是一个（或多个）`Literal`值。
 
-- validation is faster since it is only attempted against one model
-- only one explicit error is raised in case of failure
-- the generated JSON schema implements the [associated OpenAPI specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject)
+对于您的 `Union`，您可以在其值中设置鉴别器：`Field(discriminator='my_discriminator')`。
 
-{!.tmp_examples/types_union_discriminated.md!}
+建立受歧视的工会有很多好处：
+
+- 验证速度更快，因为它只针对一个模型进行尝试
+- 失败时仅引发一个显式错误
+- 生成的 JSON 模式实现了[相关的 OpenAPI 规范](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject)
+
+```python
+{!./examples/types_union_discriminated.py!}
+```
 
 !!! note
-    Using the [Annotated Fields syntax](../schema/#typingannotated-fields) can be handy to regroup
-    the `Union` and `discriminator` information. See below for an example!
+    使用 [Annotated Fields syntax](../schema/#typingannotated-fields) 可以方便地重新组合 `Union` 和 `discriminator` 信息。 请参阅下面的示例！
 
 !!! warning
-    Discriminated unions cannot be used with only a single variant, such as `Union[Cat]`.
+    区别联合不能仅与单个变体一起使用，例如 `Union[Cat]`。
 
-    Python changes `Union[T]` into `T` at interpretation time, so it is not possible for `pydantic` to
-    distinguish fields of `Union[T]` from `T`.
+    Python 在解释时将 `Union[T]` 更改为 `T`，因此 `pydantic` 无法区分 `Union[T]` 和 `T` 的字段。
 
-#### Nested Discriminated Unions
+#### 嵌套的区别联合(Nested Discriminated Unions)
 
-Only one discriminator can be set for a field but sometimes you want to combine multiple discriminators.
-In this case you can always create "intermediate" models with `__root__` and add your discriminator.
+一个字段只能设置一个鉴别器(discriminator)，但有时你想组合多个鉴别器(discriminator)。
 
-{!.tmp_examples/types_union_discriminated_nested.md!}
+在这种情况下，您始终可以使用 `__root__` 创建“中间(intermediate)”模型并添加鉴别器。
 
-### Enums and Choices
+```python
+{!./examples/types_union_discriminated_nested.py!}
+```
 
-*pydantic* uses Python's standard `enum` classes to define choices.
+### 枚举和选择(Enums and Choices)
 
-{!.tmp_examples/types_choices.md!}
+*pydantic* 使用 Python 的标准`enum`类来定义选择。
 
+```python
+{!./examples/types_choices.py!}
+```
 
-### Datetime Types
+### 日期时间类型(Datetime Types)
 
-*Pydantic* supports the following [datetime](https://docs.python.org/library/datetime.html#available-types)
-types:
+*Pydantic* 支持以下 [datetime](https://docs.python.org/library/datetime.html#available-types) 类型：
 
-* `datetime` fields can be:
+- `datetime` 字段可以是:
 
-  * `datetime`, existing `datetime` object
-  * `int` or `float`, assumed as Unix time, i.e. seconds (if >= `-2e10` or <= `2e10`) or milliseconds (if < `-2e10`or > `2e10`) since 1 January 1970
-  * `str`, following formats work:
+  - `datetime`，现有的 `datetime` 对象
+  - `int` 或 `float`，假定为 Unix 时间，即自 1970 年 1 月 1 日以来的秒数（如果 >= `-2e10` 或 <= `2e10`）或毫秒（如果 < `-2e10` 或 > `2e10`）
+  - `str`, 以下格式有效：
 
-    * `YYYY-MM-DD[T]HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]`
-    * `int` or `float` as a string (assumed as Unix time)
+    - `YYYY-MM-DD[T]HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]`
+    - `int` 或 `float` 作为字符串（假定为 Unix 时间）
 
-* `date` fields can be:
+- `date` 字段可以是:
 
-  * `date`, existing `date` object
-  * `int` or `float`, see `datetime`
-  * `str`, following formats work:
+  - `date`, 现有的 `date` 对象
+  - `int` 或 `float`, 见 `datetime`
+  - `str`, 以下格式有效：
 
-    * `YYYY-MM-DD`
-    * `int` or `float`, see `datetime`
+    - `YYYY-MM-DD`
+    - `int` 或 `float`, 见 `datetime`
 
-* `time` fields can be:
+- `time` 字段可以是:
 
-  * `time`, existing `time` object
-  * `str`, following formats work:
+  - `time`, 现有的 `time` 对象
+  - `str`, 以下格式有效：
 
-    * `HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]`
+    - `HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]`
 
-* `timedelta` fields can be:
+- `timedelta` 字段可以是:
 
-  * `timedelta`, existing `timedelta` object
-  * `int` or `float`, assumed as seconds
-  * `str`, following formats work:
+  - `timedelta`, 现有的 `timedelta` 对象
+  - `int` 或 `float`, 假定为秒
+  - `str`, 以下格式有效：
 
-    * `[-][DD ][HH:MM]SS[.ffffff]`
-    * `[±]P[DD]DT[HH]H[MM]M[SS]S` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format for timedelta)
+    - `[-][DD ][HH:MM]SS[.ffffff]`
+    - `[±]P[DD]DT[HH]H[MM]M[SS]S` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timedelta 的格式)
 
-{!.tmp_examples/types_dt.md!}
+```python
+{!./examples/types_dt.py!}
+```
 
-### Booleans
+### 布尔类型(Booleans)
 
 !!! warning
-    The logic for parsing `bool` fields has changed as of version **v1.0**.
+    从 __v1.0__ 版本开始，解析 `bool` 字段的逻辑发生了变化。
 
-    Prior to **v1.0**, `bool` parsing never failed, leading to some unexpected results.
-    The new logic is described below.
+    在 **v1.0** 之前，`bool` 解析从未失败，导致一些意外结果。
+    
+    新逻辑如下所述。
 
-A standard `bool` field will raise a `ValidationError` if the value is not one of the following:
+如果值不是以下之一，标准的 `bool` 字段将引发 `ValidationError`：
 
-* A valid boolean (i.e. `True` or `False`),
-* The integers `0` or `1`,
-* a `str` which when converted to lower case is one of
+- 一个有效的布尔值（即`True`或`False`），
+- 整数`0`或`1`，
+- 一个 `str` ，当转换为小写时，它是其中之一
   `'0', 'off', 'f', 'false', 'n', 'no', '1', 'on', 't', 'true', 'y', 'yes'`
-* a `bytes` which is valid (per the previous rule) when decoded to `str`
+- 解码为 `str` 时有效（根据前面的规则）的 `bytes`
 
 !!! note
-    If you want stricter boolean logic (e.g. a field which only permits `True` and `False`) you can
-    use [`StrictBool`](#strict-types).
+    如果你想要更严格的布尔逻辑（例如，一个只允许 `True` 和 `False` 的字段）你可以使用 [`StrictBool`](#strict-types)。
 
-Here is a script demonstrating some of these behaviors:
+这是一个演示其中一些行为的脚本：
 
-{!.tmp_examples/types_boolean.md!}
+```python
+{!./examples/types_boolean.py!}
+```
 
-### Callable
+### 可调用类型(Callable)
 
-Fields can also be of type `Callable`:
+字段也可以是 `Callable` 类型：
 
-{!.tmp_examples/types_callable.md!}
+```python
+{!./examples/types_callable.py!}
+```
 
 !!! warning
-    Callable fields only perform a simple check that the argument is
-    callable; no validation of arguments, their types, or the return
-    type is performed.
+    可调用字段仅执行简单检查参数是否可调用； 不执行参数、它们的类型或返回类型的验证。
 
-### Type
+### 类型(Type)
 
-*pydantic* supports the use of `Type[T]` to specify that a field may only accept classes (not instances)
-that are subclasses of `T`.
+*pydantic* 支持使用 `Type[T]` 来指定字段只能接受作为 `T` 子类的类（而不是实例）。
 
-{!.tmp_examples/types_type.md!}
+```python
+{!./examples/types_type.py!}
+```
 
-You may also use `Type` to specify that any class is allowed.
+您还可以使用 `Type` 来指定允许使用任何类。
 
-{!.tmp_examples/types_bare_type.md!}
+```python
+{!./examples/types_bare_type.py!}
+```
 
-### TypeVar
+### 类型声明(TypeVar)
 
-`TypeVar` is supported either unconstrained, constrained or with a bound.
+`TypeVar` 支持不受约束、受约束或有界限。
 
-{!.tmp_examples/types_typevar.md!}
+```python
+{!./examples/types_typevar.py!}
+```
 
-## Literal Type
-
-!!! note
-    This is a new feature of the Python standard library as of Python 3.8;
-    prior to Python 3.8, it requires the [typing-extensions](https://pypi.org/project/typing-extensions/) package.
-
-*pydantic* supports the use of `typing.Literal` (or `typing_extensions.Literal` prior to Python 3.8)
-as a lightweight way to specify that a field may accept only specific literal values:
-
-{!.tmp_examples/types_literal1.md!}
-
-One benefit of this field type is that it can be used to check for equality with one or more specific values
-without needing to declare custom validators:
-
-{!.tmp_examples/types_literal2.md!}
-
-With proper ordering in an annotated `Union`, you can use this to parse types of decreasing specificity:
-
-{!.tmp_examples/types_literal3.md!}
-
-## Annotated Types
-
-### NamedTuple
-
-{!.tmp_examples/annotated_types_named_tuple.md!}
-
-### TypedDict
+## 文字类型(Literal Type)
 
 !!! note
-    This is a new feature of the Python standard library as of Python 3.8.
-    Prior to Python 3.8, it requires the [typing-extensions](https://pypi.org/project/typing-extensions/) package.
-    But required and optional fields are properly differentiated only since Python 3.9.
-    We therefore recommend using [typing-extensions](https://pypi.org/project/typing-extensions/) with Python 3.8 as well.
+    这是从 Python 3.8 开始的 Python 标准库的一个新特性； 在 Python 3.8 之前，它需要 [typing-extensions](https://pypi.org/project/typing-extensions/) 包。
 
+*pydantic* 支持使用 `typing.Literal`（或 Python 3.8 之前的 `typing_extensions.Literal`）作为一种轻量级的方式来指定一个字段只能接受特定的文字值：
 
-{!.tmp_examples/annotated_types_typed_dict.md!}
+```python
+{!./examples/types_literal1.py!}
+```
 
-## Pydantic Types
+这种字段类型的一个好处是它可以用来检查一个或多个特定值是否相等，而无需声明自定义验证器：
 
-*pydantic* also provides a variety of other useful types:
+```python
+{!./examples/types_literal2.py!}
+```
+
+通过在带注释的 `Union` 中正确排序，您可以使用它来解析递减特异性的类型：
+
+```python
+{!./examples/types_literal3.py!}
+```
+
+## 已注解类型(Annotated Types)
+
+### 命名元组(NamedTuple)
+
+```python
+{!./examples/annotated_types_named_tuple.py!}
+```
+
+### 标记类型字典(TypedDict)
+
+!!! note
+    这是从 Python 3.8 开始的 Python 标准库的一个新特性。 在 Python 3.8 之前，它需要 [typing-extensions](https://pypi.org/project/typing-extensions/) 包。
+
+     但仅自 Python 3.9 起才正确区分必填字段和可选字段。
+
+     因此，我们建议在 Python 3.8 中也使用 [typing-extensions](https://pypi.org/project/typing-extensions/)。
+
+```python
+{!./examples/annotated_types_typed_dict.py!}
+```
+
+## Pydantic特有类型(Pydantic Types)
+
+*pydantic* 还提供了多种其他有用的类型：
 
 `FilePath`
-: like `Path`, but the path must exist and be a file
+: 类似 `Path`, 但路径必须存在并且是一个文件
 
 `DirectoryPath`
-: like `Path`, but the path must exist and be a directory
+: 类似 `Path`, 但路径必须存在并且是一个目录
 
 `PastDate`
-: like `date`, but the date should be in the past
+: 类似 `date`, 但日期应该是过去的
 
 `FutureDate`
-: like `date`, but the date should be in the future
+: 类似 `date`, 但日期应该在未来
 
 `EmailStr`
-: requires [email-validator](https://github.com/JoshData/python-email-validator) to be installed;
-  the input string must be a valid email address, and the output is a simple string
-
-
+: 需要安装 [email-validator](https://github.com/JoshData/python-email-validator)；
+  输入字符串必须是一个有效的电子邮件地址，输出是一个简单的字符串
 
 `NameEmail`
-: requires [email-validator](https://github.com/JoshData/python-email-validator) to be installed;
-  the input string must be either a valid email address or in the format `Fred Bloggs <fred.bloggs@example.com>`,
-  and the output is a `NameEmail` object which has two properties: `name` and `email`.
-  For `Fred Bloggs <fred.bloggs@example.com>` the name would be `"Fred Bloggs"`;
-  for `fred.bloggs@example.com` it would be `"fred.bloggs"`.
-
+: 需要安装 [email-validator](https://github.com/JoshData/python-email-validator)；
+  
+  输入字符串必须是有效的电子邮件地址或格式为`Fred Bloggs <fred.bloggs@example.com>`，输出是一个 `NameEmail` 对象，它具有两个属性：`name` 和 `email`。
+  
+   对于 `Fred Bloggs <fred.bloggs@example.com>`，名称将是 `Fred Bloggs`；
+  
+   对于 `fred.bloggs@example.com`，它将是 `fred.bloggs`。
 
 `PyObject`
-: expects a string and loads the Python object importable at that dotted path;
-  e.g. if `'math.cos'` was provided, the resulting field value would be the function `cos`
+: 需要一个字符串并加载在该下划线路径中可导入的 Python 对象；
+  例如 如果提供了 `math.cos`，则结果字段值将是函数 `cos`
 
 `Color`
-: for parsing HTML and CSS colors; see [Color Type](#color-type)
+: 用于解析 HTML 和 CSS 颜色； 参见[颜色类型](#color-type)
 
 `Json`
-: a special type wrapper which loads JSON before parsing; see [JSON Type](#json-type)
+: 在解析之前加载 JSON 的特殊类型包装器； 参见 [JSON 类型](#json-type)
 
 `PaymentCardNumber`
-: for parsing and validating payment cards; see [payment cards](#payment-card-numbers)
+: 用于解析和验证支付卡； 参见[支付卡](#payment-card-numbers)
 
 `AnyUrl`
-: any URL; see [URLs](#urls)
+: 任何网址； 参见 [URL](#urls)
 
 `AnyHttpUrl`
-: an HTTP URL; see [URLs](#urls)
+: 一个 HTTP 网址； 参见 [URL](#urls)
 
 `HttpUrl`
-: a stricter HTTP URL; see [URLs](#urls)
+: 更严格的 HTTP URL； 参见 [URL](#urls)
 
 `FileUrl`
-: a file path URL; see [URLs](#urls)
+: 文件路径 URL； 参见 [URL](#urls)
 
 `PostgresDsn`
-: a postgres DSN style URL; see [URLs](#urls)
+: 文件路径 URL； 参见 [URL](#urls)
 
 `CockroachDsn`
-: a cockroachdb DSN style URL; see [URLs](#urls)
+: cockroachdb DSN 样式的 URL； 参见 [URL](#urls)
 
 `AmqpDsn`
-: an `AMQP` DSN style URL as used by RabbitMQ, StormMQ, ActiveMQ etc.; see [URLs](#urls)
+: RabbitMQ、StormMQ、ActiveMQ 等使用的 `AMQP` DSN 样式 URL； 参见 [URL](#urls)
 
 `RedisDsn`
-: a redis DSN style URL; see [URLs](#urls)
+: 一个 redis DSN 样式的 URL； 参见 [URL](#urls)
 
 `MongoDsn`
-: a MongoDB DSN style URL; see [URLs](#urls)
+: 一个 MongoDB DSN 样式的 URL； 参见 [URL](#urls)
 
 `KafkaDsn`
-: a kafka DSN style URL; see [URLs](#urls)
+: kafka DSN 样式的 URL； 参见 [URL](#urls)
 
 `stricturl`
-: a type method for arbitrary URL constraints; see [URLs](#urls)
+: 任意 URL 约束的类型方法； 参见 [URL](#urls)
 
 `UUID1`
-: requires a valid UUID of type 1; see `UUID` [above](#standard-library-types)
+: 需要类型 1 的有效 UUID; 参见 `UUID` [above](#standard-library-types)
 
 `UUID3`
-: requires a valid UUID of type 3; see `UUID` [above](#standard-library-types)
+: 需要类型 3 的有效 UUID; 参见 `UUID` [above](#standard-library-types)
 
 `UUID4`
-: requires a valid UUID of type 4; see `UUID` [above](#standard-library-types)
+: 需要类型 4 的有效 UUID; 参见 `UUID` [above](#standard-library-types)
 
 `UUID5`
-: requires a valid UUID of type 5; see `UUID` [above](#standard-library-types)
+: 需要类型 5 的有效 UUID; 参见 `UUID` [above](#standard-library-types)
 
 `SecretBytes`
-: bytes where the value is kept partially secret; see [Secrets](#secret-types)
+: 值部分保密的字节; 参见 [Secrets](#secret-types)
 
 `SecretStr`
-: string where the value is kept partially secret; see [Secrets](#secret-types)
+: 值部分保密的字符串; 参见 [Secrets](#secret-types)
 
 `IPvAnyAddress`
-: allows either an `IPv4Address` or an `IPv6Address`
+: 允许 `IPv4Address` 或 `IPv6Address`
 
 `IPvAnyInterface`
-: allows either an `IPv4Interface` or an `IPv6Interface`
+: 允许 `IPv4Interface` 或 `IPv6Interface`
 
 `IPvAnyNetwork`
-: allows either an `IPv4Network` or an `IPv6Network`
+: 允许 `IPv4Network` 或 `IPv6Network`
 
 `NegativeFloat`
-: allows a float which is negative; uses standard `float` parsing then checks the value is less than 0;
-  see [Constrained Types](#constrained-types)
+: 允许一个负数的浮点数； 使用标准的 `float` 解析然后检查值是否小于 0；
+  参见 [约束类型](#constrained-types)
 
 `NegativeInt`
-: allows an int which is negative; uses standard `int` parsing then checks the value is less than 0;
-  see [Constrained Types](#constrained-types)
+: 允许一个负数的整数； 使用标准的 `int` 解析然后检查值是否小于 0；
+  参见 [约束类型](#constrained-types)
 
 `PositiveFloat`
-: allows a float which is positive; uses standard `float` parsing then checks the value is greater than 0;
-  see [Constrained Types](#constrained-types)
+: 允许一个正的浮点数； 使用标准的 `float` 解析然后检查值是否大于 0；
+  参见 [约束类型](#constrained-types)
 
 `PositiveInt`
-: allows an int which is positive; uses standard `int` parsing then checks the value is greater than 0;
-  see [Constrained Types](#constrained-types)
+: 允许一个正整数； 使用标准的 `int` 解析然后检查值是否大于 0；
+  参见 [约束类型](#constrained-types)
 
 `conbytes`
-: type method for constraining bytes;
-  see [Constrained Types](#constrained-types)
+: 用于约束字节的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `condecimal`
-: type method for constraining Decimals;
-  see [Constrained Types](#constrained-types)
+: 用于约束 Decimals 的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `confloat`
-: type method for constraining floats;
-  see [Constrained Types](#constrained-types)
+: 用于约束浮点数的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `conint`
-: type method for constraining ints;
-  see [Constrained Types](#constrained-types)
+: 用于约束整数的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `condate`
-: type method for constraining dates;
-  see [Constrained Types](#constrained-types)
+: 限制日期的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `conlist`
-: type method for constraining lists;
-  see [Constrained Types](#constrained-types)
+: 用于约束列表的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `conset`
-: type method for constraining sets;
-  see [Constrained Types](#constrained-types)
+: 约束集的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `confrozenset`
-: type method for constraining frozen sets;
-  see [Constrained Types](#constrained-types)
+: 用于约束冻结集的类型方法；
+  参见 [约束类型](#constrained-types)
 
 `constr`
-: type method for constraining strs;
-  see [Constrained Types](#constrained-types)
+: 用于约束 字符串 的类型方法；
+  参见 [约束类型](#constrained-types)
 
-### URLs
+### 链接类型(URLs)
 
-For URI/URL validation the following types are available:
+对于 URI/URL 验证，可以使用以下类型：
 
-- `AnyUrl`: any scheme allowed, TLD not required, host required
-- `AnyHttpUrl`: scheme `http` or `https`, TLD not required, host required
-- `HttpUrl`: scheme `http` or `https`, TLD required, host required, max length 2083
-- `FileUrl`: scheme `file`, host not required
-- `PostgresDsn`: user info required, TLD not required, host required,
-  as of V.10 `PostgresDsn` supports multiple hosts. The following schemes are supported:
+- `AnyUrl`: 允许任何方案，不需要 TLD，需要主机地址
+- `AnyHttpUrl`: 方案 `http` 或 `https`，不需要 TLD，需要主机地址
+- `HttpUrl`: 方案 `http` 或 `https`，需要 TLD，需要主机地址，最大长度 2083
+- `FileUrl`: 匹配 `file`, 不需要主机地址
+- `PostgresDsn`: 需要用户信息，不需要 TLD，需要主机地址，从 V.10 开始，`PostgresDsn` 支持多个主机。 以下方案是被支持的:
   - `postgres`
   - `postgresql`
   - `postgresql+asyncpg`
@@ -603,343 +650,333 @@ For URI/URL validation the following types are available:
   - `postgresql+psycopg2cffi`
   - `postgresql+py-postgresql`
   - `postgresql+pygresql`
-- `CockroachDsn`: scheme `cockroachdb`, user info required, TLD not required, host required. Also, its supported DBAPI dialects:
+- `CockroachDsn`: 方案 `cockroachdb`，需要用户信息，不需要 TLD，需要主机地址。 此外，它支持的 DBAPI 方言：
   - `cockroachdb+asyncpg`
   - `cockroachdb+psycopg2`
-- `AmqpDsn`: schema `amqp` or `amqps`, user info not required, TLD not required, host not required
-- `RedisDsn`: scheme `redis` or `rediss`, user info not required, tld not required, host not required (CHANGED: user info) (e.g., `rediss://:pass@localhost`)
-- `MongoDsn` : scheme `mongodb`, user info not required, database name not required, port
-  not required from **v1.6** onwards), user info may be passed without user part (e.g., `mongodb://mongodb0.example.com:27017`)
-- `stricturl`: method with the following keyword arguments:
-    - `strip_whitespace: bool = True`
-    - `min_length: int = 1`
-    - `max_length: int = 2 ** 16`
-    - `tld_required: bool = True`
-    - `host_required: bool = True`
-    - `allowed_schemes: Optional[Set[str]] = None`
+- `AmqpDsn`: 模式 `amqp` 或 `amqps`，不需要用户信息，不需要 TLD，不需要主机地址
+- `RedisDsn`: 匹配 `redis` 或 `rediss`，不需要用户信息，不需要 tld，不需要主机地址（已更改：用户信息）（例如，`rediss://:pass@localhost`）
+- `MongoDsn` : 匹配 `mongodb`, 不需要用户信息，不需要数据库名称，从 __v1.6__ 开始不需要端口），用户信息可以在没有用户部分的情况下传递（例如，`mongodb://mongodb0.example.com:27017`）
+- `stricturl`: 具有以下关键字参数的方法：
+  - `strip_whitespace: bool = True`
+  - `min_length: int = 1`
+  - `max_length: int = 2 ** 16`
+  - `tld_required: bool = True`
+  - `host_required: bool = True`
+  - `allowed_schemes: Optional[Set[str]] = None`
 
 !!! warning
-    In V1.10.0 and v1.10.1 `stricturl` also took an optional `quote_plus` argument and URL components were percent
-    encoded in some cases. This feature was removed in v1.10.2, see 
-    [#4470](https://github.com/pydantic/pydantic/pull/4470) for explanation and more details.
+    在 V1.10.0 和 v1.10.1 中，`stricturl` 还采用可选的 `quote_plus` 参数，并且 URL 组件在某些情况下采用百分比编码。 此功能已在 v1.10.2 中删除，请参阅 [#4470](https://github.com/pydantic/pydantic/pull/4470) 了解说明和更多详细信息。
 
-The above types (which all inherit from `AnyUrl`) will attempt to give descriptive errors when invalid URLs are
-provided:
+当提供无效 URL 时，上述类型（全部继承自 `AnyUrl`）将尝试给出描述性错误：
 
-{!.tmp_examples/types_urls.md!}
+```python
+{!./examples/types_urls.py!}
+```
 
-If you require a custom URI/URL type, it can be created in a similar way to the types defined above.
+如果您需要自定义 URI/URL 类型，可以使用与上面定义的类型类似的方式创建它。
 
-#### URL Properties
+#### 网址属性(URL Properties)
 
-Assuming an input URL of `http://samuel:pass@example.com:8000/the/path/?query=here#fragment=is;this=bit`,
-the above types export the following properties:
+假设输入 URL 为`http://samuel:pass@example.com:8000/the/path/?query=here#fragment=is;this=bit`，上述类型导出以下属性：
 
-- `scheme`: always set - the url scheme (`http` above)
-- `host`: always set - the url host (`example.com` above)
-- `host_type`: always set - describes the type of host, either:
+- `scheme`: 始终设置 - url 方案（上面的 `http`）
+- `host`: 始终设置 - 网址主机（上面的“example.com”）
+- `host_type`: 始终设置 - 描述主机类型，或者：
 
-  - `domain`: e.g. `example.com`,
-  - `int_domain`: international domain, see [below](#international-domains), e.g. `exampl£e.org`,
-  - `ipv4`: an IP V4 address, e.g. `127.0.0.1`, or
-  - `ipv6`: an IP V6 address, e.g. `2001:db8:ff00:42`
+  - `domain`: 例如 `example.com`,
+  - `int_domain`: 国际域名，见[下文](#international-domains)，例如 `exampl£e.org`,
+  - `ipv4`: IP V4 地址，例如 `127.0.0.1`，或
+  - `ipv6`: IP V6 地址，例如 `2001:db8:ff00:42`
 
-- `user`: optional - the username if included (`samuel` above)
-- `password`: optional - the password if included (`pass` above)
-- `tld`: optional - the top level domain (`com` above),
-  **Note: this will be wrong for any two-level domain, e.g. "co.uk".** You'll need to implement your own list of TLDs
-  if you require full TLD validation
-- `port`: optional - the port (`8000` above)
-- `path`: optional - the path (`/the/path/` above)
-- `query`: optional - the URL query (aka GET arguments or "search string") (`query=here` above)
-- `fragment`: optional - the fragment (`fragment=is;this=bit` above)
+- `user`: 可选 - 用户名（如果包含）（上面的 `samuel`）
+- `password`: 可选 - 如果包含密码（上面的 `pass`）
+- `tld`: 可选 - 顶级域（上面的“com”）， __注意：这对于任何二级域都是错误的，例如 “co.uk”.__ 如果您需要完整的 TLD 验证，您需要实施自己的 TLD 列表
+- `port`: 可选 - 端口（上面的“8000”）
+- `path`: 可选 - 路径（上面的`/the/path/`）
+- `query`: 可选 - URL 查询（又名 GET 参数或“搜索字符串”）（上面的 `query=here`）
+- `fragment`: 可选 - 片段（上面的`fragment=is;this=bit`）
 
-If further validation is required, these properties can be used by validators to enforce specific behaviour:
+如果需要进一步验证，验证器可以使用这些属性来强制执行特定行为：
 
-{!.tmp_examples/types_url_properties.md!}
+```python
+{!./examples/types_url_properties.py!}
+```
 
-#### International Domains
+#### 国际域名(International Domains)
 
-"International domains" (e.g. a URL where the host or TLD includes non-ascii characters) will be encoded via
-[punycode](https://en.wikipedia.org/wiki/Punycode) (see
-[this article](https://www.xudongz.com/blog/2017/idn-phishing/) for a good description of why this is important):
+“国际域”（例如，主机或 TLD 包含非 ascii 字符的 URL）将通过 [punycode](https://en.wikipedia.org/wiki/Punycode) 进行编码（参见 [本文](https: //www.xudongz.com/blog/2017/idn-phishing/) 很好地说明了为什么这很重要）：
 
-{!.tmp_examples/types_url_punycode.md!}
-
+```python
+{!./examples/types_url_punycode.py!}
+```
 
 !!! warning
-    #### Underscores in Hostnames
+    #### 主机名中的下划线
 
-    In *pydantic* underscores are allowed in all parts of a domain except the tld.
-    Technically this might be wrong - in theory the hostname cannot have underscores, but subdomains can.
+    在 *pydantic* 中，域的所有部分都允许使用下划线，除了 tld。从技术上讲，这可能是错误的——理论上主机名不能有下划线，但子域可以。
 
-    To explain this; consider the following two cases:
+    解释这一点； 考虑以下两种情况：
 
-    - `exam_ple.co.uk`: the hostname is `exam_ple`, which should not be allowed since it contains an underscore
-    - `foo_bar.example.com` the hostname is `example`, which should be allowed since the underscore is in the subdomain
+    - `exam_ple.co.uk`: 主机名是 `exam_ple`，这是不允许的，因为它包含下划线
+    - `foo_bar.example.com` 主机名是 `example`，应该允许，因为下划线在子域中
 
-    Without having an exhaustive list of TLDs, it would be impossible to differentiate between these two. Therefore
-    underscores are allowed, but you can always do further validation in a validator if desired.
+    如果没有详尽的 TLD 列表，就不可能区分这两者。 因此允许使用下划线，但如果需要，您始终可以在验证器中进行进一步验证。
 
-    Also, Chrome, Firefox, and Safari all currently accept `http://exam_ple.com` as a URL, so we're in good
-    (or at least big) company.
+    此外，Chrome、Firefox 和 Safari 目前都接受 `http://exam_ple.com` 作为 URL，所以我们的关系很好（或者至少是大）。
 
-### Color Type
+### 颜色类型(Color Type)
 
-You can use the `Color` data type for storing colors as per
-[CSS3 specification](http://www.w3.org/TR/css3-color/#svg-color). Colors can be defined via:
+您可以根据 [CSS3 规范](http://www.w3.org/TR/css3-color/#svg-color) 使用 `Color` 数据类型来存储颜色。 颜色可以通过以下方式定义：
 
-- [name](http://www.w3.org/TR/SVG11/types.html#ColorKeywords) (e.g. `"Black"`, `"azure"`)
+- [name](http://www.w3.org/TR/SVG11/types.html#ColorKeywords) (例如 `"Black"`, `"azure"`)
 - [hexadecimal value](https://en.wikipedia.org/wiki/Web_colors#Hex_triplet)
-  (e.g. `"0x000"`, `"#FFFFFF"`, `"7fffd4"`)
-- RGB/RGBA tuples (e.g. `(255, 255, 255)`, `(255, 255, 255, 0.5)`)
-- [RGB/RGBA strings](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#RGB_colors)
-  (e.g. `"rgb(255, 255, 255)"`, `"rgba(255, 255, 255, 0.5)"`)
-- [HSL strings](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#HSL_colors)
-  (e.g. `"hsl(270, 60%, 70%)"`, `"hsl(270, 60%, 70%, .5)"`)
+  (例如 `"0x000"`, `"#FFFFFF"`, `"7fffd4"`)
+- RGB/RGBA 元组 (例如 `(255, 255, 255)`, `(255, 255, 255, 0.5)`)
+- [RGB/RGBA 字符串](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#RGB_colors)
+  (例如 `"rgb(255, 255, 255)"`, `"rgba(255, 255, 255, 0.5)"`)
+- [HSL 字符串](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#HSL_colors)
+  (例如 `"hsl(270, 60%, 70%)"`, `"hsl(270, 60%, 70%, .5)"`)
 
-{!.tmp_examples/types_color.md!}
+```python
+{!./examples/types_color.py!}
+```
 
-`Color` has the following methods:
+`Color` 拥有下列方法:
 
 **`original`**
-: the original string or tuple passed to `Color`
+: 传递给 `Color` 的原始字符串或元组
 
 **`as_named`**
-: returns a named CSS3 color; fails if the alpha channel is set or no such color exists unless
-  `fallback=True` is supplied, in which case it falls back to `as_hex`
+: 返回命名的 CSS3 颜色； 如果设置了 alpha 通道或不存在这样的颜色，则失败，除非提供了 `fallback=True`，在这种情况下它会回退到 `as_hex`
 
 **`as_hex`**
-: returns a string in the format `#fff` or `#ffffff`; will contain 4 (or 8) hex values if the alpha channel is set,
-  e.g. `#7f33cc26`
+: 返回格式为 `#fff` 或 `#ffffff` 的字符串； 如果设置了 alpha 通道，将包含 4（或 8）个十六进制值， 例如 `#7f33cc26`
 
 **`as_rgb`**
-: returns a string in the format `rgb(<red>, <green>, <blue>)`, or `rgba(<red>, <green>, <blue>, <alpha>)`
-  if the alpha channel is set
+: 如果设置了 alpha 通道，则返回格式为 `rgb(<red>, <green>, <blue>)` 或 `rgba(<red>, <green>, <blue>, <alpha>)` 的字符串
 
 **`as_rgb_tuple`**
-: returns a 3- or 4-tuple in RGB(a) format. The `alpha` keyword argument can be used to define whether
-  the alpha channel should be included;
-  options: `True` - always include, `False` - never include, `None` (default) - include if set
+: 返回 RGB(a) 格式的 3 元组或 4 元组。 `alpha` 关键字参数可用于定义是否应包含 alpha 通道； 选项：`True` - 始终包括，`False` - 从不包括，`None`（默认）- 如果设置则包括
 
 **`as_hsl`**
-: string in the format `hsl(<hue deg>, <saturation %>, <lightness %>)`
-  or `hsl(<hue deg>, <saturation %>, <lightness %>, <alpha>)` if the alpha channel is set
+: 格式为`hsl(<hue deg>, <saturation %>, <lightness %>)`或`hsl(<hue deg>, <saturation %>, <lightness %>, <alpha>)`的字符串，如果 alpha 通道已设置
 
 **`as_hsl_tuple`**
-: returns a 3- or 4-tuple in HSL(a) format. The `alpha` keyword argument can be used to define whether
-  the alpha channel should be included;
-  options: `True` - always include, `False` - never include, `None` (the default)  - include if set
+: 返回 HSL(a) 格式的 3 元组或 4 元组。 `alpha` 关键字参数可用于定义是否应包含 alpha 通道； 选项：`True` - 始终包括，`False` - 从不包括，`None`（默认值）- 如果设置则包括
 
-The `__str__` method for `Color` returns `self.as_named(fallback=True)`.
+`Color` 的`__str__` 方法返回`self.as_named(fallback=True)`。
 
 !!! note
-    the `as_hsl*` refer to hue, saturation, lightness "HSL" as used in html and most of the world, **not**
-    "HLS" as used in Python's `colorsys`.
+    `as_hsl*` 指的是 html 和世界上大多数地方使用的色调、饱和度、亮度`HSL`，__not__ Python 的`colorsys`中使用的`HLS`。
 
-### Secret Types
+### 保密类型(Secret Types)
 
-You can use the `SecretStr` and the `SecretBytes` data types for storing sensitive information
-that you do not want to be visible in logging or tracebacks.
-`SecretStr` and `SecretBytes` can be initialized idempotently or by using `str` or `bytes` literals respectively.
-The `SecretStr` and `SecretBytes` will be formatted as either `'**********'` or `''` on conversion to json.
+您可以使用 `SecretStr` 和 `SecretBytes` 数据类型来存储您不希望在日志记录或回溯中可见的敏感信息。 `SecretStr` 和 `SecretBytes` 可以幂等地初始化，也可以分别使用 `str` 或 `bytes` 进行初始化。 `SecretStr` 和 `SecretBytes` 在转换为 json 时将被格式化为 `'**********'` 或 `''`。
 
-{!.tmp_examples/types_secret_types.md!}
+```python
+{!./examples/types_secret_types.py!}
+```
 
-### Json Type
+### Json类型(Json Type)
 
-You can use `Json` data type to make *pydantic* first load a raw JSON string.
-It can also optionally be used to parse the loaded object into another type base on
-the type `Json` is parameterised with:
+您可以使用 `Json` 数据类型让 *pydantic* 首先加载原始 JSON 字符串。 它还可以选择用于将加载的对象解析为另一种类型，基于参数化的`Json`类型：
 
-{!.tmp_examples/types_json_type.md!}
+```python
+{!./examples/types_json_type.py!}
+```
 
-### Payment Card Numbers
+### 支付卡号码(Payment Card Numbers)
 
-The `PaymentCardNumber` type validates [payment cards](https://en.wikipedia.org/wiki/Payment_card)
-(such as a debit or credit card).
+`PaymentCardNumber` 类型验证[支付卡](https://en.wikipedia.org/wiki/Payment_card)（例如借记卡或信用卡）。
 
-{!.tmp_examples/types_payment_card_number.md!}
+```python
+{!./examples/types_payment_card_number.py!}
+```
 
-`PaymentCardBrand` can be one of the following based on the BIN:
+`PaymentCardBrand` 可以是基于 BIN 的以下之一：
 
-* `PaymentCardBrand.amex`
-* `PaymentCardBrand.mastercard`
-* `PaymentCardBrand.visa`
-* `PaymentCardBrand.other`
+- `PaymentCardBrand.amex`
+- `PaymentCardBrand.mastercard`
+- `PaymentCardBrand.visa`
+- `PaymentCardBrand.other`
 
-The actual validation verifies the card number is:
+实际验证验证卡号是：
 
-* a `str` of only digits
-* [luhn](https://en.wikipedia.org/wiki/Luhn_algorithm) valid
-* the correct length based on the BIN, if Amex, Mastercard or Visa, and between
-  12 and 19 digits for all other brands
+- 只有数字的`str`
+- [luhn](https://en.wikipedia.org/wiki/Luhn_algorithm) 有效的
+- 基于 BIN 的正确长度，如果是美国运通卡、万事达卡或维萨卡，以及所有其他品牌的 12 到 19 位数字
 
-## Constrained Types
+## 约束类型(Constrained Types)
 
-The value of numerous common types can be restricted using `con*` type functions:
+可以使用 `con*` 类型函数来限制许多常见类型的值：
 
-{!.tmp_examples/types_constrained.md!}
+```python
+{!./examples/types_constrained.py!}
+```
 
-Where `Field` refers to the [field function](schema.md#field-customization).
+其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
-### Arguments to `conlist`
-The following arguments are available when using the `conlist` type function
+### `conlist` 的参数
 
-- `item_type: Type[T]`: type of the list items
-- `min_items: int = None`: minimum number of items in the list
-- `max_items: int = None`: maximum number of items in the list
-- `unique_items: bool = None`: enforces list elements to be unique
+使用 `conlist` 类型函数时可以使用以下参数
 
-### Arguments to `conset`
-The following arguments are available when using the `conset` type function
+- `item_type: Type[T]`: 列表项的类型
+- `min_items: int = None`: 列表中的最小项目数
+- `max_items: int = None`: 列表中的最大项目数
+- `unique_items: bool = None`: 强制列表元素是唯一的
 
-- `item_type: Type[T]`: type of the set items
-- `min_items: int = None`: minimum number of items in the set
-- `max_items: int = None`: maximum number of items in the set
+### `conset` 的参数
 
-### Arguments to `confrozenset`
-The following arguments are available when using the `confrozenset` type function
+使用 `conset` 类型函数时可以使用以下参数
 
-- `item_type: Type[T]`: type of the frozenset items
-- `min_items: int = None`: minimum number of items in the frozenset
-- `max_items: int = None`: maximum number of items in the frozenset
+- `item_type: Type[T]`: 设置项目的类型
+- `min_items: int = None`: 集合中的最小项目数
+- `max_items: int = None`: 集合中的最大项目数
 
-### Arguments to `conint`
-The following arguments are available when using the `conint` type function
+### `confrozenset` 的参数
 
-- `strict: bool = False`: controls type coercion
-- `gt: int = None`: enforces integer to be greater than the set value
-- `ge: int = None`: enforces integer to be greater than or equal to the set value
-- `lt: int = None`: enforces integer to be less than the set value
-- `le: int = None`: enforces integer to be less than or equal to the set value
-- `multiple_of: int = None`: enforces integer to be a multiple of the set value
+使用 `confrozenset` 类型函数时可以使用以下参数
 
-### Arguments to `confloat`
-The following arguments are available when using the `confloat` type function
+- `item_type: Type[T]`: frozenset 项目的类型
+- `min_items: int = None`: frozenset 中的最小项目数
+- `max_items: int = None`: frozenset 中的最大项目数
 
-- `strict: bool = False`: controls type coercion
-- `gt: float = None`: enforces float to be greater than the set value
-- `ge: float = None`: enforces float to be greater than or equal to the set value
-- `lt: float = None`: enforces float to be less than the set value
-- `le: float = None`: enforces float to be less than or equal to the set value
-- `multiple_of: float = None`: enforces float to be a multiple of the set value
-- `allow_inf_nan: bool = True`: whether to allows infinity (`+inf` an `-inf`) and NaN values, defaults to `True`,
-  set to `False` for compatibility with `JSON`,
-  see [#3994](https://github.com/pydantic/pydantic/pull/3994) for more details, added in **V1.10**
+### `conint` 的参数
 
-### Arguments to `condecimal`
-The following arguments are available when using the `condecimal` type function
+使用 `conint` 类型函数时可以使用以下参数
 
-- `gt: Decimal = None`: enforces decimal to be greater than the set value
-- `ge: Decimal = None`: enforces decimal to be greater than or equal to the set value
-- `lt: Decimal = None`: enforces decimal to be less than the set value
-- `le: Decimal = None`: enforces decimal to be less than or equal to the set value
-- `max_digits: int = None`: maximum number of digits within the decimal. it does not include a zero before the decimal point or trailing decimal zeroes
-- `decimal_places: int = None`: max number of decimal places allowed. it does not include trailing decimal zeroes
-- `multiple_of: Decimal = None`: enforces decimal to be a multiple of the set value
+- `strict: bool = False`: 控制类型强制
+- `gt: int = None`: 强制整数大于设定值
+- `ge: int = None`: 强制整数大于或等于设定值
+- `lt: int = None`: 强制整数小于设定值
+- `le: int = None`: 强制整数小于或等于设定值
+- `multiple_of: int = None`: 强制整数为设定值的倍数
 
-### Arguments to `constr`
-The following arguments are available when using the `constr` type function
+### `confloat` 的参数
 
-- `strip_whitespace: bool = False`: removes leading and trailing whitespace
-- `to_upper: bool = False`: turns all characters to uppercase
-- `to_lower: bool = False`: turns all characters to lowercase
-- `strict: bool = False`: controls type coercion
-- `min_length: int = None`: minimum length of the string
-- `max_length: int = None`: maximum length of the string
-- `curtail_length: int = None`: shrinks the string length to the set value when it is longer than the set value
-- `regex: str = None`: regex to validate the string against
+使用 `confloat` 类型函数时可以使用以下参数
 
-### Arguments to `conbytes`
-The following arguments are available when using the `conbytes` type function
+- `strict: bool = False`: 控制类型强制
+- `gt: float = None`: 强制浮动大于设定值
+- `ge: float = None`: 强制float大于等于设定值
+- `lt: float = None`: 强制 float 小于设定值
+- `le: float = None`: 强制 float 小于或等于设置值
+- `multiple_of: float = None`: 强制 float 是设置值的倍数
+- `allow_inf_nan: bool = True`: 是否允许无穷大（`+inf` 和 `-inf`）和 NaN 值，默认为 `True`，设置为 `False` 以与 `JSON` 兼容，
+  见 [#3994](https://github.com/pydantic/pydantic/pull/3994) 获取更多详情, 在 __V1.10__ 版本中添加
 
-- `strip_whitespace: bool = False`: removes leading and trailing whitespace
-- `to_upper: bool = False`: turns all characters to uppercase
-- `to_lower: bool = False`: turns all characters to lowercase
-- `min_length: int = None`: minimum length of the byte string
-- `max_length: int = None`: maximum length of the byte string
-- `strict: bool = False`: controls type coercion
+### `condecimal` 的参数
 
-### Arguments to `condate`
-The following arguments are available when using the `condate` type function
+使用 `condecimal` 类型函数时可以使用以下参数
 
-- `gt: date = None`: enforces date to be greater than the set value
-- `ge: date = None`: enforces date to be greater than or equal to the set value
-- `lt: date = None`: enforces date to be less than the set value
-- `le: date = None`: enforces date to be less than or equal to the set value
+- `gt: Decimal = None`: 强制小数大于设定值
+- `ge: Decimal = None`: 强制小数大于或等于设定值
+- `lt: Decimal = None`: 强制小数小于设定值
+- `le: Decimal = None`: 强制小数小于或等于设定值
+- `max_digits: int = None`: 小数点内的最大位数。 它不包括小数点前的零或尾随的小数零
+- `decimal_places: int = None`: 允许的最大小数位数。 它不包括尾随的小数零
+- `multiple_of: Decimal = None`: 强制小数为设定值的倍数
 
+### `constr` 的参数
 
-## Strict Types
+使用 `constr` 类型函数时可以使用以下参数
 
-You can use the `StrictStr`, `StrictBytes`, `StrictInt`, `StrictFloat`, and `StrictBool` types
-to prevent coercion from compatible types.
-These types will only pass validation when the validated value is of the respective type or is a subtype of that type.
-This behavior is also exposed via the `strict` field of the `ConstrainedStr`, `ConstrainedBytes`,
-`ConstrainedFloat` and `ConstrainedInt` classes and can be combined with a multitude of complex validation rules.
+- `strip_whitespace: bool = False`: 删除前导和尾随空格
+- `to_upper: bool = False`: 将所有字符转为大写
+- `to_lower: bool = False`: 将所有字符变为小写
+- `strict: bool = False`: 控制类型强制
+- `min_length: int = None`: 字符串的最小长度
+- `max_length: int = None`: 字符串的最大长度
+- `curtail_length: int = None`: 当字符串长度超过设定值时，将字符串长度收缩到设定值
+- `regex: str = None`: 用于验证字符串的正则表达式
 
-The following caveats apply:
+### `conbytes` 的参数
 
-- `StrictBytes` (and the `strict` option of `ConstrainedBytes`) will accept both `bytes`,
-   and `bytearray` types.
-- `StrictInt` (and the `strict` option of `ConstrainedInt`) will not accept `bool` types,
-    even though `bool` is a subclass of `int` in Python. Other subclasses will work.
-- `StrictFloat` (and the `strict` option of `ConstrainedFloat`) will not accept `int`.
+使用 `conbytes` 类型函数时可以使用以下参数
 
-{!.tmp_examples/types_strict.md!}
+- `strip_whitespace: bool = False`: 删除前导和尾随空格
+- `to_upper: bool = False`: 将所有字符转为大写
+- `to_lower: bool = False`: 将所有字符变为小写
+- `min_length: int = None`: 字节串的最小长度
+- `max_length: int = None`: 字节串的最大长度
+- `strict: bool = False`: 控制类型强制
 
-## ByteSize
+### `condate` 的参数
 
-You can use the `ByteSize` data type to convert byte string representation to
-raw bytes and print out human readable versions of the bytes as well.
+使用 `condate` 类型函数时可以使用以下参数
+
+- `gt: date = None`: 强制日期大于设定值
+- `ge: date = None`: 强制日期大于或等于设定值
+- `lt: date = None`: 强制日期小于设定值
+- `le: date = None`: 强制日期小于或等于设定值
+
+## 严格类型(Strict Types)
+
+您可以使用`StrictStr`、`StrictBytes`、`StrictInt`、`StrictFloat`和`StrictBool`类型来防止来自兼容类型的强制转换。
+
+只有当验证值属于相应类型或该类型的子类型时，这些类型才会通过验证。
+
+此行为也通过`ConstrainedStr`、`ConstrainedBytes`、`ConstrainedFloat`和`ConstrainedInt`类的`strict`字段公开，并且可以与大量复杂的验证规则结合使用。
+
+以下注意事项适用：
+
+- `StrictBytes`（以及 `ConstrainedBytes` 的 `strict` 选项）将接受 `bytes` 和 `bytearray` 类型。
+- `StrictInt`（以及 `ConstrainedInt` 的 `strict` 选项）将不接受 `bool` 类型，即使 `bool` 是 Python 中 `int` 的子类。 其他子类将起作用。
+- `StrictFloat`（以及 `ConstrainedFloat` 的 `strict` 选项）将不接受 `int`。
+
+```python
+{!./examples/types_strict.py!}
+```
+
+## 字节大小类型(ByteSize)
+
+您可以使用`ByteSize`数据类型将字节字符串表示形式转换为原始字节，并打印出人类可读的字节版本。
 
 !!! info
-    Note that `1b` will be parsed as "1 byte" and not "1 bit".
+    请注意，`1b` 将被解析为`1 byte`而不是`1 bit`。
 
-{!.tmp_examples/types_bytesize.md!}
+```python
+{!./examples/types_bytesize.py!}
+```
 
-## Custom Data Types
+## 自定义数据类型(Custom Data Types)
 
-You can also define your own custom data types. There are several ways to achieve it.
+您还可以定义自己的自定义数据类型。 有几种方法可以实现它。
 
-### Classes with `__get_validators__`
+### 带有 `__get_validators__` 的类 (Classes with `__get_validators__`)
 
-You use a custom class with a classmethod `__get_validators__`. It will be called
-to get validators to parse and validate the input data.
+您使用带有类方法 `__get_validators__` 的自定义类。 它将被调用以获取验证器来解析和验证输入数据。
 
 !!! tip
-    These validators have the same semantics as in [Validators](validators.md), you can
-    declare a parameter `config`, `field`, etc.
+    这些验证器具有与 [Validators](validators.md) 中相同的语义，您可以声明参数 `config`、`field` 等。
 
-{!.tmp_examples/types_custom_type.md!}
+```python
+{!./examples/types_custom_type.py!}
+```
 
-Similar validation could be achieved using [`constr(regex=...)`](#constrained-types) except the value won't be
-formatted with a space, the schema would just include the full pattern and the returned value would be a vanilla string.
+类似的验证可以使用 [`constr(regex=...)`](#constrained-types) 来实现，除了值不会用空格格式化，模式将只包含完整模式，返回值将是 香草字符串。
 
-See [schema](schema.md) for more details on how the model's schema is generated.
+有关如何生成模型架构的更多详细信息，请参阅 [schema](schema.md)。
 
-### Arbitrary Types Allowed
+### 允许任意类型(Arbitrary Types Allowed)
 
-You can allow arbitrary types using the `arbitrary_types_allowed` config in the
-[Model Config](model_config.md).
+您可以使用 [模型配置](model_config.md) 中的 `arbitrary_types_allowed` 配置允许任意类型。
 
-{!.tmp_examples/types_arbitrary_allowed.md!}
+```python
+{!./examples/types_arbitrary_allowed.py!}
+```
 
-### Generic Classes as Types
+### 作为类型的通用类(Generic Classes as Types)
 
 !!! warning
-    This is an advanced technique that you might not need in the beginning. In most of
-    the cases you will probably be fine with standard *pydantic* models.
+    这是一种您一开始可能不需要的高级技术。 在大多数情况下，您可能会使用标准的 *pydantic* 模型。
 
-You can use
-[Generic Classes](https://docs.python.org/3/library/typing.html#typing.Generic) as
-field types and perform custom validation based on the "type parameters" (or sub-types)
-with `__get_validators__`.
+您可以使用 [Generic Classes](https://docs.python.org/3/library/typing.html#typing.Generic) 作为字段类型，并根据“类型参数(type parameters)”（或子类型）执行自定义验证 与 `__get_validators__` 。
 
-If the Generic class that you are using as a sub-type has a classmethod
-`__get_validators__` you don't need to use `arbitrary_types_allowed` for it to work.
+如果您用作子类型的通用类具有类方法`__get_validators__`，则无需使用`arbitrary_types_allowed`即可工作。
 
-Because you can declare validators that receive the current `field`, you can extract
-the `sub_fields` (from the generic class type parameters) and validate data with them.
+因为您可以声明接收当前 `field` 的验证器，所以您可以提取 `sub_field` （从通用类类型参数）并使用它们验证数据。
 
-{!.tmp_examples/types_generics.md!}
+```python
+{!./examples/types_generics.py!}
+```

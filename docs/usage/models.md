@@ -120,7 +120,9 @@ assert user.id == 321
 
 可以使用模型本身作为注释中的类型来定义更复杂的分层数据结构。
 
-{!.tmp_examples/models_recursive.md!}
+```python
+{!./examples/models_recursive.py!}
+```
 
 对于自引用模型， 见 [延时注解](postponed_annotations.md#self-referencing-models).
 
@@ -135,13 +137,17 @@ assert user.id == 321
 
 此处的示例使用 SQLAlchemy，但同样的方法适用于任何 ORM。
 
-{!.tmp_examples/models_orm_mode.md!}
+```python
+{!./examples/models_orm_mode.py!}
+```
 
 ### Reserved names
 
 您可能希望在保留的 SQLAlchemy 字段之后重新命名。 在这种情况下，**Field** 别名会很方便：
 
-{!.tmp_examples/models_orm_mode_reserved_name.md!}
+```python
+{!./examples/models_orm_mode_reserved_name.py!}
+```
 
 !!! note
 
@@ -153,408 +159,410 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 
 这里使用普通类来演示原理，但也可以使用任何 ORM 类。
 
-{!.tmp_examples/models_orm_mode_recursive.md!}
+```python
+{!./examples/models_orm_mode_recursive.py!}
+```
 
 ### 数据绑定(Data binding)
 
-Arbitrary classes are processed by *pydantic* using the `GetterDict` class (see
-[utils.py](https://github.com/pydantic/pydantic/blob/1.10.X-fixes/pydantic/utils.py)), which attempts to
-provide a dictionary-like interface to any class. You can customise how this works by setting your own
-sub-class of `GetterDict` as the value of `Config.getter_dict` (see [config](model_config.md)).
+*pydantic* 使用 `GetterDict` 类处理任意类（参见 [utils.py](https://github.com/pydantic/pydantic/blob/1.10.X-fixes/pydantic/utils.py)）， 它试图为任何类提供类似字典的接口。 您可以通过将您自己的 `GetterDict` 子类设置为 `Config.getter_dict` 的值来自定义其工作方式（参见 [config](model_config.md)）。
 
-You can also customise class validation using [root_validators](validators.md#root-validators) with `pre=True`.
-In this case your validator function will be passed a `GetterDict` instance which you may copy and modify.
+您还可以使用带有 `pre=True` 的 [root_validators](validators.md#root-validators) 自定义类验证。
+在这种情况下，您的验证器函数将被传递给您可以复制和修改的 `GetterDict` 实例。
 
-The `GetterDict` instance will be called for each field with a sentinel as a fallback (if no other default
-value is set). Returning this sentinel means that the field is missing. Any other value will
-be interpreted as the value of the field.
+将为每个字段调用 `GetterDict` 实例，并将标记（如果未设置其他默认值）。 返回此标记意味着该字段丢失。 任何其他值都将被解释为该字段的值。
 
-{!.tmp_examples/models_orm_mode_data_binding.md!}
+```python
+{!./examples/models_orm_mode_data_binding.py!}
+```
 
 ## 错误处理(Error Handling)
 
-*pydantic* will raise `ValidationError` whenever it finds an error in the data it's validating.
+*pydantic* 会在发现正在验证的数据中存在错误时引发 `ValidationError`。
 
 !!! note
-    Validation code should not raise `ValidationError` itself, but rather raise `ValueError`, `TypeError` or
-    `AssertionError` (or subclasses of `ValueError` or `TypeError`) which will be caught and used to populate
-    `ValidationError`.
 
-One exception will be raised regardless of the number of errors found, that `ValidationError` will
-contain information about all the errors and how they happened.
+    验证代码不应引发 `ValidationError` 本身，而是引发 `ValueError`、`TypeError` 或 `AssertionError`（或 `ValueError` 或 `TypeError` 的子类），它们将被捕获并用于填充 `ValidationError`。
 
-You can access these errors in several ways:
+无论发现多少错误，都会引发一个异常，即 `ValidationError` 将包含有关所有错误及其发生方式的信息。
+
+您可以通过多种方式访问这些错误：
 
 `e.errors()`
-: method will return list of errors found in the input data.
+: 方法将返回在输入数据中发现的错误列表。
 
 `e.json()`
-: method will return a JSON representation of `errors`.
+: 方法将返回 `errors` 的 JSON 表示。
 
 `str(e)`
-: method will return a human readable representation of the errors.
+: 方法将返回错误的人类可读表示。
 
-Each error object contains:
+每个错误对象包含：
 
 `loc`
-: the error's location as a list. The first item in the list will be the field where the error occurred,
-  and if the field is a [sub-model](models.md#recursive-models), subsequent items will be present to indicate
-  the nested location of the error.
+: 错误的位置作为列表。 列表中的第一项将是发生错误的字段，如果该字段是 [子模块](models.md#recursive-models)，则将出现后续项以指示错误的嵌套位置。
 
 `type`
-: a computer-readable identifier of the error type.
+: 错误类型的计算机可读标识符。
 
 `msg`
-: a human readable explanation of the error.
+:错误类型的计算机可读标识符。
 
 `ctx`
-: an optional object which contains values required to render the error message.
+: 一个可选对象，其中包含呈现错误消息所需的值。
 
-As a demonstration:
+作为示范：
 
-{!.tmp_examples/models_errors1.md!}
+```python
+{!./examples/models_errors1.py!}
+```
 
 ### 自定义错误(Custom Errors)
 
-In your custom data types or validators you should use `ValueError`, `TypeError` or `AssertionError` to raise errors.
+在您的自定义数据类型或验证器中，您应该使用 `ValueError`、`TypeError` 或 `AssertionError` 来引发错误。
 
-See [validators](validators.md) for more details on use of the `@validator` decorator.
+有关使用 `@validator` 装饰器的更多详细信息，请参阅 [校验器](validators.md)。
 
-{!.tmp_examples/models_errors2.md!}
+```python
+{!./examples/models_errors2.py!}
+```
 
-You can also define your own error classes, which can specify a custom error code, message template, and context:
+您还可以定义自己的错误类，它可以自定义错误代码、消息模板和上下文：
 
-{!.tmp_examples/models_errors3.md!}
+```python
+{!./examples/models_errors3.py!}
+```
 
 ## 辅助函数(Helper Functions)
 
-*Pydantic* provides three `classmethod` helper functions on models for parsing data:
+*Pydantic* 在模型上提供了三个 `classmethod` 辅助函数来解析数据：
 
-* **`parse_obj`**: this is very similar to the `__init__` method of the model, except it takes a dict
-  rather than keyword arguments. If the object passed is not a dict a `ValidationError` will be raised.
-* **`parse_raw`**: this takes a *str* or *bytes* and parses it as *json*, then passes the result to `parse_obj`.
-  Parsing *pickle* data is also supported by setting the `content_type` argument appropriately.
-* **`parse_file`**: this takes in a file path, reads the file and passes the contents to `parse_raw`. If `content_type` is omitted,
-  it is inferred from the file's extension.
+* **`parse_obj`**: 这与模型的 `__init__` 方法非常相似，除了它采用字典而不是关键字参数。 如果传递的对象不是字典，则会引发`ValidationError`。
+* **`parse_raw`**: 这需要 *str* 或 *bytes* 并将其解析为 *json*，然后将结果传递给 `parse_obj`。通过适当设置 `content_type` 参数也支持解析 *pickle* 数据。
+* **`parse_file`**: 这需要一个文件路径，读取文件并将内容传递给`parse_raw`。 如果省略了 `content_type`，则从文件的扩展名中推断出来。
 
-{!.tmp_examples/models_parse.md!}
+```python
+{!./examples/models_parse.py!}
+```
 
 !!! warning
-    To quote the [official `pickle` docs](https://docs.python.org/3/library/pickle.html),
-    "The pickle module is not secure against erroneous or maliciously constructed data.
-    Never unpickle data received from an untrusted or unauthenticated source."
+    引用 [官方 `pickle` 文档](https://docs.python.org/3/library/pickle.html)，“pickle 模块对于错误或恶意构造的数据不安全。切勿取消接收来自不受信任或未经身份验证的来源。”
 
 !!! info
-    Because it can result in arbitrary code execution, as a security measure, you need
-    to explicitly pass `allow_pickle` to the parsing function in order to load `pickle` data.
+    因为它会导致任意代码执行，作为安全措施，您需要显式地将 `allow_pickle` 传递给解析函数，以便加载 `pickle` 数据。
 
 ### 创建无需校验的模型(Creating models without validation)
 
-*pydantic* also provides the `construct()` method which allows models to be created **without validation** this
-can be useful when data has already been validated or comes from a trusted source and you want to create a model
-as efficiently as possible (`construct()` is generally around 30x faster than creating a model with full validation).
+*pydantic* 还提供了 `construct()` 方法，该方法允许创建模型**无需验证**当数据已经过验证或来自受信任的来源并且您希望尽可能高效地创建模型时，这可能很有用 可能（`construct()` 通常比创建具有完整验证的模型快 30 倍左右）。
 
 !!! warning
-    `construct()` does not do any validation, meaning it can create models which are invalid. **You should only
-    ever use the `construct()` method with data which has already been validated, or you trust.**
+    `construct()` 不做任何验证，这意味着它可以创建无效的模型。 **您应该只对已经过验证或您信任的数据使用 `construct()` 方法。**
 
-{!.tmp_examples/models_construct.md!}
+```python
+{!./examples/models_construct.py!}
+```
 
-The `_fields_set` keyword argument to `construct()` is optional, but allows you to be more precise about
-which fields were originally set and which weren't. If it's omitted `__fields_set__` will just be the keys
-of the data provided.
+`construct()` 的 `_fields_set` 关键字参数是可选的，但可以让您更准确地了解哪些字段是最初设置的，哪些不是。 如果它被省略，`__fields_set__` 将只是所提供数据的键。
 
-For example, in the example above, if `_fields_set` was not provided,
-`new_user.__fields_set__` would be `{'id', 'age', 'name'}`.
+例如，在上面的示例中，如果未提供 `_fields_set`，则`new_user.fields_set`将为`{'id', 'age', 'name'}`。
 
 ## 通用模型(Generic Models)
 
-Pydantic supports the creation of generic models to make it easier to reuse a common model structure.
+Pydantic 支持创建通用模型，以便更轻松地重用通用模型结构。
 
-In order to declare a generic model, you perform the following steps:
+为了声明通用模型，执行以下步骤：
 
-* Declare one or more `typing.TypeVar` instances to use to parameterize your model.
-* Declare a pydantic model that inherits from `pydantic.generics.GenericModel` and `typing.Generic`,
-  where you pass the `TypeVar` instances as parameters to `typing.Generic`.
-* Use the `TypeVar` instances as annotations where you will want to replace them with other types or
-  pydantic models.
+* 声明一个或多个 `typing.TypeVar` 实例以用于参数化您的模型。
+* 声明一个继承自 `pydantic.generics.GenericModel` 和 `typing.Generic` 的 pydantic 模型，在其中将 `TypeVar` 实例作为参数传递给 `typing.Generic`。
+* 使用 `TypeVar` 实例作为注解，您可以在其中将它们替换为其他类型或 pydantic 模型。
 
-Here is an example using `GenericModel` to create an easily-reused HTTP response payload wrapper:
+下面是一个使用 `GenericModel` 创建易于重用的 HTTP 响应负载包装器的示例：
 
-{!.tmp_examples/models_generics.md!}
+```python
+{!./examples/models_generics.py!}
+```
 
-If you set `Config` or make use of `validator` in your generic model definition, it is applied
-to concrete subclasses in the same way as when inheriting from `BaseModel`. Any methods defined on
-your generic class will also be inherited.
+如果您在通用模型定义中设置 `Config` 或使用 `validator`，它将以与从 `BaseModel` 继承时相同的方式应用于具体子类。 在泛型类上定义的任何方法也将被继承。
 
-Pydantic's generics also integrate properly with mypy, so you get all the type checking
-you would expect mypy to provide if you were to declare the type without using `GenericModel`.
+Pydantic 的泛型也与 mypy 正确集成，因此如果您要在不使用 `GenericModel` 的情况下声明类型，您将获得您希望 mypy 提供的所有类型检查。
 
 !!! note
-    Internally, pydantic uses `create_model` to generate a (cached) concrete `BaseModel` at runtime,
-    so there is essentially zero overhead introduced by making use of `GenericModel`.
+    在内部，pydantic 使用 `create_model`在运行时生成（缓存的）具体 `BaseModel`，因此使用 `GenericModel` 引入的开销基本上为零。
 
-To inherit from a GenericModel without replacing the `TypeVar` instance, a class must also inherit from
-`typing.Generic`:
+要从 `GenericModel` 继承而不替换 `TypeVar` 实例，类还必须从 `typing.Generic` 继承：
 
-{!.tmp_examples/models_generics_inheritance.md!}
+```python
+{!./examples/models_generics_inheritance.py!}
+```
 
-You can also create a generic subclass of a `GenericModel` that partially or fully replaces the type
-parameters in the superclass.
+您还可以创建 `GenericModel` 的通用子类，部分或完全替换超类中的类型参数。
 
-{!.tmp_examples/models_generics_inheritance_extend.md!}
+```python
+{!./examples/models_generics_inheritance_extend.py!}
+```
 
-If the name of the concrete subclasses is important, you can also override the default behavior:
+如果具体子类的名称很重要，您还可以覆盖默认行为：
 
-{!.tmp_examples/models_generics_naming.md!}
+```python
+{!./examples/models_generics_naming.py!}
+```
 
-Using the same TypeVar in nested models allows you to enforce typing relationships at different points in your model:
+在嵌套模型中使用相同的 `TypeVar` 允许您在模型的不同点强制执行类型关系：
 
-{!.tmp_examples/models_generics_nested.md!}
+```python
+{!./examples/models_generics_nested.py!}
+```
 
-Pydantic also treats `GenericModel` similarly to how it treats built-in generic types like `List` and `Dict` when it
-comes to leaving them unparameterized, or using bounded `TypeVar` instances:
+Pydantic 还像处理 `List` 和 `Dict` 等内置泛型类型一样处理 `GenericModel`，以使其保持未参数化或使用有界 `TypeVar` 实例：
 
-* If you don't specify parameters before instantiating the generic model, they will be treated as `Any`
-* You can parametrize models with one or more *bounded* parameters to add subclass checks
+* 如果您在实例化通用模型之前没有指定参数，它们将被视为`Any`
+* 您可以使用一个或多个*bounded(有界)*参数对模型进行参数化以添加子类检查
 
-Also, like `List` and `Dict`, any parameters specified using a `TypeVar` can later be substituted with concrete types.
+此外，与 `List` 和 `Dict` 一样，使用 `TypeVar` 指定的任何参数稍后都可以替换为具体类型。
 
-{!.tmp_examples/models_generics_typevars.md!}
+```python
+{!./examples/models_generics_typevars.py!}
+```
 
 ## 动态模型的创建(Dynamic model creation)
 
-There are some occasions where the shape of a model is not known until runtime. For this *pydantic* provides
-the `create_model` method to allow models to be created on the fly.
+在某些情况下，直到运行时才知道模型的形态(shape)。 为此 *pydantic* 提供了 `create_model` 方法来允许动态创建模型。
 
-{!.tmp_examples/models_dynamic_creation.md!}
+```python
+{!./examples/models_dynamic_creation.py!}
+```
 
-Here `StaticFoobarModel` and `DynamicFoobarModel` are identical.
+这里的 `StaticFoobarModel` 和 `DynamicFoobarModel` 是相同的。
 
 !!! warning
-    See the note in [Required Optional Fields](#required-optional-fields) for the distinction between an ellipsis as a
-    field default and annotation-only fields.
-    See [pydantic/pydantic#1047](https://github.com/pydantic/pydantic/issues/1047) for more details.
+    请参阅 [必须的可选参数](#required-optional-fields) 中的注释，以了解省略号作为字段默认值和仅注释字段之间的区别。
+    参见 [pydantic/pydantic#1047](https://github.com/pydantic/pydantic/issues/1047) 获取更多详细信息。
 
-Fields are defined by either a tuple of the form `(<type>, <default value>)` or just a default value. The
-special key word arguments `__config__` and `__base__` can be used to customise the new model. This includes
-extending a base model with extra fields.
+字段由 `(<type>, <default value>)` 形式的元组或仅由默认值定义。 特殊关键字参数 `__config__` 和 `__base__` 可用于自定义新模型。 这包括使用额外字段扩展基本模型。
 
-{!.tmp_examples/models_dynamic_inheritance.md!}
+```python
+{!./examples/models_dynamic_inheritance.py!}
+```
 
-You can also add validators by passing a dict to the `__validators__` argument.
+您还可以通过将字典传递给 `__validators__` 参数来添加验证器。
 
-{!.tmp_examples/models_dynamic_validators.md!}
+```python
+{!./examples/models_dynamic_validators.py!}
+```
 
 ## 从`NamedTuple`或`TypedDict`创建模型(Model creation from `NamedTuple` or `TypedDict`)
 
-Sometimes you already use in your application classes that inherit from `NamedTuple` or `TypedDict`
-and you don't want to duplicate all your information to have a `BaseModel`.
-For this *pydantic* provides `create_model_from_namedtuple` and `create_model_from_typeddict` methods.
-Those methods have the exact same keyword arguments as `create_model`.
+有时，您已经在应用程序中使用了继承自 `NamedTuple` 或 `TypedDict` 的类，并且您不想复制所有信息以拥有 `BaseModel`。 为此*pydantic* 提供了`create_model_from_namedtuple` 和`create_model_from_typeddict` 方法。 这些方法具有与 `create_model` 完全相同的关键字参数。
 
-{!.tmp_examples/models_from_typeddict.md!}
+```python
+{!./examples/models_from_typeddict.py!}
+```
 
 ## 自定义根类型(Custom Root Types)
 
-Pydantic models can be defined with a custom root type by declaring the `__root__` field.
+Pydantic 模型可以通过声明 `__root__` 字段来定义自定义根类型。
 
-The root type can be any type supported by pydantic, and is specified by the type hint on the `__root__` field.
-The root value can be passed to the model `__init__` via the `__root__` keyword argument, or as
-the first and only argument to `parse_obj`.
+根类型可以是 pydantic 支持的任何类型，并由 `__root__` 字段上的类型提示指定。 根值可以通过 `__root__` 关键字参数传递给模型 `__init__` ，或者作为 `parse_obj` 的第一个也是唯一一个参数。
 
-{!.tmp_examples/models_custom_root_field.md!}
+```python
+{!./examples/models_custom_root_field.py!}
+```
 
-If you call the `parse_obj` method for a model with a custom root type with a *dict* as the first argument,
-the following logic is used:
+如果您为具有自定义根类型的模型调用 `parse_obj` 方法，并将 *dict* 作为第一个参数，则使用以下逻辑：
 
-* If the custom root type is a mapping type (eg., `Dict` or `Mapping`),
-  the argument itself is always validated against the custom root type.
-* For other custom root types, if the dict has precisely one key with the value `__root__`,
-  the corresponding value will be validated against the custom root type.
-* Otherwise, the dict itself is validated against the custom root type.
+* 如果自定义根类型是映射类型（例如，`Dict` 或 `Mapping`），参数本身总是根据自定义根类型进行验证。
+* 对于其他自定义根类型，如果字典恰好有一个值为 `__root__` 的键，则将根据自定义根类型验证相应的值。
+* 否则，将根据自定义根类型验证字典本身。
 
-This is demonstrated in the following example:
+这在以下示例中得到了证明：
 
-{!.tmp_examples/models_custom_root_field_parse_obj.md!}
+```python
+{!./examples/models_custom_root_field_parse_obj.py!}
+```
 
 !!! warning
-    Calling the `parse_obj` method on a dict with the single key `"__root__"` for non-mapping custom root types
-    is currently supported for backwards compatibility, but is not recommended and may be dropped in a future version.
+    为了向后兼容，目前支持使用单键 `"__root__"` 在 dict 上调用 `parse_obj` 方法以实现向后兼容性，但不推荐并且可能在未来版本中删除。
 
-If you want to access items in the `__root__` field directly or to iterate over the items, you can implement custom `__iter__` and `__getitem__` functions, as shown in the following example.
+如果您想直接访问 `__root__` 字段中的项目或迭代这些项目，您可以实现自定义 `__iter__` 和 `__getitem__` 函数，如以下示例所示。
 
-{!.tmp_examples/models_custom_root_access.md!}
+```python
+{!./examples/models_custom_root_access.py!}
+```
 
 ## 伪不变性(Faux Immutability)
 
-Models can be configured to be immutable via `allow_mutation = False`. When this is set, attempting to change the
-values of instance attributes will raise errors. See [model config](model_config.md) for more details on `Config`.
+可以通过 `allow_mutation = False` 将模型配置为不可变的。 设置后，尝试更改实例属性的值将引发错误。 有关 `Config` 的更多详细信息，请参阅 [模型配置](model_config.md)。
 
 !!! warning
-    Immutability in Python is never strict. If developers are determined/stupid they can always
-    modify a so-called "immutable" object.
+    Python 中的不变性从来都不是严格的。 如果开发人员有决心/愚蠢，他们总是可以修改所谓的“不可变”对象。
 
-{!.tmp_examples/models_mutation.md!}
+```python
+{!./examples/models_mutation.py!}
+```
 
-Trying to change `a` caused an error, and `a` remains unchanged. However, the dict `b` is mutable, and the
-immutability of `foobar` doesn't stop `b` from being changed.
+尝试更改 `a` 导致错误，而 `a` 保持不变。 然而，dict `b` 是可变的，而 `foobar` 的不变性并不能阻止 `b` 被改变。
 
 ## 抽象基类(Abstract Base Classes)
 
-Pydantic models can be used alongside Python's
-[Abstract Base Classes](https://docs.python.org/3/library/abc.html) (ABCs).
+Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/library/abc.html) (ABC) 一起使用。
 
-{!.tmp_examples/models_abc.md!}
+```python
+{!./examples/models_abc.py!}
+```
 
 ## 字段顺序(Field Ordering)
 
-Field order is important in models for the following reasons:
+字段顺序在模型中很重要，原因如下：
 
-* validation is performed in the order fields are defined; [fields validators](validators.md)
-  can access the values of earlier fields, but not later ones
-* field order is preserved in the model [schema](schema.md)
-* field order is preserved in [validation errors](#error-handling)
-* field order is preserved by [`.dict()` and `.json()` etc.](exporting_models.md#modeldict)
+* 在定义的订单字段中执行验证； [fields validators](validators.md) 可以访问前面字段的值，但不能访问后面的字段
+* 字段顺序保留在模型 [schema](schema.md) 中
+* 字段顺序保留在 [validation errors](#error-handling)
+* 字段顺序由 [`.dict()` 和 `.json()`](exporting_models.md#modeldict)等保存
 
-As of **v1.0** all fields with annotations (whether annotation-only or with a default value) will precede
-all fields without an annotation. Within their respective groups, fields remain in the order they were defined.
+从 **v1.0** 开始，所有带有注解的字段（无论是仅注解还是带有默认值）都将位于所有没有注解的字段之前。 在各自的组中，字段保持其定义的顺序。
 
-{!.tmp_examples/models_field_order.md!}
+```python
+{!./examples/models_field_order.py!}
+```
 
 !!! warning
-    As demonstrated by the example above, combining the use of annotated and non-annotated fields
-    in the same model can result in surprising field orderings. (This is due to limitations of Python)
+    如上面的示例所示，在同一模型中结合使用带注释和非带注释的字段可能会导致令人惊讶的字段排序。 （这是由于 Python 的限制）
 
-    Therefore, **we recommend adding type annotations to all fields**, even when a default value
-    would determine the type by itself to guarantee field order is preserved.
+    因此，**我们建议向所有字段添加类型注释**，即使默认值会自行确定类型以保证保留字段顺序。
 
 ## 必须字段(Required fields)
 
-To declare a field as required, you may declare it using just an annotation, or you may use an ellipsis (`...`)
-as the value:
+要根据需要声明一个字段，您可以仅使用注解来声明它，或者您可以使用省略号（`...`）作为值：
 
-{!.tmp_examples/models_required_fields.md!}
+```python
+{!./examples/models_required_fields.py!}
+```
 
-Where `Field` refers to the [field function](schema.md#field-customization).
+其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
-Here `a`, `b` and `c` are all required. However, use of the ellipses in `b` will not work well
-with [mypy](mypy.md), and as of **v1.0** should be avoided in most cases.
+这里 `a`、`b` 和 `c` 都是必需的。 但是，在 `b` 中使用省略号不适用于 [mypy](mypy.md)，从 **v1.0** 开始，在大多数情况下应避免使用。
 
 ### 必须但可选字段(Required Optional fields)
 
 !!! warning
-    Since version **v1.2** annotation only nullable (`Optional[...]`, `Union[None, ...]` and `Any`) fields and nullable
-    fields with an ellipsis (`...`) as the default value, no longer mean the same thing.
+    由于版本 **v1.2** 注解仅可为空（`Optional[...]`、`Union[None, ...]` 和`Any`）字段和带有省略号（`...`）的可为空字段）作为默认值，不再意味着同一件事。
 
-    In some situations this may cause **v1.2** to not be entirely backwards compatible with earlier **v1.*** releases.
+    在某些情况下，这可能会导致 **v1.2** 无法完全向后兼容早期的 **v1.*** 版本。
 
-If you want to specify a field that can take a `None` value while still being required,
-you can use `Optional` with `...`:
+如果你想指定一个字段，该字段在仍然需要时可以采用“无”值，则可以将“可选”与“...”一起使用：
 
-{!.tmp_examples/models_required_field_optional.md!}
+```python
+{!./examples/models_required_field_optional.py!}
+```
 
-In this model, `a`, `b`, and `c` can take `None` as a value. But `a` is optional, while `b` and `c` are required.
-`b` and `c` require a value, even if the value is `None`.
+在这个模型中，`a`、`b` 和 `c` 可以取 `None` 作为值。 但是 `a` 是可选的，而 `b` 和 `c` 是必需的。 `b` 和 `c` 需要一个值，即使该值为 `None`。
 
 ## 具有动态默认值的字段(Field with dynamic default value)
 
-When declaring a field with a default value, you may want it to be dynamic (i.e. different for each model).
-To do this, you may want to use a `default_factory`.
+当用默认值声明一个字段时，您可能希望它是动态的（即每个模型不同）。 为此，您可能需要使用`default_factory`。
 
-!!! info "In Beta"
-    The `default_factory` argument is in **beta**, it has been added to *pydantic* in **v1.5** on a
-    **provisional basis**. It may change significantly in future releases and its signature or behaviour will not
-    be concrete until **v2**. Feedback from the community while it's still provisional would be extremely useful;
-    either comment on [#866](https://github.com/pydantic/pydantic/issues/866) or create a new issue.
+!!! info "测试版"
+    `default_factory` 参数在 **beta** 中，它已在 **临时基础** 中添加到 **v1.5** 中的 *pydantic*。 它可能会在未来的版本中发生重大变化，并且其签名或行为在 **v2** 之前不会具体。 来自社区的反馈在它仍然是临时的时候将非常有用； 评论 [#866](https://github.com/pydantic/pydantic/issues/866) 或创建一个新问题。
 
-Example of usage:
+使用示例：
 
-{!.tmp_examples/models_default_factory.md!}
+```python
+{!./examples/models_default_factory.py!}
+```
 
-Where `Field` refers to the [field function](schema.md#field-customization).
+其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
 !!! warning
-    The `default_factory` expects the field type to be set.
+    `default_factory` 需要设置字段类型。
 
 ## 自动排除的属性(Automatically excluded attributes)
 
-Class variables which begin with an underscore and attributes annotated with `typing.ClassVar` will be
-automatically excluded from the model.
+以下划线开头的类变量和用 `typing.ClassVar` 注释的属性将自动从模型中排除。
 
 ## 私有模型属性(Private model attributes)
 
-If you need to vary or manipulate internal attributes on instances of the model, you can declare them
-using `PrivateAttr`:
+如果您需要改变或操作模型实例的内部属性，您可以使用 `PrivateAttr` 声明它们：
 
-{!.tmp_examples/private_attributes.md!}
+```python
+{!./examples/private_attributes.py!}
+```
 
-Private attribute names must start with underscore to prevent conflicts with model fields: both `_attr` and `__attr__`
-are supported.
+私有属性名称必须以下划线开头，以防止与模型字段冲突：支持 `_attr` 和 `__attr__` 。
 
-If `Config.underscore_attrs_are_private` is `True`, any non-ClassVar underscore attribute will be treated as private:
-{!.tmp_examples/private_attributes_underscore_attrs_are_private.md!}
+如果 `Config.underscore_attrs_are_private` 为 `True`，任何非 ClassVar 下划线属性都将被视为私有：
 
-Upon class creation pydantic constructs `__slots__` filled with private attributes.
+```python
+{!./examples/private_attributes_underscore_attrs_are_private.py!}
+```
+
+在创建类时，pydantic 构造了填充私有属性的 `__slots__` 。
 
 ## 将数据解析为指定类型(Parsing data into a specified type)
 
-Pydantic includes a standalone utility function `parse_obj_as` that can be used to apply the parsing
-logic used to populate pydantic models in a more ad-hoc way. This function behaves similarly to
-`BaseModel.parse_obj`, but works with arbitrary pydantic-compatible types.
+Pydantic 包括一个独立的实用函数 `parse_obj_as` ，可用于应用用于以更特殊的方式填充 pydantic 模型的解析逻辑。 此函数的行为类似于 `BaseModel.parse_obj` ，但适用于任意与 pydantic 兼容的类型。
 
-This is especially useful when you want to parse results into a type that is not a direct subclass of `BaseModel`.
-For example:
+当您想要将结果解析为不是 `BaseModel` 的直接子类的类型时，这尤其有用。
 
-{!.tmp_examples/parse_obj_as.md!}
+例如：
 
-This function is capable of parsing data into any of the types pydantic can handle as fields of a `BaseModel`.
+```python
+{!./examples/parse_obj_as.py!}
+```
 
-Pydantic also includes two similar standalone functions called `parse_file_as` and `parse_raw_as`,
-which are analogous to `BaseModel.parse_file` and `BaseModel.parse_raw`.
+此函数能够将数据解析为 pydantic 可以作为 `BaseModel` 字段处理的任何类型。
+
+Pydantic 还包括两个类似的独立函数，称为 `parse_file_as` 和 `parse_raw_as`，它们类似于 `BaseModel.parse_file` 和`BaseModel.parse_raw`。
 
 ## 数据转换(Data Conversion)
 
-*pydantic* may cast input data to force it to conform to model field types,
-and in some cases this may result in a loss of information.
-For example:
+*pydantic* 可能会转换输入数据以强制其符合模型字段类型，在某些情况下这可能会导致信息丢失。
 
-{!.tmp_examples/models_data_conversion.md!}
+例如：
 
-This is a deliberate decision of *pydantic*, and in general it's the most useful approach. See
-[here](https://github.com/pydantic/pydantic/issues/578) for a longer discussion on the subject.
+```python
+{!./examples/models_data_conversion.py!}
+```
 
-Nevertheless, [strict type checking](types.md#strict-types) is partially supported.
+这是 *pydantic* 深思熟虑的决定，通常这是最有用的方法。 请参阅[此处](https://github.com/pydantic/pydantic/issues/578)，了解有关该主题的更长时间讨论。
+
+尽管如此，部分支持[严格类型检查](types.md#strict-types)。
 
 ## 模型签名(Model signature)
 
-All *pydantic* models will have their signature generated based on their fields:
+所有 *pydantic* 模型都将根据其字段生成签名：
 
-{!.tmp_examples/models_signature.md!}
+```python
+{!./examples/models_signature.py!}
+```
 
-An accurate signature is useful for introspection purposes and libraries like `FastAPI` or `hypothesis`.
+准确的签名对于内省目的和库（如`FastAPI`或 `hypothesis` ）很有用。
 
-The generated signature will also respect custom `__init__` functions:
+生成的签名也将遵循自定义的 `__init__` 函数：
 
-{!.tmp_examples/models_signature_custom_init.md!}
+```python
+{!./examples/models_signature_custom_init.py!}
+```
 
-To be included in the signature, a field's alias or name must be a valid Python identifier.
-*pydantic* prefers aliases over names, but may use field names if the alias is not a valid Python identifier.
+要包含在签名中，字段的别名或名称必须是有效的 Python 标识符。 *pydantic* 更喜欢别名而不是名称，但如果别名不是有效的 Python 标识符，则可以使用字段名称。
 
-If a field's alias and name are both invalid identifiers, a `**data` argument will be added.
-In addition, the `**data` argument will always be present in the signature if `Config.extra` is `Extra.allow`.
+如果一个字段的别名和名称都是无效的标识符，则会添加一个 `**data` 参数。
+
+此外，如果 `Config.extra` 为 `Extra.allow`，`**data` 参数将始终出现在签名中。
 
 !!! note
-    Types in the model signature are the same as declared in model annotations,
-    not necessarily all the types that can actually be provided to that field.
-    This may be fixed one day once [#1055](https://github.com/pydantic/pydantic/issues/1055) is solved.
+    模型签名中的类型与模型注释中声明的类型相同，不一定是实际可以提供给该字段的所有类型。
+
+    一旦 [#1055](https://github.com/pydantic/pydantic/issues/1055) 得到解决，这可能会在某一天得到解决。
 
 ## 结构模式匹配(Structural pattern matching)
 
-*pydantic* supports structural pattern matching for models, as introduced by [PEP 636](https://peps.python.org/pep-0636/) in Python 3.10.
+*pydantic* 支持模型的结构模式匹配，如 Python 3.10 中的 [PEP 636](https://peps.python.org/pep-0636/) 所介绍的那样。
 
-{!.tmp_examples/models_structural_pattern_matching.md!}
+```python
+{!./examples/models_structural_pattern_matching.py!}
+```
 
 !!! note
-    A match-case statement may seem as if it creates a new model, but don't be fooled;  
-    it is just syntactic sugar for getting an attribute and either comparing it or declaring and initializing it.
+    match-case 语句看起来好像创建了一个新模型，但不要被愚弄了；
+
+    它只是获取属性并比较它或声明和初始化它的语法糖。

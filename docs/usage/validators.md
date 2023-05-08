@@ -1,6 +1,8 @@
 Custom validation and complex relationships between objects can be achieved using the `validator` decorator.
 
-{!.tmp_examples/validators_simple.md!}
+```python
+{!./examples/validators_simple.py!}
+```
 
 A few things to note on validators:
 
@@ -34,7 +36,9 @@ A few things to note on validators:
 
 Validators can do a few more complex things:
 
-{!.tmp_examples/validators_pre_item.md!}
+```python
+{!./examples/validators_pre_item.py!}
+```
 
 A few more things to note:
 
@@ -49,7 +53,9 @@ A few more things to note:
 If using a validator with a subclass that references a `List` type field on a parent class, using `each_item=True` will
 cause the validator not to run; instead, the list must be iterated over programmatically.
 
-{!.tmp_examples/validators_subclass_each_item.md!}
+```python
+{!./examples/validators_subclass_each_item.py!}
+```
 
 ## Validate Always
 
@@ -57,7 +63,9 @@ For performance reasons, by default validators are not called for fields when a 
 However there are situations where it may be useful or required to always call the validator, e.g.
 to set a dynamic default value.
 
-{!.tmp_examples/validators_always.md!}
+```python
+{!./examples/validators_always.py!}
+```
 
 You'll often want to use this together with `pre`, since otherwise with `always=True`
 *pydantic* would try to validate the default `None` which would cause an error.
@@ -70,7 +78,9 @@ then call it from multiple decorators.  Obviously, this entails a lot of repetit
 boiler plate code. To circumvent this, the `allow_reuse` parameter has been added to
 `pydantic.validator` in **v1.2** (`False` by default):
 
-{!.tmp_examples/validators_allow_reuse.md!}
+```python
+{!./examples/validators_allow_reuse.py!}
+```
 
 As it is obvious, repetition has been reduced and the models become again almost
 declarative.
@@ -84,7 +94,9 @@ declarative.
 
 Validation can also be performed on the entire model's data.
 
-{!.tmp_examples/validators_root.md!}
+```python
+{!./examples/validators_root.py!}
+```
 
 As with field validators, root validators can have `pre=True`, in which case they're called before field
 validation occurs (and are provided with the raw input data), or `pre=False` (the default), in which case
@@ -107,4 +119,6 @@ In this case you should set `check_fields=False` on the validator.
 
 Validators also work with *pydantic* dataclasses.
 
-{!.tmp_examples/validators_dataclass.md!}
+```python
+{!./examples/validators_dataclass.py!}
+```

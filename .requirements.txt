@@ -1,0 +1,6 @@
+mkdocs
+mkdocs-material
+mkdocs-exclude
+markdown-include
+mdx-truly-sane-lists
+mike

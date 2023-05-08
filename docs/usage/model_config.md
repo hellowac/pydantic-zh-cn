@@ -1,12 +1,18 @@
 Behaviour of _pydantic_ can be controlled via the `Config` class on a model or a _pydantic_ dataclass.
 
-{!.tmp_examples/model_config_main.md!}
+```python
+{!./examples/model_config_main.py!}
+```
 
 Also, you can specify config options as model class kwargs:
-{!.tmp_examples/model_config_class_kwargs.md!}
+```python
+{!./examples/model_config_class_kwargs.py!}
+```
 
 Similarly, if using the `@dataclass` decorator:
-{!.tmp_examples/model_config_dataclass.md!}
+```python
+{!./examples/model_config_dataclass.py!}
+```
 
 ## Options
 
@@ -135,14 +141,18 @@ with the following means (see [#4093](https://github.com/pydantic/pydantic/pull/
 
 If you wish to change the behaviour of _pydantic_ globally, you can create your own custom `BaseModel`
 with custom `Config` since the config is inherited
-{!.tmp_examples/model_config_change_globally_custom.md!}
+```python
+{!./examples/model_config_change_globally_custom.py!}
+```
 
 ## Alias Generator
 
 If data source field names do not match your code style (e. g. CamelCase fields),
 you can automatically generate aliases using `alias_generator`:
 
-{!.tmp_examples/model_config_alias_generator.md!}
+```python
+{!./examples/model_config_alias_generator.py!}
+```
 
 Here camel case refers to ["upper camel case"](https://en.wikipedia.org/wiki/Camel_case) aka pascal case
 e.g. `CamelCase`. If you'd like instead to use lower camel case e.g. `camelCase`,
@@ -170,22 +180,30 @@ the selected value is determined as follows (in descending order of priority):
 
 For example:
 
-{!.tmp_examples/model_config_alias_precedence.md!}
+```python
+{!./examples/model_config_alias_precedence.py!}
+```
 
 ## Smart Union
 
 By default, as explained [here](types.md#unions), _pydantic_ tries to validate (and coerce if it can) in the order of the `Union`.
 So sometimes you may have unexpected coerced data.
 
-{!.tmp_examples/model_config_smart_union_off.md!}
+```python
+{!./examples/model_config_smart_union_off.py!}
+```
 
 To prevent this, you can enable `Config.smart_union`. _Pydantic_ will then check all allowed types before even trying to coerce.
 Know that this is of course slower, especially if your `Union` is quite big.
 
-{!.tmp_examples/model_config_smart_union_on.md!}
+```python
+{!./examples/model_config_smart_union_on.py!}
+```
 
 !!! warning
     Note that this option **does not support compound types yet** (e.g. differentiate `List[int]` and `List[str]`).
     This option will be improved further once a strict mode is added in _pydantic_ and will probably be the default behaviour in v2!
 
-{!.tmp_examples/model_config_smart_union_on_edge_case.md!}
+```python
+{!./examples/model_config_smart_union_on_edge_case.py!}
+```

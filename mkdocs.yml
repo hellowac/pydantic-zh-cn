@@ -25,6 +25,7 @@ theme:
   features:
     - content.tabs.link
     - navigation.top  # 返回顶部按钮
+    - content.code.copy # 代码支持copy
   logo: 'logo-white.svg'
   favicon: 'favicon.png'
 

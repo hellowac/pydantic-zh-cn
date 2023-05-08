@@ -1,7 +1,9 @@
 *pydantic* models work with [mypy](http://mypy-lang.org/) provided you use the annotation-only version of
 required fields:
 
-{!.tmp_examples/mypy_main.md!}
+```python
+{!./examples/mypy_main.py!}
+```
 
 You can run your code through mypy with:
 

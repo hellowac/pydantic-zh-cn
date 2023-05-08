@@ -19,7 +19,9 @@ strategies support them without any user configuration.
 
 ### Example tests
 
-{!.tmp_examples/hypothesis_property_based_test.md!}
+```python
+{!./examples/hypothesis_property_based_test.py!}
+```
 
 
 ### Use with JSON Schemas

@@ -5,17 +5,15 @@
 [![downloads](https://pepy.tech/badge/pydantic/month)](https://pepy.tech/project/pydantic)
 [![license](https://img.shields.io/github/license/pydantic/pydantic.svg)](https://github.com/pydantic/pydantic/blob/main/LICENSE)
 
-{!.version.md!}
+使用 Python 类型注解的数据验证和设置管理。
 
-Data validation and settings management using Python type annotations.
+*pydantic* 在运行时强制执行类型提示，并在数据无效时提供用户友好的错误。
 
-*pydantic* enforces type hints at runtime, and provides user friendly errors when data is invalid.
+定义数据应该如何在纯正的、规范的 Python 中； 用 *pydantic* 验证它。
 
-Define how data should be in pure, canonical Python; validate it with *pydantic*.
+## 赞助商(Sponsors)
 
-## Sponsors
-
-Development of *pydantic* is made possible by the following sponsors:
+以下赞助商使 *pydantic* 的开发成为可能：
 
 <div class="sponsors">
   <div>
@@ -74,7 +72,7 @@ Development of *pydantic* is made possible by the following sponsors:
   </div>
 </div>
 
-And many more who kindly sponsor Samuel Colvin on [GitHub Sponsors](https://github.com/sponsors/samuelcolvin#sponsors).
+还有更多人在 [GitHub 赞助商](https://github.com/sponsors/samuelcolvin#sponsors) 上慷慨赞助 Samuel Colvin。
 
 <script>
   // randomize the order of sponsors
@@ -86,124 +84,94 @@ And many more who kindly sponsor Samuel Colvin on [GitHub Sponsors](https://gith
 
 ## Example
 
-{!.tmp_examples/index_main.md!}
+```python
+{!./examples/index_main.py!}
+```
 
-What's going on here:
+这里发生了什么：
 
-* `id` is of type int; the annotation-only declaration tells *pydantic* that this field is required. Strings,
-  bytes or floats will be coerced to ints if possible; otherwise an exception will be raised.
-* `name` is inferred as a string from the provided default; because it has a default, it is not required.
-* `signup_ts` is a datetime field which is not required (and takes the value ``None`` if it's not supplied).
-  *pydantic* will process either a unix timestamp int (e.g. `1496498400`) or a string representing the date & time.
-* `friends` uses Python's typing system, and requires a list of integers. As with `id`, integer-like objects
-  will be converted to integers.
+* `id` 是 int 类型； 仅注解声明告诉 *pydantic* 这个字段是必需的。 如果可能，字符串、字节或浮点数将被强制转换为整数； 否则将引发异常。
+* `name` 从提供的默认值推断为字符串； 因为它有一个默认值，所以它不是必需的。
+* `signup_ts` 是一个不需要的日期时间字段（如果未提供则取值 ``None``）。
+  *pydantic* 将处理 unix 时间戳 int（例如 `1496498400`）或表示日期和时间的字符串。
+* `friends` 使用 Python 的类型系统，并且需要一个整数列表。 与 `id` 一样，类整数对象将被转换为整数。
 
-If validation fails pydantic will raise an error with a breakdown of what was wrong:
+如果验证失败，pydantic 将引发错误并详细说明错误：
 
-{!.tmp_examples/index_error.md!}
+```python
+{!./examples/index_error.py!}
+```
 
+## 基本原理(Rationale)
 
-## Rationale
+所以 *pydantic* 使用了一些很酷的新语言特性，但我为什么要真正去使用它呢？
 
-So *pydantic* uses some cool new language features, but why should I actually go and use it?
+**与您的 IDE/linter/brain 完美搭配**
+: 无需学习新的模式定义微语言。 如果您知道如何使用 Python 类型提示，您就会知道如何使用 *pydantic*。 数据结构只是您使用类型注释定义的类的实例，因此自动完成、linting、[mypy](usage/mypy.md)、IDE（尤其是 [PyCharm](pycharm_plugin.md)）和您的直觉都应该有效 正确使用您的验证数据。
 
-**plays nicely with your IDE/linter/brain**
-: There's no new schema definition micro-language to learn. If you know how to use Python type hints, 
-  you know how to use *pydantic*. Data structures are just instances of classes you define with type annotations, 
-  so auto-completion, linting, [mypy](usage/mypy.md), IDEs (especially [PyCharm](pycharm_plugin.md)), 
-  and your intuition should all work properly with your validated data.
+**双重用途**
+: *pydantic* 的 [BaseSettings](usage/settings.md) 类允许 *pydantic* 在“验证此请求数据”上下文和“加载我的系统设置”上下文中使用。 主要区别在于系统设置可以从环境变量中读取，并且通常需要更复杂的对象，如 DSN 和 Python 对象。
 
-**dual use**
-: *pydantic's* [BaseSettings](usage/settings.md) class allows *pydantic* to be used in both a "validate this request
-  data" context and in a "load my system settings" context. The main differences are that system settings can
-  be read from environment variables, and more complex objects like DSNs and Python objects are often required.
+**快速**
+: *pydantic* 一直很重视性能，大部分库都是用 cython 编译的，加速了 ~50%，它通常比大多数类似的库快或更快。
 
-**fast**
-: *pydantic* has always taken performance seriously, most of the library is compiled with cython giving a ~50% speedup,
-  it's generally as fast or faster than most similar libraries.
+**验证复杂结构**
+: 使用[递归 *pydantic* 模型](usage/models.md#recursive-models)、`typing` 的 [标准类型](usage/types.md#standard-library-types)（例如 `List`、`Tuple`、`Dict` 等）和 [validators](usage/validators.md) 允许清晰、轻松地定义、验证和解析复杂的数据模式。
 
-**validate complex structures**
-: use of [recursive *pydantic* models](usage/models.md#recursive-models), `typing`'s 
-  [standard types](usage/types.md#standard-library-types) (e.g. `List`, `Tuple`, `Dict` etc.) and 
-  [validators](usage/validators.md) allow
-  complex data schemas to be clearly and easily defined, validated, and parsed.
-
-**extensible**
-: *pydantic* allows [custom data types](usage/types.md#custom-data-types) to be defined or you can extend validation 
-  with methods on a model decorated with the [`validator`](usage/validators.md) decorator.
+**可扩展的**
+: *pydantic* 允许定义[自定义数据类型](usage/types.md#custom-data-types)，或者您可以在装饰有 [`validator`](usage/validators.md) 的模型上使用方法扩展验证装饰器。
   
-**dataclasses integration**
-: As well as `BaseModel`, *pydantic* provides
-  a [`dataclass`](usage/dataclasses.md) decorator which creates (almost) vanilla Python dataclasses with input
-  data parsing and validation.
+**数据类整合**
+: 除了 `BaseModel` 之外，*pydantic* 还提供了一个 [`dataclass`](usage/dataclasses.md) 装饰器，它创建（几乎）带有输入数据解析和验证的普通 Python 数据类。
 
-## Using Pydantic
+## 使用 Pydantic(Using Pydantic)
 
-Hundreds of organisations and packages are using *pydantic*, including:
+数百个组织和软件包正在使用 *pydantic*，包括：
 
 [FastAPI](https://fastapi.tiangolo.com/)
-: a high performance API framework, easy to learn,
-  fast to code and ready for production, based on *pydantic* and Starlette.
+: 基于*pydantic* 和 Starlette 的高性能 API 框架，易于学习，编码速度快，可用于生产。
 
 [Project Jupyter](https://jupyter.org/)
-: developers of the Jupyter notebook are using *pydantic* 
-  [for subprojects](https://github.com/pydantic/pydantic/issues/773), through the FastAPI-based Jupyter server
-  [Jupyverse](https://github.com/jupyter-server/jupyverse), and for [FPS](https://github.com/jupyter-server/fps)'s
-  configuration management.
+: Jupyter notebook 的开发人员正在使用 *pydantic* [用于子项目](https://github.com/pydantic/pydantic/issues/773)，通过基于 FastAPI 的 Jupyter 服务器 [Jupyverse](https://github.com /jupyter-server/jupyverse)，以及 [FPS](https://github.com/jupyter-server/fps) 的配置管理。
 
 **Microsoft**
-: are using *pydantic* (via FastAPI) for 
-  [numerous services](https://github.com/tiangolo/fastapi/pull/26#issuecomment-463768795), some of which are 
-  "getting integrated into the core Windows product and some Office products."
+: 正在将 *pydantic*（通过 FastAPI）用于 [众多服务](https://github.com/tiangolo/fastapi/pull/26#issuecomment-463768795)，其中一些正在“集成到核心 Windows 产品中，一些 办公用品。”
 
 **Amazon Web Services**
-: are using *pydantic* in [gluon-ts](https://github.com/awslabs/gluon-ts), an open-source probabilistic time series
-  modeling library.
+: 在 [gluon-ts](https://github.com/awslabs/gluon-ts) 中使用 *pydantic*，这是一个开源概率时间序列建模库。
 
 **The NSA**
-: are using *pydantic* in [WALKOFF](https://github.com/nsacyber/WALKOFF), an open-source automation framework.
+: 在开源自动化框架 [WALKOFF](https://github.com/nsacyber/WALKOFF) 中使用 *pydantic*。
 
 **Uber**
-: are using *pydantic* in [Ludwig](https://github.com/uber/ludwig), an open-source TensorFlow wrapper.
+: 在 [Ludwig](https://github.com/uber/ludwig) 中使用 *pydantic*，这是一个开源 TensorFlow 包装器。
 
 **Cuenca**
-: are a Mexican neobank that uses *pydantic* for several internal
-  tools (including API validation) and for open source projects like
-  [stpmex](https://github.com/cuenca-mx/stpmex-python), which is used to process real-time, 24/7, inter-bank
-  transfers in Mexico.
+: 是一家墨西哥新银行，它使用 *pydantic* 用于多个内部工具（包括 API 验证）和开源项目，如 [stpmex](https://github.com/cuenca-mx/stpmex-python)，用于处理 墨西哥实时 24/7 银行间转账。
 
-[The Molecular Sciences Software Institute](https://molssi.org)
-: are using *pydantic* in [QCFractal](https://github.com/MolSSI/QCFractal), a massively distributed compute framework
-  for quantum chemistry.
+[分子科学软件研究所](https://molssi.org)
+: 在 [QCFractal](https://github.com/MolSSI/QCFractal) 中使用 *pydantic*，这是一个用于量子化学的大规模分布式计算框架。
 
 [Reach](https://www.reach.vote)
-: trusts *pydantic* (via FastAPI) and [*arq*](https://github.com/samuelcolvin/arq) (Samuel's excellent
-  asynchronous task queue) to reliably power multiple mission-critical microservices.
+: 信任 *pydantic*（通过 FastAPI）和 [*arq*](https://github.com/samuelcolvin/arq)（Samuel 出色的异步任务队列）来可靠地支持多个关键任务微服务。
 
 [Robusta.dev](https://robusta.dev/)
-: are using *pydantic* to automate Kubernetes troubleshooting and maintenance. For example, their open source
-  [tools to debug and profile Python applications on Kubernetes](https://home.robusta.dev/python/) use
-  *pydantic* models.
+: 正在使用 *pydantic* 来自动化 Kubernetes 故障排除和维护。 例如，他们的开源 [在 Kubernetes 上调试和分析 Python 应用程序的工具](https://home.robusta.dev/python/) 使用 *pydantic* 模型。
 
-For a more comprehensive list of open-source projects using *pydantic* see the 
-[list of dependents on github](https://github.com/pydantic/pydantic/network/dependents).
+有关使用 *pydantic* 的更全面的开源项目列表，请参阅 [github 上的依赖列表](https://github.com/pydantic/pydantic/network/dependents)。
 
-## Discussion of Pydantic
+## 对 Pydantic 的讨论(Discussion of Pydantic)
 
-Podcasts and videos discussing pydantic.
+讨论 pydantic 的播客和视频。
 
 [Talk Python To Me](https://talkpython.fm/episodes/show/313/automate-your-data-exchange-with-pydantic){target=_blank}
-: Michael Kennedy and Samuel Colvin, the creator of *pydantic*, dive into the history of pydantic and its many uses and benefits.
+: *pydantic* 的创始人迈克尔·肯尼迪 (Michael Kennedy) 和塞缪尔·科尔文 (Samuel Colvin) 深入探讨了 pydantic 的历史及其众多用途和好处。
 
 [Podcast.\_\_init\_\_](https://www.pythonpodcast.com/pydantic-data-validation-episode-263/){target=_blank}
-: Discussion about where *pydantic* came from and ideas for where it might go next with 
-  Samuel Colvin the creator of pydantic.
+: 与 pydantic 的创造者 Samuel Colvin 讨论 *pydantic* 的起源以及它下一步可能走向何方的想法。
 
 [Python Bytes Podcast](https://pythonbytes.fm/episodes/show/157/oh-hai-pandas-hold-my-hand){target=_blank}
-: "*This is a sweet simple framework that solves some really nice problems... Data validations and settings management 
-  using Python type annotations, and it's the Python type annotations that makes me really extra happy... It works 
-  automatically with all the IDE's you already have.*" --Michael Kennedy
+: “*这是一个可爱的简单框架，解决了一些非常好的问题......使用 Python 类型注释的数据验证和设置管理，正是 Python 类型注释让我非常高兴......它自动与你的所有 IDE 一起工作 已经有了。*”——迈克尔·肯尼迪
 
-[Python pydantic Introduction – Give your data classes super powers](https://www.youtube.com/watch?v=WJmqgJn9TXg){target=_blank}
-: a talk by Alexander Hultnér originally for the Python Pizza Conference introducing new users to pydantic and walking 
-  through the core features of pydantic.
+[Python pydantic Introduction – 赋予数据类超能力](https://www.youtube.com/watch?v=WJmqgJn9TXg){target=_blank}
+: Alexander Hultnér 最初在 Python Pizza 大会上的演讲，向新用户介绍了 pydantic 并介绍了 pydantic 的核心功能。

@@ -70,7 +70,9 @@ person.json:
 ```
 
 model.py:
-{!.tmp_examples/generate_models_person_model.md!}
+```python
+{!./examples/generate_models_person_model.py!}
+```
 
 More information can be found on the
 [official documentation](https://koxudaxi.github.io/datamodel-code-generator/)
