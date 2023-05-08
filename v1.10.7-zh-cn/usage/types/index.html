@@ -1,0 +1,3164 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="使用Python类型注解进行数据校验">
+      
+      
+      
+        <link rel="canonical" href="https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/types/">
+      
+      
+        <link rel="prev" href="../models/">
+      
+      
+        <link rel="next" href="../validators/">
+      
+      <link rel="icon" href="../../favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+    
+    
+      
+        <title>字段类型 - Pydantic</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra/terminal.css">
+    
+      <link rel="stylesheet" href="../../extra/tweaks.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="pink">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#standard-library-types" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Pydantic" class="md-header__button md-logo" aria-label="Pydantic" data-md-component="logo">
+      
+  <img src="../../logo-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pydantic
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              字段类型
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/pydantic-zh-cn
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Pydantic" class="md-nav__button md-logo" aria-label="Pydantic" data-md-component="logo">
+      
+  <img src="../../logo-white.svg" alt="logo">
+
+    </a>
+    Pydantic
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hellowac/pydantic-zh-cn
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        概览
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../install/" class="md-nav__link">
+        安装
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          使用指南
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          使用指南
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/" class="md-nav__link">
+        模型
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          字段类型
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        字段类型
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#standard-library-types" class="md-nav__link">
+    标准库类型(Standard Library Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="标准库类型(Standard Library Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typing-iterables" class="md-nav__link">
+    可迭代类型(Typing Iterables)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-generators" class="md-nav__link">
+    无限生成器(Infinite Generators)
+  </a>
+  
+    <nav class="md-nav" aria-label="无限生成器(Infinite Generators)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validating-the-first-value" class="md-nav__link">
+    验证第一个值(Validating the first value)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unions" class="md-nav__link">
+    联合(Unions)
+  </a>
+  
+    <nav class="md-nav" aria-label="联合(Unions)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discriminated-unions-aka-tagged-unions" class="md-nav__link">
+    区别联合【Discriminated Unions (a.k.a. Tagged Unions)】
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nested-discriminated-unions" class="md-nav__link">
+    嵌套的区别联合(Nested Discriminated Unions)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enums-and-choices" class="md-nav__link">
+    枚举和选择(Enums and Choices)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datetime-types" class="md-nav__link">
+    日期时间类型(Datetime Types)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booleans" class="md-nav__link">
+    布尔类型(Booleans)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callable" class="md-nav__link">
+    可调用类型(Callable)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    类型(Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typevar" class="md-nav__link">
+    类型声明(TypeVar)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#literal-type" class="md-nav__link">
+    文字类型(Literal Type)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotated-types" class="md-nav__link">
+    已注解类型(Annotated Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="已注解类型(Annotated Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namedtuple" class="md-nav__link">
+    命名元组(NamedTuple)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeddict" class="md-nav__link">
+    标记类型字典(TypedDict)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydanticpydantic-types" class="md-nav__link">
+    Pydantic特有类型(Pydantic Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="Pydantic特有类型(Pydantic Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#urls" class="md-nav__link">
+    链接类型(URLs)
+  </a>
+  
+    <nav class="md-nav" aria-label="链接类型(URLs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url-properties" class="md-nav__link">
+    网址属性(URL Properties)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#international-domains" class="md-nav__link">
+    国际域名(International Domains)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    主机名中的下划线
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-type" class="md-nav__link">
+    颜色类型(Color Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-types" class="md-nav__link">
+    保密类型(Secret Types)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jsonjson-type" class="md-nav__link">
+    Json类型(Json Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-card-numbers" class="md-nav__link">
+    支付卡号码(Payment Card Numbers)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constrained-types" class="md-nav__link">
+    约束类型(Constrained Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="约束类型(Constrained Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conlist" class="md-nav__link">
+    conlist 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conset" class="md-nav__link">
+    conset 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confrozenset" class="md-nav__link">
+    confrozenset 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conint" class="md-nav__link">
+    conint 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confloat" class="md-nav__link">
+    confloat 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condecimal" class="md-nav__link">
+    condecimal 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constr" class="md-nav__link">
+    constr 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conbytes" class="md-nav__link">
+    conbytes 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condate" class="md-nav__link">
+    condate 的参数
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strict-types" class="md-nav__link">
+    严格类型(Strict Types)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bytesize" class="md-nav__link">
+    字节大小类型(ByteSize)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-data-types" class="md-nav__link">
+    自定义数据类型(Custom Data Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义数据类型(Custom Data Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__get_validators__-classes-with-__get_validators__" class="md-nav__link">
+    带有 __get_validators__ 的类 (Classes with __get_validators__)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arbitrary-types-allowed" class="md-nav__link">
+    允许任意类型(Arbitrary Types Allowed)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-classes-as-types" class="md-nav__link">
+    作为类型的通用类(Generic Classes as Types)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validators/" class="md-nav__link">
+        字段校验
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../model_config/" class="md-nav__link">
+        模型配置
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema/" class="md-nav__link">
+        模型图式(schema)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exporting_models/" class="md-nav__link">
+        模型导出
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dataclasses/" class="md-nav__link">
+        数据类
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../validation_decorator/" class="md-nav__link">
+        校验装饰器
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../settings/" class="md-nav__link">
+        配置管理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postponed_annotations/" class="md-nav__link">
+        延迟注解
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mypy/" class="md-nav__link">
+        和mypy一起使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rich/" class="md-nav__link">
+        和rich一起使用
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../devtools/" class="md-nav__link">
+        和devtools一起使用
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          博客
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          博客
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/pydantic-v2/" class="md-nav__link">
+        Pydantic V2 版本计划
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        贡献参与
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mypy_plugin/" class="md-nav__link">
+        Mypy插件
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pycharm_plugin/" class="md-nav__link">
+        PyCharm插件
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../visual_studio_code/" class="md-nav__link">
+        VSCode使用
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hypothesis_plugin/" class="md-nav__link">
+        Hypothesis插件'
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../datamodel_code_generator/" class="md-nav__link">
+        代码生成
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        更新日志
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#standard-library-types" class="md-nav__link">
+    标准库类型(Standard Library Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="标准库类型(Standard Library Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#typing-iterables" class="md-nav__link">
+    可迭代类型(Typing Iterables)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-generators" class="md-nav__link">
+    无限生成器(Infinite Generators)
+  </a>
+  
+    <nav class="md-nav" aria-label="无限生成器(Infinite Generators)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#validating-the-first-value" class="md-nav__link">
+    验证第一个值(Validating the first value)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unions" class="md-nav__link">
+    联合(Unions)
+  </a>
+  
+    <nav class="md-nav" aria-label="联合(Unions)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#discriminated-unions-aka-tagged-unions" class="md-nav__link">
+    区别联合【Discriminated Unions (a.k.a. Tagged Unions)】
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nested-discriminated-unions" class="md-nav__link">
+    嵌套的区别联合(Nested Discriminated Unions)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enums-and-choices" class="md-nav__link">
+    枚举和选择(Enums and Choices)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#datetime-types" class="md-nav__link">
+    日期时间类型(Datetime Types)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#booleans" class="md-nav__link">
+    布尔类型(Booleans)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#callable" class="md-nav__link">
+    可调用类型(Callable)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#type" class="md-nav__link">
+    类型(Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typevar" class="md-nav__link">
+    类型声明(TypeVar)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#literal-type" class="md-nav__link">
+    文字类型(Literal Type)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#annotated-types" class="md-nav__link">
+    已注解类型(Annotated Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="已注解类型(Annotated Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#namedtuple" class="md-nav__link">
+    命名元组(NamedTuple)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typeddict" class="md-nav__link">
+    标记类型字典(TypedDict)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pydanticpydantic-types" class="md-nav__link">
+    Pydantic特有类型(Pydantic Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="Pydantic特有类型(Pydantic Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#urls" class="md-nav__link">
+    链接类型(URLs)
+  </a>
+  
+    <nav class="md-nav" aria-label="链接类型(URLs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url-properties" class="md-nav__link">
+    网址属性(URL Properties)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#international-domains" class="md-nav__link">
+    国际域名(International Domains)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    主机名中的下划线
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-type" class="md-nav__link">
+    颜色类型(Color Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#secret-types" class="md-nav__link">
+    保密类型(Secret Types)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jsonjson-type" class="md-nav__link">
+    Json类型(Json Type)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payment-card-numbers" class="md-nav__link">
+    支付卡号码(Payment Card Numbers)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constrained-types" class="md-nav__link">
+    约束类型(Constrained Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="约束类型(Constrained Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conlist" class="md-nav__link">
+    conlist 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conset" class="md-nav__link">
+    conset 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confrozenset" class="md-nav__link">
+    confrozenset 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conint" class="md-nav__link">
+    conint 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#confloat" class="md-nav__link">
+    confloat 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condecimal" class="md-nav__link">
+    condecimal 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#constr" class="md-nav__link">
+    constr 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conbytes" class="md-nav__link">
+    conbytes 的参数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#condate" class="md-nav__link">
+    condate 的参数
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strict-types" class="md-nav__link">
+    严格类型(Strict Types)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bytesize" class="md-nav__link">
+    字节大小类型(ByteSize)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-data-types" class="md-nav__link">
+    自定义数据类型(Custom Data Types)
+  </a>
+  
+    <nav class="md-nav" aria-label="自定义数据类型(Custom Data Types)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#__get_validators__-classes-with-__get_validators__" class="md-nav__link">
+    带有 __get_validators__ 的类 (Classes with __get_validators__)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arbitrary-types-allowed" class="md-nav__link">
+    允许任意类型(Arbitrary Types Allowed)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generic-classes-as-types" class="md-nav__link">
+    作为类型的通用类(Generic Classes as Types)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  <div class="admonition success announcement">
+    <p class="admonition-title">Pydantic Company</p>
+    <p>我们根据我认为导致 Pydantic 成功的原则创办了一家公司。</p>
+    <p>从<a href="https://pydantic.dev/announcement/">公司公告</a>中了解更多信息.</p>
+  </div>
+
+  
+                  
+
+  
+  
+
+
+  <h1>字段类型</h1>
+
+<p>在可能的情况下 <em>pydantic</em> 使用 <a href="#standard-library-types">标准库类型</a> 来定义字段，从而平滑学习曲线。 然而，对于许多有用的应用程序，不存在标准库类型，因此 <em>pydantic</em> 实现 <a href="#pydantic-types">许多常用类型</a>。</p>
+<p>如果没有适合您目的的现有类型，您还可以使用自定义属性和验证来实现您的<a href="#custom-data-types">自己的 pydantic 兼容类型</a>。</p>
+<h2 id="standard-library-types">标准库类型(Standard Library Types)<a class="headerlink" href="#standard-library-types" title="Permanent link">&para;</a></h2>
+<p><em>pydantic</em> 支持 Python 标准库中的许多常见类型。 如果您需要更严格的处理，请参阅 <a href="#strict-types">严格类型</a>； 如果您需要限制允许的值（例如需要一个正整数），请参阅 <a href="#constrained-types">Constrained Types</a>。</p>
+<p><code>None</code>、<code>type(None)</code> 或 <code>Literal[None]</code>（等同于 <a href="https://www.python.org/dev/peps/pep-0484/#using-none">PEP 484</a>） : 只允许 <code>None</code> 值</p>
+<dl>
+<dt><code>bool</code></dt>
+<dd>请参阅下面的 <a href="#booleans">Booleans</a>，了解有关如何验证布尔值以及允许使用哪些值的详细信息</dd>
+<dt><code>int</code></dt>
+<dd><em>pydantic</em> 使用 <code>int(v)</code> 将类型强制转换为 <code>int</code>； 请参阅 <a href="../models/#data-conversion">this</a> 关于数据转换期间信息丢失的警告</dd>
+<dt><code>float</code></dt>
+<dd>类似地，<code>float(v)</code> 用于将值强制转换为浮点数</dd>
+<dt><code>str</code></dt>
+<dd>字符串按原样接受，<code>int</code> <code>float</code> 和 <code>Decimal</code> 使用 <code>str(v)</code> 强制转换，<code>bytes</code> 和 <code>bytearray</code> 使用 <code>v.decode()</code> 转换，枚举继承自 <code>str</code> 使用 <code>v.value</code> 进行转换，所有其他类型都会导致错误</dd>
+<dt><code>bytes</code></dt>
+<dd><code>bytes</code> 按原样接受，<code>bytearray</code> 使用 <code>bytes(v)</code> 转换，<code>str</code> 使用 <code>v.encode()</code> 转换，<code>int</code>、<code>float</code> 和 <code>Decimal</code> 是 使用 <code>str(v).encode()</code> 强制</dd>
+<dt><code>list</code></dt>
+<dd>允许 <code>list</code>、<code>tuple</code>、<code>set</code>、<code>frozenset</code>、<code>deque</code> 或生成器和转换为列表； 有关子类型约束，请参见下面的<code>typing.List</code></dd>
+<dt><code>tuple</code></dt>
+<dd>允许 <code>list</code>、<code>tuple</code>、<code>set</code>、<code>frozenset</code>、<code>deque</code> 或生成器和转换为元组； 有关子类型约束，请参见下面的<code>typing.Tuple</code></dd>
+<dt><code>dict</code></dt>
+<dd><code>dict(v)</code> 用于尝试转换字典； 请参阅下面的 <code>typing.Dict</code> 了解子类型约束</dd>
+<dt><code>set</code></dt>
+<dd>允许将 <code>list</code>、<code>tuple</code>、<code>set</code>、<code>frozenset</code>、<code>deque</code> 或生成器和强制转换为一个集合； 有关子类型约束，请参见下面的<code>typing.Set</code></dd>
+<dt><code>frozenset</code></dt>
+<dd>允许 <code>list</code>、<code>tuple</code>、<code>set</code>、<code>frozenset</code>、<code>deque</code> 或生成器和强制转换为冻结集； 有关子类型约束，请参阅下面的<code>typing.FrozenSet</code></dd>
+<dt><code>deque</code></dt>
+<dd>允许 <code>list</code>、<code>tuple</code>、<code>set</code>、<code>frozenset</code>、<code>deque</code> 或生成器和转换为双端队列； 有关子类型约束，请参见下面的<code>typing.Deque</code></dd>
+<dt><code>datetime.date</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#datetime-types">Datetime Types</a></dd>
+<dt><code>datetime.time</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#datetime-types">Datetime Types</a></dd>
+<dt><code>datetime.datetime</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#datetime-types">Datetime Types</a></dd>
+<dt><code>datetime.timedelta</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#datetime-types">Datetime Types</a></dd>
+<dt><code>typing.Any</code></dt>
+<dd>允许任何值，包括<code>None</code>，因此<code>Any</code>字段是可选的</dd>
+<dt><code>typing.Annotated</code></dt>
+<dd>根据 <a href="https://www.python.org/dev/peps/pep-0593/">PEP-593</a>，允许使用任意元数据包装另一种类型。 <code>Annotated</code> 提示可能包含对 <a href="../schema/#typingannotated-fields"><code>Field</code> 函数</a> 的单个调用，但其他元数据将被忽略并使用根类型。</dd>
+<dt><code>typing.TypeVar</code></dt>
+<dd>根据 <code>constraints</code> 或 <code>bound</code> 限制允许的值，参见 <a href="#typevar">TypeVar</a></dd>
+<dt><code>typing.Union</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#unions">Union</a></dd>
+<dt><code>typing.Optional</code></dt>
+<dd><code>Optional[x]</code> 只是 <code>Union[x, None]</code> 的简写； 有关解析和验证的更多详细信息，请参阅下面的 <a href="#unions">Union</a>，有关可以接收<code>None</code>作为值的必填字段的详细信息，请参阅 <a href="../models/#required-fields">Required Fields</a>。</dd>
+<dt><code>typing.List</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>typing.Tuple</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>subclass of typing.NamedTuple</code></dt>
+<dd>与 <code>tuple</code> 相同，但使用给定的 <code>namedtuple</code> 实例化并验证字段，因为它们是带注释的。 有关解析和验证的更多详细信息，请参阅下面的 <a href="#annotated-types">注释类型</a></dd>
+<dt><code>subclass of collections.namedtuple</code></dt>
+<dd>与 <code>subclass of typing.NamedTuple</code> 相同，但所有字段都将具有 <code>Any</code> 类型，因为它们没有注释</dd>
+<dt><code>typing.Dict</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>subclass of typing.TypedDict</code></dt>
+<dd>与 <code>dict</code> 相同，但 <em>pydantic</em> 将验证字典，因为键被注释了。 有关解析和验证的更多详细信息，请参阅下面的 <a href="#annotated-types">注释类型</a></dd>
+<dt><code>typing.Set</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>typing.FrozenSet</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>typing.Deque</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>typing.Sequence</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#typing-iterables">Typing Iterables</a></dd>
+<dt><code>typing.Iterable</code></dt>
+<dd>这是为不应使用的迭代器保留的。 有关解析和验证的更多详细信息，请参阅下面的 <a href="#infinite-generators">Infinite Generators</a></dd>
+<dt><code>typing.Type</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#type">Type</a></dd>
+<dt><code>typing.Callable</code></dt>
+<dd>有关解析和验证的更多详细信息，请参阅下面的 <a href="#callable">Callable</a></dd>
+<dt><code>typing.Pattern</code></dt>
+<dd>将导致输入值被传递给 <code>re.compile(v)</code> 以创建正则表达式模式</dd>
+<dt><code>ipaddress.IPv4Address</code></dt>
+<dd>通过将值传递给 <code>IPv4Address(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ipaddress.IPv4Interface</code></dt>
+<dd>通过将值传递给 <code>IPv4Address(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ipaddress.IPv4Network</code></dt>
+<dd>通过将值传递给 <code>IPv4Network(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ipaddress.IPv6Address</code></dt>
+<dd>通过将值传递给 <code>IPv6Address(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ipaddress.IPv6Interface</code></dt>
+<dd>通过将值传递给 <code>IPv6Interface(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ipaddress.IPv6Network</code></dt>
+<dd>通过将值传递给 <code>IPv6Network(v)</code> 来简单地使用类型本身进行验证； 有关其他自定义 IP 地址类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>enum.Enum</code></dt>
+<dd>检查该值是否为有效的 Enum 实例</dd>
+<dt><code>subclass of enum.Enum</code></dt>
+<dd>检查该值是否是枚举的有效成员； 有关详细信息，请参阅 <a href="#enums-and-choices">枚举和选择</a></dd>
+<dt><code>enum.IntEnum</code></dt>
+<dd>检查该值是否为有效的 IntEnum 实例</dd>
+<dt><code>subclass of enum.IntEnum</code></dt>
+<dd>检查该值是否是整数枚举的有效成员； 有关详细信息，请参阅 <a href="#enums-and-choices">枚举和选择</a></dd>
+<dt><code>decimal.Decimal</code></dt>
+<dd><em>pydantic</em> 尝试将值转换为字符串，然后将字符串传递给“Decimal(v)”</dd>
+<dt><code>pathlib.Path</code></dt>
+<dd>通过将值传递给 <code>Path(v)</code> 来简单地使用类型本身进行验证； 有关其他更严格的路径类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>uuid.UUID</code></dt>
+<dd>字符串和字节（转换为字符串）被传递给 <code>UUID(v)</code>，对于 <code>bytes</code> 和 <code>bytearray</code> 回退到 <code>UUID(bytes=v)</code>； 有关其他更严格的 UUID 类型，请参阅 <a href="#pydantic-types">Pydantic Types</a></dd>
+<dt><code>ByteSize</code></dt>
+<dd>将带单位的字节字符串转换为字节</dd>
+</dl>
+<h3 id="typing-iterables">可迭代类型(Typing Iterables)<a class="headerlink" href="#typing-iterables" title="Permanent link">&para;</a></h3>
+<p><em>pydantic</em> 使用 PEP 484 中定义的标准库“键入”类型来定义复杂对象。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Deque</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">FrozenSet</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">simple_list</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">list_of_ints</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">simple_tuple</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tuple_of_different_types</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">simple_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dict_str_float</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">simple_set</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">set_bytes</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">frozen_set</span><span class="p">:</span> <span class="n">FrozenSet</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">str_or_bytes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">none_or_str</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">sequence_of_ints</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">compound</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">deque</span><span class="p">:</span> <span class="n">Deque</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">simple_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">simple_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">list_of_ints</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">list_of_ints</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">simple_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span><span class="o">.</span><span class="n">simple_dict</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">dict_str_float</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span><span class="o">.</span><span class="n">dict_str_float</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">simple_tuple</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">simple_tuple</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">tuple_of_different_types</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">tuple_of_different_types</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">sequence_of_ints</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">sequence_of_ints</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">sequence_of_ints</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">sequence_of_ints</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">deque</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span><span class="o">.</span><span class="n">deque</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="infinite-generators">无限生成器(Infinite Generators)<a class="headerlink" href="#infinite-generators" title="Permanent link">&para;</a></h3>
+<p>如果你有一个生成器，你可以使用上面描述的<code>Sequence</code>。 在这种情况下，生成器将被使用并作为列表存储在模型中，其值将使用<code>Sequence</code>的子类型（例如<code>Sequence[int]</code>中的<code>int</code>）进行验证。</p>
+<p>但是如果你有一个你不想被消耗的生成器，例如 无限生成器或远程数据加载器，您可以使用 <code>Iterable</code> 定义其类型：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">infinite</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">infinite_ints</span><span class="p">():</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">i</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">infinite</span><span class="o">=</span><span class="n">infinite_ints</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">infinite</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">break</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>Iterable</code> 字段只执行一个简单的检查，以确保参数是可迭代的并且不会被消耗。</p>
+<p>不会对它们的值进行验证，因为如果不使用可迭代对象就无法完成验证。</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>如果您想验证无限生成器的值，您可以创建一个单独的模型并在使用生成器时使用它，并根据需要报告验证错误。</p>
+<p>pydantic 无法自动为您验证这些值，因为它需要使用无限生成器。</p>
+</div>
+<h4 id="validating-the-first-value">验证第一个值(Validating the first value)<a class="headerlink" href="#validating-the-first-value" title="Permanent link">&para;</a></h4>
+<p>您可以创建一个 <a href="../validators/">validator</a> 来验证无限生成器中的第一个值，但仍然不会完全消耗它。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">ModelField</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">infinite</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;infinite&#39;</span><span class="p">)</span>
+    <span class="c1"># You don&#39;t need to add the &quot;ModelField&quot;, but it will help your</span>
+    <span class="c1"># editor give you completion and catch errors</span>
+    <span class="k">def</span> <span class="nf">infinite_first_int</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span><span class="p">):</span>
+        <span class="n">first_value</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">sub_fields</span><span class="p">:</span>
+            <span class="c1"># The Iterable had a parameter type, in this case it&#39;s int</span>
+            <span class="c1"># We use it to validate the first value</span>
+            <span class="n">sub_field</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">sub_fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">v</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">sub_field</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">first_value</span><span class="p">,</span> <span class="p">{},</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;first_value&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">([</span><span class="n">error</span><span class="p">],</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="c1"># This creates a new generator that returns the first value and then</span>
+        <span class="c1"># the rest of the values from the (already started) iterable</span>
+        <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">([</span><span class="n">first_value</span><span class="p">],</span> <span class="n">iterable</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">infinite_ints</span><span class="p">():</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">i</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">infinite</span><span class="o">=</span><span class="n">infinite_ints</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">infinite_strs</span><span class="p">():</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="s1">&#39;allthesingleladies&#39;</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">infinite</span><span class="o">=</span><span class="n">infinite_strs</span><span class="p">())</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="unions">联合(Unions)<a class="headerlink" href="#unions" title="Permanent link">&para;</a></h3>
+<p><code>Union</code> 类型允许模型属性接受不同的类型，例如：</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>使用 <code>Union</code> 可能会得到意想不到的强制转换； 见下文。</p>
+<p>不过您还可以通过使用 <a href="../model_config/#smart-union">智能联合</a> 使检查更慢但更严格</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">UUID</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">UUID</span><span class="p">]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">user_01</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">123</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_01</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_01</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">user_02</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s1">&#39;1234&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_02</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_02</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">user_03_uuid</span> <span class="o">=</span> <span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;cf57432e-809e-4353-adbd-9d5c0d733868&#39;</span><span class="p">)</span>
+<span class="n">user_03</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_03_uuid</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03_uuid</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+</code></pre></div>
+<p>但是，如上所示，<em>pydantic</em> 将尝试<code>match</code>在 <code>Union</code> 下定义的任何类型，并将使用第一个匹配的类型。 在上面的示例中，<code>user_03</code>的<code>id</code>被定义为<code>uuid.UUID</code>类（在属性的 <code>Union</code> 注释下定义），但<code>uuid.UUID</code>可以编组为<code>int</code> 它选择匹配<code>int</code>类型并忽略其他类型。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>typing.Union</code> 在 <a href="https://docs.python.org/3/library/typing.html#typing.Union">定义</a> 时也会忽略顺序，所以 <code>Union[int, float] == Union[float, int]</code> 当与基于其他类型定义中的 <code>Union</code> 类型顺序的匹配相结合时，例如 <code>List</code> 和 <code>Dict</code> 类型（因为 Python 将这些定义视为单例）。</p>
+<p>例如，<code>Dict[str, Union[int, float]] == Dict[str, Union[float, int]]</code> 的顺序基于第一次定义。</p>
+<p>请注意，这也可能 <a href="https://github.com/pydantic/pydantic/issues/2835">受第三方库影响</a> 及其内部类型定义和导入顺序。</p>
+</div>
+<p>因此，建议在定义 <code>Union</code> 注解时，首先包含最具体的类型，然后是不太具体的类型。</p>
+<p>在上面的示例中，<code>UUID</code> 类应该在 <code>int</code> 和 <code>str</code> 类之前，以排除这样的意外表示：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">UUID</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">UUID</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">user_03_uuid</span> <span class="o">=</span> <span class="n">UUID</span><span class="p">(</span><span class="s1">&#39;cf57432e-809e-4353-adbd-9d5c0d733868&#39;</span><span class="p">)</span>
+<span class="n">user_03</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_03_uuid</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;John Doe&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user_03_uuid</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p><code>Optional[x]</code> 类型是 <code>Union[x, None]</code> 的简写。</p>
+<p><code>Optional[x]</code> 也可用于指定一个必填字段，该字段可以将 <code>None</code> 作为值。</p>
+<p>在<a href="../models/#required-fields">必填字段</a> 中查看更多详细信息。</p>
+</div>
+<h4 id="discriminated-unions-aka-tagged-unions">区别联合【Discriminated Unions (a.k.a. Tagged Unions)】<a class="headerlink" href="#discriminated-unions-aka-tagged-unions" title="Permanent link">&para;</a></h4>
+<p>当 <code>Union</code> 与多个子模型一起使用时，您有时会确切地知道需要检查和验证哪个子模型并希望强制执行此操作。</p>
+<p>为此，您可以在每个具有判别值的子模型中设置相同的字段 - 让我们称之为 <code>my_discriminator</code>，这是一个（或多个）<code>Literal</code>值。</p>
+<p>对于您的 <code>Union</code>，您可以在其值中设置鉴别器：<code>Field(discriminator='my_discriminator')</code>。</p>
+<p>建立受歧视的工会有很多好处：</p>
+<ul>
+<li>验证速度更快，因为它只针对一个模型进行尝试</li>
+<li>失败时仅引发一个显式错误</li>
+<li>生成的 JSON 模式实现了<a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject">相关的 OpenAPI 规范</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+    <span class="n">meows</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">]</span>
+    <span class="n">barks</span><span class="p">:</span> <span class="nb">float</span>
+
+
+<span class="k">class</span> <span class="nc">Lizard</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;reptile&#39;</span><span class="p">,</span> <span class="s1">&#39;lizard&#39;</span><span class="p">]</span>
+    <span class="n">scales</span><span class="p">:</span> <span class="nb">bool</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Cat</span><span class="p">,</span> <span class="n">Dog</span><span class="p">,</span> <span class="n">Lizard</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;pet_type&#39;</span><span class="p">)</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">pet</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pet_type&#39;</span><span class="p">:</span> <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;barks&#39;</span><span class="p">:</span> <span class="mf">3.14</span><span class="p">},</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">pet</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pet_type&#39;</span><span class="p">:</span> <span class="s1">&#39;dog&#39;</span><span class="p">},</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>使用 <a href="../schema/#typingannotated-fields">Annotated Fields syntax</a> 可以方便地重新组合 <code>Union</code> 和 <code>discriminator</code> 信息。 请参阅下面的示例！</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>区别联合不能仅与单个变体一起使用，例如 <code>Union[Cat]</code>。</p>
+<p>Python 在解释时将 <code>Union[T]</code> 更改为 <code>T</code>，因此 <code>pydantic</code> 无法区分 <code>Union[T]</code> 和 <code>T</code> 的字段。</p>
+</div>
+<h4 id="nested-discriminated-unions">嵌套的区别联合(Nested Discriminated Unions)<a class="headerlink" href="#nested-discriminated-unions" title="Permanent link">&para;</a></h4>
+<p>一个字段只能设置一个鉴别器(discriminator)，但有时你想组合多个鉴别器(discriminator)。</p>
+<p>在这种情况下，您始终可以使用 <code>__root__</code> 创建“中间(intermediate)”模型并添加鉴别器。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">BlackCat</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">]</span>
+    <span class="n">black_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">WhiteCat</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;white&#39;</span><span class="p">]</span>
+    <span class="n">white_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="c1"># Can also be written with a custom root type</span>
+<span class="c1">#</span>
+<span class="c1"># class Cat(BaseModel):</span>
+<span class="c1">#   __root__: Annotated[Union[BlackCat, WhiteCat], Field(discriminator=&#39;color&#39;)]</span>
+
+<span class="n">Cat</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BlackCat</span><span class="p">,</span> <span class="n">WhiteCat</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;color&#39;</span><span class="p">)]</span>
+
+
+<span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">Pet</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Cat</span><span class="p">,</span> <span class="n">Dog</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;pet_type&#39;</span><span class="p">)]</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet</span><span class="p">:</span> <span class="n">Pet</span>
+    <span class="n">n</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">pet</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pet_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;black_name&#39;</span><span class="p">:</span> <span class="s1">&#39;felix&#39;</span><span class="p">},</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">pet</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pet_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">},</span> <span class="n">n</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">pet</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pet_type&#39;</span><span class="p">:</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">},</span> <span class="n">n</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="enums-and-choices">枚举和选择(Enums and Choices)<a class="headerlink" href="#enums-and-choices" title="Permanent link">&para;</a></h3>
+<p><em>pydantic</em> 使用 Python 的标准<code>enum</code>类来定义选择。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">IntEnum</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">FruitEnum</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">pear</span> <span class="o">=</span> <span class="s1">&#39;pear&#39;</span>
+    <span class="n">banana</span> <span class="o">=</span> <span class="s1">&#39;banana&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">ToolEnum</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">spanner</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">wrench</span> <span class="o">=</span> <span class="mi">2</span>
+
+
+<span class="k">class</span> <span class="nc">CookingModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">fruit</span><span class="p">:</span> <span class="n">FruitEnum</span> <span class="o">=</span> <span class="n">FruitEnum</span><span class="o">.</span><span class="n">pear</span>
+    <span class="n">tool</span><span class="p">:</span> <span class="n">ToolEnum</span> <span class="o">=</span> <span class="n">ToolEnum</span><span class="o">.</span><span class="n">spanner</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">CookingModel</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">CookingModel</span><span class="p">(</span><span class="n">tool</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">fruit</span><span class="o">=</span><span class="s1">&#39;banana&#39;</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">CookingModel</span><span class="p">(</span><span class="n">fruit</span><span class="o">=</span><span class="s1">&#39;other&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="datetime-types">日期时间类型(Datetime Types)<a class="headerlink" href="#datetime-types" title="Permanent link">&para;</a></h3>
+<p><em>Pydantic</em> 支持以下 <a href="https://docs.python.org/library/datetime.html#available-types">datetime</a> 类型：</p>
+<ul>
+<li>
+<p><code>datetime</code> 字段可以是:</p>
+<ul>
+<li><code>datetime</code>，现有的 <code>datetime</code> 对象</li>
+<li><code>int</code> 或 <code>float</code>，假定为 Unix 时间，即自 1970 年 1 月 1 日以来的秒数（如果 &gt;= <code>-2e10</code> 或 &lt;= <code>2e10</code>）或毫秒（如果 &lt; <code>-2e10</code> 或 &gt; <code>2e10</code>）</li>
+<li>
+<p><code>str</code>, 以下格式有效：</p>
+<ul>
+<li><code>YYYY-MM-DD[T]HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]</code></li>
+<li><code>int</code> 或 <code>float</code> 作为字符串（假定为 Unix 时间）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>date</code> 字段可以是:</p>
+<ul>
+<li><code>date</code>, 现有的 <code>date</code> 对象</li>
+<li><code>int</code> 或 <code>float</code>, 见 <code>datetime</code></li>
+<li>
+<p><code>str</code>, 以下格式有效：</p>
+<ul>
+<li><code>YYYY-MM-DD</code></li>
+<li><code>int</code> 或 <code>float</code>, 见 <code>datetime</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>time</code> 字段可以是:</p>
+<ul>
+<li><code>time</code>, 现有的 <code>time</code> 对象</li>
+<li>
+<p><code>str</code>, 以下格式有效：</p>
+<ul>
+<li><code>HH:MM[:SS[.ffffff]][Z or [±]HH[:]MM]</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p><code>timedelta</code> 字段可以是:</p>
+<ul>
+<li><code>timedelta</code>, 现有的 <code>timedelta</code> 对象</li>
+<li><code>int</code> 或 <code>float</code>, 假定为秒</li>
+<li>
+<p><code>str</code>, 以下格式有效：</p>
+<ul>
+<li><code>[-][DD ][HH:MM]SS[.ffffff]</code></li>
+<li><code>[±]P[DD]DT[HH]H[MM]M[SS]S</code> (<a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> timedelta 的格式)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">:</span> <span class="n">date</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">time</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">td</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
+    <span class="n">d</span><span class="o">=</span><span class="mf">1966280412345.6789</span><span class="p">,</span>
+    <span class="n">dt</span><span class="o">=</span><span class="s1">&#39;2032-04-23T10:20:30.400+02:30&#39;</span><span class="p">,</span>
+    <span class="n">t</span><span class="o">=</span><span class="n">time</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">td</span><span class="o">=</span><span class="s1">&#39;P3DT12H30M5S&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="booleans">布尔类型(Booleans)<a class="headerlink" href="#booleans" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>从 <strong>v1.0</strong> 版本开始，解析 <code>bool</code> 字段的逻辑发生了变化。</p>
+<p>在 <strong>v1.0</strong> 之前，<code>bool</code> 解析从未失败，导致一些意外结果。</p>
+<p>新逻辑如下所述。</p>
+</div>
+<p>如果值不是以下之一，标准的 <code>bool</code> 字段将引发 <code>ValidationError</code>：</p>
+<ul>
+<li>一个有效的布尔值（即<code>True</code>或<code>False</code>），</li>
+<li>整数<code>0</code>或<code>1</code>，</li>
+<li>一个 <code>str</code> ，当转换为小写时，它是其中之一
+  <code>'0', 'off', 'f', 'false', 'n', 'no', '1', 'on', 't', 'true', 'y', 'yes'</code></li>
+<li>解码为 <code>str</code> 时有效（根据前面的规则）的 <code>bytes</code></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>如果你想要更严格的布尔逻辑（例如，一个只允许 <code>True</code> 和 <code>False</code> 的字段）你可以使用 <a href="#strict-types"><code>StrictBool</code></a>。</p>
+</div>
+<p>这是一个演示其中一些行为的脚本：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">BooleanModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">bool_value</span><span class="p">:</span> <span class="nb">bool</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">BooleanModel</span><span class="p">(</span><span class="n">bool_value</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">BooleanModel</span><span class="p">(</span><span class="n">bool_value</span><span class="o">=</span><span class="s1">&#39;False&#39;</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">BooleanModel</span><span class="p">(</span><span class="n">bool_value</span><span class="o">=</span><span class="p">[])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="callable">可调用类型(Callable)<a class="headerlink" href="#callable" title="Permanent link">&para;</a></h3>
+<p>字段也可以是 <code>Callable</code> 类型：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">int</span><span class="p">]</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">Foo</span><span class="p">(</span><span class="n">callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>可调用字段仅执行简单检查参数是否可调用； 不执行参数、它们的类型或返回类型的验证。</p>
+</div>
+<h3 id="type">类型(Type)<a class="headerlink" href="#type" title="Permanent link">&para;</a></h3>
+<p><em>pydantic</em> 支持使用 <code>Type[T]</code> 来指定字段只能接受作为 <code>T</code> 子类的类（而不是实例）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">Foo</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Other</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">just_subclasses</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Foo</span><span class="p">]</span>
+
+
+<span class="n">SimpleModel</span><span class="p">(</span><span class="n">just_subclasses</span><span class="o">=</span><span class="n">Foo</span><span class="p">)</span>
+<span class="n">SimpleModel</span><span class="p">(</span><span class="n">just_subclasses</span><span class="o">=</span><span class="n">Bar</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">SimpleModel</span><span class="p">(</span><span class="n">just_subclasses</span><span class="o">=</span><span class="n">Other</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<p>您还可以使用 <code>Type</code> 来指定允许使用任何类。</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># dont-upgrade</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">LenientSimpleModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">any_class_goes</span><span class="p">:</span> <span class="n">Type</span>
+
+
+<span class="n">LenientSimpleModel</span><span class="p">(</span><span class="n">any_class_goes</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">LenientSimpleModel</span><span class="p">(</span><span class="n">any_class_goes</span><span class="o">=</span><span class="n">Foo</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">LenientSimpleModel</span><span class="p">(</span><span class="n">any_class_goes</span><span class="o">=</span><span class="n">Foo</span><span class="p">())</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="typevar">类型声明(TypeVar)<a class="headerlink" href="#typevar" title="Permanent link">&para;</a></h3>
+<p><code>TypeVar</code> 支持不受约束、受约束或有界限。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="n">Foobar</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;Foobar&#39;</span><span class="p">)</span>
+<span class="n">BoundFloat</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;BoundFloat&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">IntStr</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;IntStr&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">Foobar</span>  <span class="c1"># equivalent of &quot;: Any&quot;</span>
+    <span class="n">b</span><span class="p">:</span> <span class="n">BoundFloat</span>  <span class="c1"># equivalent of &quot;: float&quot;</span>
+    <span class="n">c</span><span class="p">:</span> <span class="n">IntStr</span>  <span class="c1"># equivalent of &quot;: Union[int, str]&quot;</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="mf">4.2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+
+<span class="c1"># a may be None and is therefore optional</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="literal-type">文字类型(Literal Type)<a class="headerlink" href="#literal-type" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>这是从 Python 3.8 开始的 Python 标准库的一个新特性； 在 Python 3.8 之前，它需要 <a href="https://pypi.org/project/typing-extensions/">typing-extensions</a> 包。</p>
+</div>
+<p><em>pydantic</em> 支持使用 <code>typing.Literal</code>（或 Python 3.8 之前的 <code>typing_extensions.Literal</code>）作为一种轻量级的方式来指定一个字段只能接受特定的文字值：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Pie</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">flavor</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;pumpkin&#39;</span><span class="p">]</span>
+
+
+<span class="n">Pie</span><span class="p">(</span><span class="n">flavor</span><span class="o">=</span><span class="s1">&#39;apple&#39;</span><span class="p">)</span>
+<span class="n">Pie</span><span class="p">(</span><span class="n">flavor</span><span class="o">=</span><span class="s1">&#39;pumpkin&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Pie</span><span class="p">(</span><span class="n">flavor</span><span class="o">=</span><span class="s1">&#39;cherry&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</code></pre></div>
+<p>这种字段类型的一个好处是它可以用来检查一个或多个特定值是否相等，而无需声明自定义验证器：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Cake</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cake&#39;</span><span class="p">]</span>
+    <span class="n">required_utensils</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fork&#39;</span><span class="p">,</span> <span class="s1">&#39;knife&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">IceCream</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;icecream&#39;</span><span class="p">]</span>
+    <span class="n">required_utensils</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;spoon&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Meal</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">dessert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Cake</span><span class="p">,</span> <span class="n">IceCream</span><span class="p">]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cake&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;icecream&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;pie&#39;</span><span class="p">})</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</code></pre></div>
+<p>通过在带注释的 <code>Union</code> 中正确排序，您可以使用它来解析递减特异性的类型：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Dessert</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">Pie</span><span class="p">(</span><span class="n">Dessert</span><span class="p">):</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;pie&#39;</span><span class="p">]</span>
+    <span class="n">flavor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ApplePie</span><span class="p">(</span><span class="n">Pie</span><span class="p">):</span>
+    <span class="n">flavor</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;apple&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">PumpkinPie</span><span class="p">(</span><span class="n">Pie</span><span class="p">):</span>
+    <span class="n">flavor</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;pumpkin&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Meal</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">dessert</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ApplePie</span><span class="p">,</span> <span class="n">PumpkinPie</span><span class="p">,</span> <span class="n">Pie</span><span class="p">,</span> <span class="n">Dessert</span><span class="p">]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;pie&#39;</span><span class="p">,</span> <span class="s1">&#39;flavor&#39;</span><span class="p">:</span> <span class="s1">&#39;apple&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;pie&#39;</span><span class="p">,</span> <span class="s1">&#39;flavor&#39;</span><span class="p">:</span> <span class="s1">&#39;pumpkin&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;pie&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">Meal</span><span class="p">(</span><span class="n">dessert</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;cake&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">dessert</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="annotated-types">已注解类型(Annotated Types)<a class="headerlink" href="#annotated-types" title="Permanent link">&para;</a></h2>
+<h3 id="namedtuple">命名元组(NamedTuple)<a class="headerlink" href="#namedtuple" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">p</span><span class="p">:</span> <span class="n">Point</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">)))</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;1.3&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">))</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="typeddict">标记类型字典(TypedDict)<a class="headerlink" href="#typeddict" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>这是从 Python 3.8 开始的 Python 标准库的一个新特性。 在 Python 3.8 之前，它需要 <a href="https://pypi.org/project/typing-extensions/">typing-extensions</a> 包。</p>
+<p>但仅自 Python 3.9 起才正确区分必填字段和可选字段。</p>
+<p>因此，我们建议在 Python 3.8 中也使用 <a href="https://pypi.org/project/typing-extensions/">typing-extensions</a>。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">TypedDict</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Extra</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="c1"># `total=False` means keys are non-required</span>
+<span class="k">class</span> <span class="nc">UserIdentity</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">surname</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">TypedDict</span><span class="p">):</span>
+    <span class="n">identity</span><span class="p">:</span> <span class="n">UserIdentity</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">u</span><span class="p">:</span> <span class="n">User</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">Extra</span><span class="o">.</span><span class="n">forbid</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;identity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;John&#39;</span><span class="p">},</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;37&#39;</span><span class="p">}))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;identity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;John&#39;</span><span class="p">},</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;37&#39;</span><span class="p">}))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;identity&#39;</span><span class="p">:</span> <span class="p">{},</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;37&#39;</span><span class="p">}))</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">u</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;identity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Smith&#39;</span><span class="p">],</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;John&#39;</span><span class="p">},</span> <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;24&#39;</span><span class="p">})</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span>
+        <span class="n">u</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;identity&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;surname&#39;</span><span class="p">:</span> <span class="s1">&#39;John&#39;</span><span class="p">},</span>
+            <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="s1">&#39;37&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;john.smith@me.com&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="pydanticpydantic-types">Pydantic特有类型(Pydantic Types)<a class="headerlink" href="#pydanticpydantic-types" title="Permanent link">&para;</a></h2>
+<p><em>pydantic</em> 还提供了多种其他有用的类型：</p>
+<dl>
+<dt><code>FilePath</code></dt>
+<dd>类似 <code>Path</code>, 但路径必须存在并且是一个文件</dd>
+<dt><code>DirectoryPath</code></dt>
+<dd>类似 <code>Path</code>, 但路径必须存在并且是一个目录</dd>
+<dt><code>PastDate</code></dt>
+<dd>类似 <code>date</code>, 但日期应该是过去的</dd>
+<dt><code>FutureDate</code></dt>
+<dd>类似 <code>date</code>, 但日期应该在未来</dd>
+<dt><code>EmailStr</code></dt>
+<dd>需要安装 <a href="https://github.com/JoshData/python-email-validator">email-validator</a>；
+输入字符串必须是一个有效的电子邮件地址，输出是一个简单的字符串</dd>
+<dt><code>NameEmail</code></dt>
+<dd>
+<p>需要安装 <a href="https://github.com/JoshData/python-email-validator">email-validator</a>；</p>
+<p>输入字符串必须是有效的电子邮件地址或格式为<code>Fred Bloggs &lt;fred.bloggs@example.com&gt;</code>，输出是一个 <code>NameEmail</code> 对象，它具有两个属性：<code>name</code> 和 <code>email</code>。</p>
+<p>对于 <code>Fred Bloggs &lt;fred.bloggs@example.com&gt;</code>，名称将是 <code>Fred Bloggs</code>；</p>
+<p>对于 <code>fred.bloggs@example.com</code>，它将是 <code>fred.bloggs</code>。</p>
+</dd>
+<dt><code>PyObject</code></dt>
+<dd>需要一个字符串并加载在该下划线路径中可导入的 Python 对象；
+例如 如果提供了 <code>math.cos</code>，则结果字段值将是函数 <code>cos</code></dd>
+<dt><code>Color</code></dt>
+<dd>用于解析 HTML 和 CSS 颜色； 参见<a href="#color-type">颜色类型</a></dd>
+<dt><code>Json</code></dt>
+<dd>在解析之前加载 JSON 的特殊类型包装器； 参见 <a href="#json-type">JSON 类型</a></dd>
+<dt><code>PaymentCardNumber</code></dt>
+<dd>用于解析和验证支付卡； 参见<a href="#payment-card-numbers">支付卡</a></dd>
+<dt><code>AnyUrl</code></dt>
+<dd>任何网址； 参见 <a href="#urls">URL</a></dd>
+<dt><code>AnyHttpUrl</code></dt>
+<dd>一个 HTTP 网址； 参见 <a href="#urls">URL</a></dd>
+<dt><code>HttpUrl</code></dt>
+<dd>更严格的 HTTP URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>FileUrl</code></dt>
+<dd>文件路径 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>PostgresDsn</code></dt>
+<dd>文件路径 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>CockroachDsn</code></dt>
+<dd>cockroachdb DSN 样式的 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>AmqpDsn</code></dt>
+<dd>RabbitMQ、StormMQ、ActiveMQ 等使用的 <code>AMQP</code> DSN 样式 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>RedisDsn</code></dt>
+<dd>一个 redis DSN 样式的 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>MongoDsn</code></dt>
+<dd>一个 MongoDB DSN 样式的 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>KafkaDsn</code></dt>
+<dd>kafka DSN 样式的 URL； 参见 <a href="#urls">URL</a></dd>
+<dt><code>stricturl</code></dt>
+<dd>任意 URL 约束的类型方法； 参见 <a href="#urls">URL</a></dd>
+<dt><code>UUID1</code></dt>
+<dd>需要类型 1 的有效 UUID; 参见 <code>UUID</code> <a href="#standard-library-types">above</a></dd>
+<dt><code>UUID3</code></dt>
+<dd>需要类型 3 的有效 UUID; 参见 <code>UUID</code> <a href="#standard-library-types">above</a></dd>
+<dt><code>UUID4</code></dt>
+<dd>需要类型 4 的有效 UUID; 参见 <code>UUID</code> <a href="#standard-library-types">above</a></dd>
+<dt><code>UUID5</code></dt>
+<dd>需要类型 5 的有效 UUID; 参见 <code>UUID</code> <a href="#standard-library-types">above</a></dd>
+<dt><code>SecretBytes</code></dt>
+<dd>值部分保密的字节; 参见 <a href="#secret-types">Secrets</a></dd>
+<dt><code>SecretStr</code></dt>
+<dd>值部分保密的字符串; 参见 <a href="#secret-types">Secrets</a></dd>
+<dt><code>IPvAnyAddress</code></dt>
+<dd>允许 <code>IPv4Address</code> 或 <code>IPv6Address</code></dd>
+<dt><code>IPvAnyInterface</code></dt>
+<dd>允许 <code>IPv4Interface</code> 或 <code>IPv6Interface</code></dd>
+<dt><code>IPvAnyNetwork</code></dt>
+<dd>允许 <code>IPv4Network</code> 或 <code>IPv6Network</code></dd>
+<dt><code>NegativeFloat</code></dt>
+<dd>允许一个负数的浮点数； 使用标准的 <code>float</code> 解析然后检查值是否小于 0；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>NegativeInt</code></dt>
+<dd>允许一个负数的整数； 使用标准的 <code>int</code> 解析然后检查值是否小于 0；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>PositiveFloat</code></dt>
+<dd>允许一个正的浮点数； 使用标准的 <code>float</code> 解析然后检查值是否大于 0；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>PositiveInt</code></dt>
+<dd>允许一个正整数； 使用标准的 <code>int</code> 解析然后检查值是否大于 0；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>conbytes</code></dt>
+<dd>用于约束字节的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>condecimal</code></dt>
+<dd>用于约束 Decimals 的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>confloat</code></dt>
+<dd>用于约束浮点数的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>conint</code></dt>
+<dd>用于约束整数的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>condate</code></dt>
+<dd>限制日期的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>conlist</code></dt>
+<dd>用于约束列表的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>conset</code></dt>
+<dd>约束集的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>confrozenset</code></dt>
+<dd>用于约束冻结集的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+<dt><code>constr</code></dt>
+<dd>用于约束 字符串 的类型方法；
+参见 <a href="#constrained-types">约束类型</a></dd>
+</dl>
+<h3 id="urls">链接类型(URLs)<a class="headerlink" href="#urls" title="Permanent link">&para;</a></h3>
+<p>对于 URI/URL 验证，可以使用以下类型：</p>
+<ul>
+<li><code>AnyUrl</code>: 允许任何方案，不需要 TLD，需要主机地址</li>
+<li><code>AnyHttpUrl</code>: 方案 <code>http</code> 或 <code>https</code>，不需要 TLD，需要主机地址</li>
+<li><code>HttpUrl</code>: 方案 <code>http</code> 或 <code>https</code>，需要 TLD，需要主机地址，最大长度 2083</li>
+<li><code>FileUrl</code>: 匹配 <code>file</code>, 不需要主机地址</li>
+<li><code>PostgresDsn</code>: 需要用户信息，不需要 TLD，需要主机地址，从 V.10 开始，<code>PostgresDsn</code> 支持多个主机。 以下方案是被支持的:<ul>
+<li><code>postgres</code></li>
+<li><code>postgresql</code></li>
+<li><code>postgresql+asyncpg</code></li>
+<li><code>postgresql+pg8000</code></li>
+<li><code>postgresql+psycopg</code></li>
+<li><code>postgresql+psycopg2</code></li>
+<li><code>postgresql+psycopg2cffi</code></li>
+<li><code>postgresql+py-postgresql</code></li>
+<li><code>postgresql+pygresql</code></li>
+</ul>
+</li>
+<li><code>CockroachDsn</code>: 方案 <code>cockroachdb</code>，需要用户信息，不需要 TLD，需要主机地址。 此外，它支持的 DBAPI 方言：<ul>
+<li><code>cockroachdb+asyncpg</code></li>
+<li><code>cockroachdb+psycopg2</code></li>
+</ul>
+</li>
+<li><code>AmqpDsn</code>: 模式 <code>amqp</code> 或 <code>amqps</code>，不需要用户信息，不需要 TLD，不需要主机地址</li>
+<li><code>RedisDsn</code>: 匹配 <code>redis</code> 或 <code>rediss</code>，不需要用户信息，不需要 tld，不需要主机地址（已更改：用户信息）（例如，<code>rediss://:pass@localhost</code>）</li>
+<li><code>MongoDsn</code> : 匹配 <code>mongodb</code>, 不需要用户信息，不需要数据库名称，从 <strong>v1.6</strong> 开始不需要端口），用户信息可以在没有用户部分的情况下传递（例如，<code>mongodb://mongodb0.example.com:27017</code>）</li>
+<li><code>stricturl</code>: 具有以下关键字参数的方法：<ul>
+<li><code>strip_whitespace: bool = True</code></li>
+<li><code>min_length: int = 1</code></li>
+<li><code>max_length: int = 2 ** 16</code></li>
+<li><code>tld_required: bool = True</code></li>
+<li><code>host_required: bool = True</code></li>
+<li><code>allowed_schemes: Optional[Set[str]] = None</code></li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在 V1.10.0 和 v1.10.1 中，<code>stricturl</code> 还采用可选的 <code>quote_plus</code> 参数，并且 URL 组件在某些情况下采用百分比编码。 此功能已在 v1.10.2 中删除，请参阅 <a href="https://github.com/pydantic/pydantic/pull/4470">#4470</a> 了解说明和更多详细信息。</p>
+</div>
+<p>当提供无效 URL 时，上述类型（全部继承自 <code>AnyUrl</code>）将尝试给出描述性错误：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">url</span><span class="p">:</span> <span class="n">HttpUrl</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;http://www.example.com&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;ftp://invalid.url&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;not a url&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<p>如果您需要自定义 URI/URL 类型，可以使用与上面定义的类型类似的方式创建它。</p>
+<h4 id="url-properties">网址属性(URL Properties)<a class="headerlink" href="#url-properties" title="Permanent link">&para;</a></h4>
+<p>假设输入 URL 为<code>http://samuel:pass@example.com:8000/the/path/?query=here#fragment=is;this=bit</code>，上述类型导出以下属性：</p>
+<ul>
+<li><code>scheme</code>: 始终设置 - url 方案（上面的 <code>http</code>）</li>
+<li><code>host</code>: 始终设置 - 网址主机（上面的“example.com”）</li>
+<li>
+<p><code>host_type</code>: 始终设置 - 描述主机类型，或者：</p>
+<ul>
+<li><code>domain</code>: 例如 <code>example.com</code>,</li>
+<li><code>int_domain</code>: 国际域名，见<a href="#international-domains">下文</a>，例如 <code>exampl£e.org</code>,</li>
+<li><code>ipv4</code>: IP V4 地址，例如 <code>127.0.0.1</code>，或</li>
+<li><code>ipv6</code>: IP V6 地址，例如 <code>2001:db8:ff00:42</code></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><code>user</code>: 可选 - 用户名（如果包含）（上面的 <code>samuel</code>）</li>
+<li><code>password</code>: 可选 - 如果包含密码（上面的 <code>pass</code>）</li>
+<li><code>tld</code>: 可选 - 顶级域（上面的“com”）， <strong>注意：这对于任何二级域都是错误的，例如 “co.uk”.</strong> 如果您需要完整的 TLD 验证，您需要实施自己的 TLD 列表</li>
+<li><code>port</code>: 可选 - 端口（上面的“8000”）</li>
+<li><code>path</code>: 可选 - 路径（上面的<code>/the/path/</code>）</li>
+<li><code>query</code>: 可选 - URL 查询（又名 GET 参数或“搜索字符串”）（上面的 <code>query=here</code>）</li>
+<li><code>fragment</code>: 可选 - 片段（上面的<code>fragment=is;this=bit</code>）</li>
+</ul>
+<p>如果需要进一步验证，验证器可以使用这些属性来强制执行特定行为：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">HttpUrl</span><span class="p">,</span> <span class="n">PostgresDsn</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">url</span><span class="p">:</span> <span class="n">HttpUrl</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;http://www.example.com&#39;</span><span class="p">)</span>
+
+<span class="c1"># the repr() method for a url will display all properties of the url</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">scheme</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host_type</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MyDatabaseModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">db</span><span class="p">:</span> <span class="n">PostgresDsn</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;db&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_db_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">v</span><span class="o">.</span><span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;database must be provided&#39;</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">MyDatabaseModel</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;postgres://user:pass@localhost:5432/foobar&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">db</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">MyDatabaseModel</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="s1">&#39;postgres://user:pass@localhost:5432&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="international-domains">国际域名(International Domains)<a class="headerlink" href="#international-domains" title="Permanent link">&para;</a></h4>
+<p>“国际域”（例如，主机或 TLD 包含非 ascii 字符的 URL）将通过 <a href="https://en.wikipedia.org/wiki/Punycode">punycode</a> 进行编码（参见 <a href="https: //www.xudongz.com/blog/2017/idn-phishing/">本文</a> 很好地说明了为什么这很重要）：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">HttpUrl</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">url</span><span class="p">:</span> <span class="n">HttpUrl</span>
+
+
+<span class="n">m1</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;http://puny£code.com&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m1</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host_type</span><span class="p">)</span>
+<span class="n">m2</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.аррӏе.com/&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m2</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m2</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host_type</span><span class="p">)</span>
+<span class="n">m3</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.example.珠宝/&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m3</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host_type</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<h4 id="_1">主机名中的下划线<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h4>
+<p>在 <em>pydantic</em> 中，域的所有部分都允许使用下划线，除了 tld。从技术上讲，这可能是错误的——理论上主机名不能有下划线，但子域可以。</p>
+<p>解释这一点； 考虑以下两种情况：</p>
+<ul>
+<li><code>exam_ple.co.uk</code>: 主机名是 <code>exam_ple</code>，这是不允许的，因为它包含下划线</li>
+<li><code>foo_bar.example.com</code> 主机名是 <code>example</code>，应该允许，因为下划线在子域中</li>
+</ul>
+<p>如果没有详尽的 TLD 列表，就不可能区分这两者。 因此允许使用下划线，但如果需要，您始终可以在验证器中进行进一步验证。</p>
+<p>此外，Chrome、Firefox 和 Safari 目前都接受 <code>http://exam_ple.com</code> 作为 URL，所以我们的关系很好（或者至少是大）。</p>
+</div>
+<h3 id="color-type">颜色类型(Color Type)<a class="headerlink" href="#color-type" title="Permanent link">&para;</a></h3>
+<p>您可以根据 <a href="http://www.w3.org/TR/css3-color/#svg-color">CSS3 规范</a> 使用 <code>Color</code> 数据类型来存储颜色。 颜色可以通过以下方式定义：</p>
+<ul>
+<li><a href="http://www.w3.org/TR/SVG11/types.html#ColorKeywords">name</a> (例如 <code>"Black"</code>, <code>"azure"</code>)</li>
+<li><a href="https://en.wikipedia.org/wiki/Web_colors#Hex_triplet">hexadecimal value</a>
+  (例如 <code>"0x000"</code>, <code>"#FFFFFF"</code>, <code>"7fffd4"</code>)</li>
+<li>RGB/RGBA 元组 (例如 <code>(255, 255, 255)</code>, <code>(255, 255, 255, 0.5)</code>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#RGB_colors">RGB/RGBA 字符串</a>
+  (例如 <code>"rgb(255, 255, 255)"</code>, <code>"rgba(255, 255, 255, 0.5)"</code>)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#HSL_colors">HSL 字符串</a>
+  (例如 <code>"hsl(270, 60%, 70%)"</code>, <code>"hsl(270, 60%, 70%, .5)"</code>)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">pydantic.color</span> <span class="kn">import</span> <span class="n">Color</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s1">&#39;ff00ff&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">as_named</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">as_hex</span><span class="p">())</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c2</span><span class="o">.</span><span class="n">as_rgb_tuple</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c2</span><span class="o">.</span><span class="n">original</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;hsl(180, 100%, 50%)&#39;</span><span class="p">)))</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">color</span><span class="p">:</span> <span class="n">Color</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<p><code>Color</code> 拥有下列方法:</p>
+<dl>
+<dt><strong><code>original</code></strong></dt>
+<dd>传递给 <code>Color</code> 的原始字符串或元组</dd>
+<dt><strong><code>as_named</code></strong></dt>
+<dd>返回命名的 CSS3 颜色； 如果设置了 alpha 通道或不存在这样的颜色，则失败，除非提供了 <code>fallback=True</code>，在这种情况下它会回退到 <code>as_hex</code></dd>
+<dt><strong><code>as_hex</code></strong></dt>
+<dd>返回格式为 <code>#fff</code> 或 <code>#ffffff</code> 的字符串； 如果设置了 alpha 通道，将包含 4（或 8）个十六进制值， 例如 <code>#7f33cc26</code></dd>
+<dt><strong><code>as_rgb</code></strong></dt>
+<dd>如果设置了 alpha 通道，则返回格式为 <code>rgb(&lt;red&gt;, &lt;green&gt;, &lt;blue&gt;)</code> 或 <code>rgba(&lt;red&gt;, &lt;green&gt;, &lt;blue&gt;, &lt;alpha&gt;)</code> 的字符串</dd>
+<dt><strong><code>as_rgb_tuple</code></strong></dt>
+<dd>返回 RGB(a) 格式的 3 元组或 4 元组。 <code>alpha</code> 关键字参数可用于定义是否应包含 alpha 通道； 选项：<code>True</code> - 始终包括，<code>False</code> - 从不包括，<code>None</code>（默认）- 如果设置则包括</dd>
+<dt><strong><code>as_hsl</code></strong></dt>
+<dd>格式为<code>hsl(&lt;hue deg&gt;, &lt;saturation %&gt;, &lt;lightness %&gt;)</code>或<code>hsl(&lt;hue deg&gt;, &lt;saturation %&gt;, &lt;lightness %&gt;, &lt;alpha&gt;)</code>的字符串，如果 alpha 通道已设置</dd>
+<dt><strong><code>as_hsl_tuple</code></strong></dt>
+<dd>返回 HSL(a) 格式的 3 元组或 4 元组。 <code>alpha</code> 关键字参数可用于定义是否应包含 alpha 通道； 选项：<code>True</code> - 始终包括，<code>False</code> - 从不包括，<code>None</code>（默认值）- 如果设置则包括</dd>
+</dl>
+<p><code>Color</code> 的<code>__str__</code> 方法返回<code>self.as_named(fallback=True)</code>。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>as_hsl*</code> 指的是 html 和世界上大多数地方使用的色调、饱和度、亮度<code>HSL</code>，<strong>not</strong> Python 的<code>colorsys</code>中使用的<code>HLS</code>。</p>
+</div>
+<h3 id="secret-types">保密类型(Secret Types)<a class="headerlink" href="#secret-types" title="Permanent link">&para;</a></h3>
+<p>您可以使用 <code>SecretStr</code> 和 <code>SecretBytes</code> 数据类型来存储您不希望在日志记录或回溯中可见的敏感信息。 <code>SecretStr</code> 和 <code>SecretBytes</code> 可以幂等地初始化，也可以分别使用 <code>str</code> 或 <code>bytes</code> 进行初始化。 <code>SecretStr</code> 和 <code>SecretBytes</code> 在转换为 json 时将被格式化为 <code>'**********'</code> 或 <code>''</code>。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">SecretStr</span><span class="p">,</span> <span class="n">SecretBytes</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">SimpleModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">SecretStr</span>
+    <span class="n">password_bytes</span><span class="p">:</span> <span class="n">SecretBytes</span>
+
+
+<span class="n">sm</span> <span class="o">=</span> <span class="n">SimpleModel</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="s1">&#39;IAmSensitive&#39;</span><span class="p">,</span> <span class="n">password_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;IAmSensitiveBytes&#39;</span><span class="p">)</span>
+
+<span class="c1"># Standard access methods will not display the secret</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+
+<span class="c1"># Use get_secret_value method to see the secret&#39;s content.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm</span><span class="o">.</span><span class="n">password_bytes</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">())</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">SimpleModel</span><span class="p">(</span><span class="n">password</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">password_bytes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="c1"># If you want the secret to be dumped as plain-text using the json method,</span>
+<span class="c1"># you can use json_encoders in the Config class.</span>
+<span class="k">class</span> <span class="nc">SimpleModelDumpable</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">SecretStr</span>
+    <span class="n">password_bytes</span><span class="p">:</span> <span class="n">SecretBytes</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">SecretStr</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">SecretBytes</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">get_secret_value</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">}</span>
+
+
+<span class="n">sm2</span> <span class="o">=</span> <span class="n">SimpleModelDumpable</span><span class="p">(</span>
+    <span class="n">password</span><span class="o">=</span><span class="s1">&#39;IAmSensitive&#39;</span><span class="p">,</span> <span class="n">password_bytes</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;IAmSensitiveBytes&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Standard access methods will not display the secret</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm2</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm2</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+
+<span class="c1"># But the json method will</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sm2</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="jsonjson-type">Json类型(Json Type)<a class="headerlink" href="#jsonjson-type" title="Permanent link">&para;</a></h3>
+<p>您可以使用 <code>Json</code> 数据类型让 <em>pydantic</em> 首先加载原始 JSON 字符串。 它还可以选择用于将加载的对象解析为另一种类型，基于参数化的<code>Json</code>类型：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Json</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="k">class</span> <span class="nc">AnyJsonModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">json_obj</span><span class="p">:</span> <span class="n">Json</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ConstrainedJsonModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">json_obj</span><span class="p">:</span> <span class="n">Json</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">AnyJsonModel</span><span class="p">(</span><span class="n">json_obj</span><span class="o">=</span><span class="s1">&#39;{&quot;b&quot;: 1}&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ConstrainedJsonModel</span><span class="p">(</span><span class="n">json_obj</span><span class="o">=</span><span class="s1">&#39;[1, 2, 3]&#39;</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ConstrainedJsonModel</span><span class="p">(</span><span class="n">json_obj</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ConstrainedJsonModel</span><span class="p">(</span><span class="n">json_obj</span><span class="o">=</span><span class="s1">&#39;[a, b]&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ConstrainedJsonModel</span><span class="p">(</span><span class="n">json_obj</span><span class="o">=</span><span class="s1">&#39;[&quot;a&quot;, &quot;b&quot;]&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="payment-card-numbers">支付卡号码(Payment Card Numbers)<a class="headerlink" href="#payment-card-numbers" title="Permanent link">&para;</a></h3>
+<p><code>PaymentCardNumber</code> 类型验证<a href="https://en.wikipedia.org/wiki/Payment_card">支付卡</a>（例如借记卡或信用卡）。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic.types</span> <span class="kn">import</span> <span class="n">PaymentCardBrand</span><span class="p">,</span> <span class="n">PaymentCardNumber</span><span class="p">,</span> <span class="n">constr</span>
+
+
+<span class="k">class</span> <span class="nc">Card</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">strip_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">number</span><span class="p">:</span> <span class="n">PaymentCardNumber</span>
+    <span class="n">exp</span><span class="p">:</span> <span class="n">date</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">brand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PaymentCardBrand</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="o">.</span><span class="n">brand</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">expired</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">&lt;</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+
+<span class="n">card</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Georg Wilhelm Friedrich Hegel&#39;</span><span class="p">,</span>
+    <span class="n">number</span><span class="o">=</span><span class="s1">&#39;4000000000000002&#39;</span><span class="p">,</span>
+    <span class="n">exp</span><span class="o">=</span><span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">card</span><span class="o">.</span><span class="n">number</span><span class="o">.</span><span class="n">brand</span> <span class="o">==</span> <span class="n">PaymentCardBrand</span><span class="o">.</span><span class="n">visa</span>
+<span class="k">assert</span> <span class="n">card</span><span class="o">.</span><span class="n">number</span><span class="o">.</span><span class="n">bin</span> <span class="o">==</span> <span class="s1">&#39;400000&#39;</span>
+<span class="k">assert</span> <span class="n">card</span><span class="o">.</span><span class="n">number</span><span class="o">.</span><span class="n">last4</span> <span class="o">==</span> <span class="s1">&#39;0002&#39;</span>
+<span class="k">assert</span> <span class="n">card</span><span class="o">.</span><span class="n">number</span><span class="o">.</span><span class="n">masked</span> <span class="o">==</span> <span class="s1">&#39;400000******0002&#39;</span>
+</code></pre></div>
+<p><code>PaymentCardBrand</code> 可以是基于 BIN 的以下之一：</p>
+<ul>
+<li><code>PaymentCardBrand.amex</code></li>
+<li><code>PaymentCardBrand.mastercard</code></li>
+<li><code>PaymentCardBrand.visa</code></li>
+<li><code>PaymentCardBrand.other</code></li>
+</ul>
+<p>实际验证验证卡号是：</p>
+<ul>
+<li>只有数字的<code>str</code></li>
+<li><a href="https://en.wikipedia.org/wiki/Luhn_algorithm">luhn</a> 有效的</li>
+<li>基于 BIN 的正确长度，如果是美国运通卡、万事达卡或维萨卡，以及所有其他品牌的 12 到 19 位数字</li>
+</ul>
+<h2 id="constrained-types">约束类型(Constrained Types)<a class="headerlink" href="#constrained-types" title="Permanent link">&para;</a></h2>
+<p>可以使用 <code>con*</code> 类型函数来限制许多常见类型的值：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">NegativeFloat</span><span class="p">,</span>
+    <span class="n">NegativeInt</span><span class="p">,</span>
+    <span class="n">PositiveFloat</span><span class="p">,</span>
+    <span class="n">PositiveInt</span><span class="p">,</span>
+    <span class="n">NonNegativeFloat</span><span class="p">,</span>
+    <span class="n">NonNegativeInt</span><span class="p">,</span>
+    <span class="n">NonPositiveFloat</span><span class="p">,</span>
+    <span class="n">NonPositiveInt</span><span class="p">,</span>
+    <span class="n">conbytes</span><span class="p">,</span>
+    <span class="n">condecimal</span><span class="p">,</span>
+    <span class="n">confloat</span><span class="p">,</span>
+    <span class="n">conint</span><span class="p">,</span>
+    <span class="n">conlist</span><span class="p">,</span>
+    <span class="n">conset</span><span class="p">,</span>
+    <span class="n">constr</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">upper_bytes</span><span class="p">:</span> <span class="n">conbytes</span><span class="p">(</span><span class="n">to_upper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">lower_bytes</span><span class="p">:</span> <span class="n">conbytes</span><span class="p">(</span><span class="n">to_lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">short_bytes</span><span class="p">:</span> <span class="n">conbytes</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">strip_bytes</span><span class="p">:</span> <span class="n">conbytes</span><span class="p">(</span><span class="n">strip_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">upper_str</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">to_upper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">lower_str</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">to_lower</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">short_str</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">regex_str</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">regex</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;^apple (pie|tart|sandwich)$&#39;</span><span class="p">)</span>
+    <span class="n">strip_str</span><span class="p">:</span> <span class="n">constr</span><span class="p">(</span><span class="n">strip_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">big_int</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="n">mod_int</span><span class="p">:</span> <span class="n">conint</span><span class="p">(</span><span class="n">multiple_of</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">pos_int</span><span class="p">:</span> <span class="n">PositiveInt</span>
+    <span class="n">neg_int</span><span class="p">:</span> <span class="n">NegativeInt</span>
+    <span class="n">non_neg_int</span><span class="p">:</span> <span class="n">NonNegativeInt</span>
+    <span class="n">non_pos_int</span><span class="p">:</span> <span class="n">NonPositiveInt</span>
+
+    <span class="n">big_float</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="n">unit_interval</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mod_float</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">multiple_of</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">pos_float</span><span class="p">:</span> <span class="n">PositiveFloat</span>
+    <span class="n">neg_float</span><span class="p">:</span> <span class="n">NegativeFloat</span>
+    <span class="n">non_neg_float</span><span class="p">:</span> <span class="n">NonNegativeFloat</span>
+    <span class="n">non_pos_float</span><span class="p">:</span> <span class="n">NonPositiveFloat</span>
+
+    <span class="n">short_list</span><span class="p">:</span> <span class="n">conlist</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">short_set</span><span class="p">:</span> <span class="n">conset</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">min_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_items</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">decimal_positive</span><span class="p">:</span> <span class="n">condecimal</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">decimal_negative</span><span class="p">:</span> <span class="n">condecimal</span><span class="p">(</span><span class="n">lt</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">decimal_max_digits_and_places</span><span class="p">:</span> <span class="n">condecimal</span><span class="p">(</span><span class="n">max_digits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">decimal_places</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mod_decimal</span><span class="p">:</span> <span class="n">condecimal</span><span class="p">(</span><span class="n">multiple_of</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s1">&#39;0.25&#39;</span><span class="p">))</span>
+
+    <span class="n">bigger_int</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</code></pre></div>
+<p>其中 <code>Field</code> 指的是 <a href="../schema/#field-customization">字段函数</a>。</p>
+<h3 id="conlist"><code>conlist</code> 的参数<a class="headerlink" href="#conlist" title="Permanent link">&para;</a></h3>
+<p>使用 <code>conlist</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>item_type: Type[T]</code>: 列表项的类型</li>
+<li><code>min_items: int = None</code>: 列表中的最小项目数</li>
+<li><code>max_items: int = None</code>: 列表中的最大项目数</li>
+<li><code>unique_items: bool = None</code>: 强制列表元素是唯一的</li>
+</ul>
+<h3 id="conset"><code>conset</code> 的参数<a class="headerlink" href="#conset" title="Permanent link">&para;</a></h3>
+<p>使用 <code>conset</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>item_type: Type[T]</code>: 设置项目的类型</li>
+<li><code>min_items: int = None</code>: 集合中的最小项目数</li>
+<li><code>max_items: int = None</code>: 集合中的最大项目数</li>
+</ul>
+<h3 id="confrozenset"><code>confrozenset</code> 的参数<a class="headerlink" href="#confrozenset" title="Permanent link">&para;</a></h3>
+<p>使用 <code>confrozenset</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>item_type: Type[T]</code>: frozenset 项目的类型</li>
+<li><code>min_items: int = None</code>: frozenset 中的最小项目数</li>
+<li><code>max_items: int = None</code>: frozenset 中的最大项目数</li>
+</ul>
+<h3 id="conint"><code>conint</code> 的参数<a class="headerlink" href="#conint" title="Permanent link">&para;</a></h3>
+<p>使用 <code>conint</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>strict: bool = False</code>: 控制类型强制</li>
+<li><code>gt: int = None</code>: 强制整数大于设定值</li>
+<li><code>ge: int = None</code>: 强制整数大于或等于设定值</li>
+<li><code>lt: int = None</code>: 强制整数小于设定值</li>
+<li><code>le: int = None</code>: 强制整数小于或等于设定值</li>
+<li><code>multiple_of: int = None</code>: 强制整数为设定值的倍数</li>
+</ul>
+<h3 id="confloat"><code>confloat</code> 的参数<a class="headerlink" href="#confloat" title="Permanent link">&para;</a></h3>
+<p>使用 <code>confloat</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>strict: bool = False</code>: 控制类型强制</li>
+<li><code>gt: float = None</code>: 强制浮动大于设定值</li>
+<li><code>ge: float = None</code>: 强制float大于等于设定值</li>
+<li><code>lt: float = None</code>: 强制 float 小于设定值</li>
+<li><code>le: float = None</code>: 强制 float 小于或等于设置值</li>
+<li><code>multiple_of: float = None</code>: 强制 float 是设置值的倍数</li>
+<li><code>allow_inf_nan: bool = True</code>: 是否允许无穷大（<code>+inf</code> 和 <code>-inf</code>）和 NaN 值，默认为 <code>True</code>，设置为 <code>False</code> 以与 <code>JSON</code> 兼容，
+  见 <a href="https://github.com/pydantic/pydantic/pull/3994">#3994</a> 获取更多详情, 在 <strong>V1.10</strong> 版本中添加</li>
+</ul>
+<h3 id="condecimal"><code>condecimal</code> 的参数<a class="headerlink" href="#condecimal" title="Permanent link">&para;</a></h3>
+<p>使用 <code>condecimal</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>gt: Decimal = None</code>: 强制小数大于设定值</li>
+<li><code>ge: Decimal = None</code>: 强制小数大于或等于设定值</li>
+<li><code>lt: Decimal = None</code>: 强制小数小于设定值</li>
+<li><code>le: Decimal = None</code>: 强制小数小于或等于设定值</li>
+<li><code>max_digits: int = None</code>: 小数点内的最大位数。 它不包括小数点前的零或尾随的小数零</li>
+<li><code>decimal_places: int = None</code>: 允许的最大小数位数。 它不包括尾随的小数零</li>
+<li><code>multiple_of: Decimal = None</code>: 强制小数为设定值的倍数</li>
+</ul>
+<h3 id="constr"><code>constr</code> 的参数<a class="headerlink" href="#constr" title="Permanent link">&para;</a></h3>
+<p>使用 <code>constr</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>strip_whitespace: bool = False</code>: 删除前导和尾随空格</li>
+<li><code>to_upper: bool = False</code>: 将所有字符转为大写</li>
+<li><code>to_lower: bool = False</code>: 将所有字符变为小写</li>
+<li><code>strict: bool = False</code>: 控制类型强制</li>
+<li><code>min_length: int = None</code>: 字符串的最小长度</li>
+<li><code>max_length: int = None</code>: 字符串的最大长度</li>
+<li><code>curtail_length: int = None</code>: 当字符串长度超过设定值时，将字符串长度收缩到设定值</li>
+<li><code>regex: str = None</code>: 用于验证字符串的正则表达式</li>
+</ul>
+<h3 id="conbytes"><code>conbytes</code> 的参数<a class="headerlink" href="#conbytes" title="Permanent link">&para;</a></h3>
+<p>使用 <code>conbytes</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>strip_whitespace: bool = False</code>: 删除前导和尾随空格</li>
+<li><code>to_upper: bool = False</code>: 将所有字符转为大写</li>
+<li><code>to_lower: bool = False</code>: 将所有字符变为小写</li>
+<li><code>min_length: int = None</code>: 字节串的最小长度</li>
+<li><code>max_length: int = None</code>: 字节串的最大长度</li>
+<li><code>strict: bool = False</code>: 控制类型强制</li>
+</ul>
+<h3 id="condate"><code>condate</code> 的参数<a class="headerlink" href="#condate" title="Permanent link">&para;</a></h3>
+<p>使用 <code>condate</code> 类型函数时可以使用以下参数</p>
+<ul>
+<li><code>gt: date = None</code>: 强制日期大于设定值</li>
+<li><code>ge: date = None</code>: 强制日期大于或等于设定值</li>
+<li><code>lt: date = None</code>: 强制日期小于设定值</li>
+<li><code>le: date = None</code>: 强制日期小于或等于设定值</li>
+</ul>
+<h2 id="strict-types">严格类型(Strict Types)<a class="headerlink" href="#strict-types" title="Permanent link">&para;</a></h2>
+<p>您可以使用<code>StrictStr</code>、<code>StrictBytes</code>、<code>StrictInt</code>、<code>StrictFloat</code>和<code>StrictBool</code>类型来防止来自兼容类型的强制转换。</p>
+<p>只有当验证值属于相应类型或该类型的子类型时，这些类型才会通过验证。</p>
+<p>此行为也通过<code>ConstrainedStr</code>、<code>ConstrainedBytes</code>、<code>ConstrainedFloat</code>和<code>ConstrainedInt</code>类的<code>strict</code>字段公开，并且可以与大量复杂的验证规则结合使用。</p>
+<p>以下注意事项适用：</p>
+<ul>
+<li><code>StrictBytes</code>（以及 <code>ConstrainedBytes</code> 的 <code>strict</code> 选项）将接受 <code>bytes</code> 和 <code>bytearray</code> 类型。</li>
+<li><code>StrictInt</code>（以及 <code>ConstrainedInt</code> 的 <code>strict</code> 选项）将不接受 <code>bool</code> 类型，即使 <code>bool</code> 是 Python 中 <code>int</code> 的子类。 其他子类将起作用。</li>
+<li><code>StrictFloat</code>（以及 <code>ConstrainedFloat</code> 的 <code>strict</code> 选项）将不接受 <code>int</code>。</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">StrictBytes</span><span class="p">,</span>
+    <span class="n">StrictBool</span><span class="p">,</span>
+    <span class="n">StrictInt</span><span class="p">,</span>
+    <span class="n">ValidationError</span><span class="p">,</span>
+    <span class="n">confloat</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">StrictBytesModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">strict_bytes</span><span class="p">:</span> <span class="n">StrictBytes</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">StrictBytesModel</span><span class="p">(</span><span class="n">strict_bytes</span><span class="o">=</span><span class="s1">&#39;hello world&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">StrictIntModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">strict_int</span><span class="p">:</span> <span class="n">StrictInt</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">StrictIntModel</span><span class="p">(</span><span class="n">strict_int</span><span class="o">=</span><span class="mf">3.14159</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ConstrainedFloatModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">constrained_float</span><span class="p">:</span> <span class="n">confloat</span><span class="p">(</span><span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ConstrainedFloatModel</span><span class="p">(</span><span class="n">constrained_float</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ConstrainedFloatModel</span><span class="p">(</span><span class="n">constrained_float</span><span class="o">=-</span><span class="mf">1.23</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">StrictBoolModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">strict_bool</span><span class="p">:</span> <span class="n">StrictBool</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">StrictBoolModel</span><span class="p">(</span><span class="n">strict_bool</span><span class="o">=</span><span class="s1">&#39;False&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="bytesize">字节大小类型(ByteSize)<a class="headerlink" href="#bytesize" title="Permanent link">&para;</a></h2>
+<p>您可以使用<code>ByteSize</code>数据类型将字节字符串表示形式转换为原始字节，并打印出人类可读的字节版本。</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>请注意，<code>1b</code> 将被解析为<code>1 byte</code>而不是<code>1 bit</code>。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ByteSize</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">ByteSize</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">52000</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s1">&#39;3000 KiB&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">MyModel</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s1">&#39;50 PB&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">human_readable</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">human_readable</span><span class="p">(</span><span class="n">decimal</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;TiB&#39;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="custom-data-types">自定义数据类型(Custom Data Types)<a class="headerlink" href="#custom-data-types" title="Permanent link">&para;</a></h2>
+<p>您还可以定义自己的自定义数据类型。 有几种方法可以实现它。</p>
+<h3 id="__get_validators__-classes-with-__get_validators__">带有 <code>__get_validators__</code> 的类 (Classes with <code>__get_validators__</code>)<a class="headerlink" href="#__get_validators__-classes-with-__get_validators__" title="Permanent link">&para;</a></h3>
+<p>您使用带有类方法 <code>__get_validators__</code> 的自定义类。 它将被调用以获取验证器来解析和验证输入数据。</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>这些验证器具有与 <a href="../validators/">Validators</a> 中相同的语义，您可以声明参数 <code>config</code>、<code>field</code> 等。</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="c1"># https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom#Validation</span>
+<span class="n">post_code_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;(?:&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;([0-9][A-Z]</span><span class="si">{2}</span><span class="s1">)|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(BFPO) ?([0-9]{1,4})|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(KY[0-9]|MSR|VG|AI)[ -]?[0-9]</span><span class="si">{4}</span><span class="s1">|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;([A-Z]</span><span class="si">{2}</span><span class="s1">) ?([0-9]</span><span class="si">{2}</span><span class="s1">)|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(GE) ?(CX)|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(GIR) ?(0A</span><span class="si">{2}</span><span class="s1">)|&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;(SAN) ?(TA1)&#39;</span>
+    <span class="sa">r</span><span class="s1">&#39;)&#39;</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">PostCode</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Partial UK postcode validation. Note: this is just an example, and is not</span>
+<span class="sd">    intended for use in production; in particular this does NOT guarantee</span>
+<span class="sd">    a postcode exists, just that it has a valid format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_validators__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="c1"># one or more validators may be yielded which will be called in the</span>
+        <span class="c1"># order to validate the input, each validator will receive as an input</span>
+        <span class="c1"># the value returned from the previous validator</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__modify_schema__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_schema</span><span class="p">):</span>
+        <span class="c1"># __modify_schema__ should mutate the dict it receives in place,</span>
+        <span class="c1"># the returned value will be ignored</span>
+        <span class="n">field_schema</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="c1"># simplified regex here for brevity, see the wikipedia link above</span>
+            <span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">,</span>
+            <span class="c1"># some example postcodes</span>
+            <span class="n">examples</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;SP11 9DG&#39;</span><span class="p">,</span> <span class="s1">&#39;w1j7bu&#39;</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;string required&#39;</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">post_code_regex</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;invalid postcode format&#39;</span><span class="p">)</span>
+        <span class="c1"># you could also return a string here which would mean model.post_code</span>
+        <span class="c1"># would be a string, pydantic won&#39;t care but you could end up with some</span>
+        <span class="c1"># confusion since the value&#39;s type won&#39;t match the type annotation</span>
+        <span class="c1"># exactly</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;PostCode(</span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">post_code</span><span class="p">:</span> <span class="n">PostCode</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">post_code</span><span class="o">=</span><span class="s1">&#39;sw8 5el&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">post_code</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="o">.</span><span class="n">schema</span><span class="p">())</span>
+</code></pre></div>
+<p>类似的验证可以使用 <a href="#constrained-types"><code>constr(regex=...)</code></a> 来实现，除了值不会用空格格式化，模式将只包含完整模式，返回值将是 香草字符串。</p>
+<p>有关如何生成模型架构的更多详细信息，请参阅 <a href="../schema/">schema</a>。</p>
+<h3 id="arbitrary-types-allowed">允许任意类型(Arbitrary Types Allowed)<a class="headerlink" href="#arbitrary-types-allowed" title="Permanent link">&para;</a></h3>
+<p>您可以使用 <a href="../model_config/">模型配置</a> 中的 <code>arbitrary_types_allowed</code> 配置允许任意类型。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+
+
+<span class="c1"># This is not a pydantic model, it&#39;s an arbitrary class</span>
+<span class="k">class</span> <span class="nc">Pet</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet</span><span class="p">:</span> <span class="n">Pet</span>
+    <span class="n">owner</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">arbitrary_types_allowed</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="n">pet</span> <span class="o">=</span> <span class="n">Pet</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Hedwig&#39;</span><span class="p">)</span>
+<span class="c1"># A simple check of instance type is used to validate the data</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="s1">&#39;Harry&#39;</span><span class="p">,</span> <span class="n">pet</span><span class="o">=</span><span class="n">pet</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">pet</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">pet</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">pet</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If the value is not an instance of the type, it&#39;s invalid</span>
+    <span class="n">Model</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="s1">&#39;Harry&#39;</span><span class="p">,</span> <span class="n">pet</span><span class="o">=</span><span class="s1">&#39;Hedwig&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="c1"># Nothing in the instance of the arbitrary type is checked</span>
+<span class="c1"># Here name probably should have been a str, but it&#39;s not validated</span>
+<span class="n">pet2</span> <span class="o">=</span> <span class="n">Pet</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">model2</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="s1">&#39;Harry&#39;</span><span class="p">,</span> <span class="n">pet</span><span class="o">=</span><span class="n">pet2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model2</span><span class="o">.</span><span class="n">pet</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model2</span><span class="o">.</span><span class="n">pet</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">model2</span><span class="o">.</span><span class="n">pet</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="generic-classes-as-types">作为类型的通用类(Generic Classes as Types)<a class="headerlink" href="#generic-classes-as-types" title="Permanent link">&para;</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>这是一种您一开始可能不需要的高级技术。 在大多数情况下，您可能会使用标准的 <em>pydantic</em> 模型。</p>
+</div>
+<p>您可以使用 <a href="https://docs.python.org/3/library/typing.html#typing.Generic">Generic Classes</a> 作为字段类型，并根据“类型参数(type parameters)”（或子类型）执行自定义验证 与 <code>__get_validators__</code> 。</p>
+<p>如果您用作子类型的通用类具有类方法<code>__get_validators__</code>，则无需使用<code>arbitrary_types_allowed</code>即可工作。</p>
+<p>因为您可以声明接收当前 <code>field</code> 的验证器，所以您可以提取 <code>sub_field</code> （从通用类类型参数）并使用它们验证数据。</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">ModelField</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+
+<span class="n">AgedType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;AgedType&#39;</span><span class="p">)</span>
+<span class="n">QualityType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;QualityType&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># This is not a pydantic model, it&#39;s an arbitrary generic class</span>
+<span class="k">class</span> <span class="nc">TastingModel</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">AgedType</span><span class="p">,</span> <span class="n">QualityType</span><span class="p">]):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">aged</span><span class="p">:</span> <span class="n">AgedType</span><span class="p">,</span> <span class="n">quality</span><span class="p">:</span> <span class="n">QualityType</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aged</span> <span class="o">=</span> <span class="n">aged</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quality</span> <span class="o">=</span> <span class="n">quality</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_validators__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="c1"># You don&#39;t need to add the &quot;ModelField&quot;, but it will help your</span>
+    <span class="c1"># editor give you completion and catch errors</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="c1"># The value is not even a TastingModel</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Invalid value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">field</span><span class="o">.</span><span class="n">sub_fields</span><span class="p">:</span>
+            <span class="c1"># Generic parameters were not provided so we don&#39;t try to validate</span>
+            <span class="c1"># them and just return the value as is</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="n">aged_f</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">sub_fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">quality_f</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">sub_fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Here we don&#39;t need the validated value, but we want the errors</span>
+        <span class="n">valid_value</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">aged_f</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">aged</span><span class="p">,</span> <span class="p">{},</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;aged&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="c1"># Here we don&#39;t need the validated value, but we want the errors</span>
+        <span class="n">valid_value</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">quality_f</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">quality</span><span class="p">,</span> <span class="p">{},</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;quality&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span>
+        <span class="c1"># Validation passed without errors, return the same instance received</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="c1"># for wine, &quot;aged&quot; is an int with years, &quot;quality&quot; is a float</span>
+    <span class="n">wine</span><span class="p">:</span> <span class="n">TastingModel</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="c1"># for cheese, &quot;aged&quot; is a bool, &quot;quality&quot; is a str</span>
+    <span class="n">cheese</span><span class="p">:</span> <span class="n">TastingModel</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+    <span class="c1"># for thing, &quot;aged&quot; is a Any, &quot;quality&quot; is Any</span>
+    <span class="n">thing</span><span class="p">:</span> <span class="n">TastingModel</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span>
+    <span class="c1"># This wine was aged for 20 years and has a quality of 85.6</span>
+    <span class="n">wine</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cabernet Sauvignon&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mf">85.6</span><span class="p">),</span>
+    <span class="c1"># This cheese is aged (is mature) and has &quot;Good&quot; quality</span>
+    <span class="n">cheese</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Gouda&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s1">&#39;Good&#39;</span><span class="p">),</span>
+    <span class="c1"># This Python thing has aged &quot;Not much&quot; and has a quality &quot;Awesome&quot;</span>
+    <span class="n">thing</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="s1">&#39;Not much&#39;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s1">&#39;Awesome&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wine</span><span class="o">.</span><span class="n">aged</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">wine</span><span class="o">.</span><span class="n">quality</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">cheese</span><span class="o">.</span><span class="n">aged</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">cheese</span><span class="o">.</span><span class="n">quality</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">thing</span><span class="o">.</span><span class="n">aged</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If the values of the sub-types are invalid, we get an error</span>
+    <span class="n">Model</span><span class="p">(</span>
+        <span class="c1"># For wine, aged should be an int with the years, and quality a float</span>
+        <span class="n">wine</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Merlot&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s1">&#39;Kinda good&#39;</span><span class="p">),</span>
+        <span class="c1"># For cheese, aged should be a bool, and quality a str</span>
+        <span class="n">cheese</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Gouda&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="s1">&#39;yeah&#39;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+        <span class="c1"># For thing, no type parameters are declared, and we skipped validation</span>
+        <span class="c1"># in those cases in the Assessment.validate() function</span>
+        <span class="n">thing</span><span class="o">=</span><span class="n">TastingModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Python&#39;</span><span class="p">,</span> <span class="n">aged</span><span class="o">=</span><span class="s1">&#39;Not much&#39;</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="s1">&#39;Awesome&#39;</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+                
+
+  <script src="/flarelytics/client.js"></script>
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            回到页面顶部
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      
+        <script src="../../extra/redirects.js"></script>
+      
+    
+  </body>
+</html>
