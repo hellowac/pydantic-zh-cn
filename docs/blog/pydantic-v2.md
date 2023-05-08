@@ -1,7 +1,7 @@
 # Pydantic V2 Plan
 
 <aside class="blog" markdown>
-![Samuel Colvin](/img/samuelcolvin.jpg)
+![Samuel Colvin](../img/samuelcolvin.jpg)
 <div markdown>
   **Samuel Colvin** &bull;&nbsp;
   [:material-github:](https://github.com/samuelcolvin) &bull;&nbsp;
@@ -15,7 +15,7 @@
 
 Updated late 10 Jul 2022, see [pydantic#4226](https://github.com/pydantic/pydantic/pull/4226).
 
-Update 30 Dec 2022: **The new release deadline for Pydantic V2 is the end of Q1 2023**, 
+Update 30 Dec 2022: **The new release deadline for Pydantic V2 is the end of Q1 2023**,
 see [pydantic#4887](https://github.com/pydantic/pydantic/issues/4887) for more details, futher updates
 will be posted on that issue.
 
@@ -36,9 +36,9 @@ Here goes...
 ---
 
 Enormous thanks to
-[Eric Jolibois](https://github.com/PrettyWood), [Laurence Watson](https://github.com/Rabscuttler), 
-[Sebastián Ramírez](https://github.com/tiangolo), [Adrian Garcia Badaracco](https://github.com/adriangb), 
-[Tom Hamilton Stubber](https://github.com/tomhamiltonstubber), [Zac Hatfield-Dodds](https://github.com/Zac-HD), 
+[Eric Jolibois](https://github.com/PrettyWood), [Laurence Watson](https://github.com/Rabscuttler),
+[Sebastián Ramírez](https://github.com/tiangolo), [Adrian Garcia Badaracco](https://github.com/adriangb),
+[Tom Hamilton Stubber](https://github.com/tomhamiltonstubber), [Zac Hatfield-Dodds](https://github.com/Zac-HD),
 [Tom](https://github.com/czotomo) & [Hasan Ramezani](https://github.com/hramezani)
 for reviewing this blog post, putting up with (and correcting) my horrible typos and making great suggestions
 that have made this post and Pydantic V2 materially better.
@@ -82,7 +82,7 @@ The basic road map for me is as follows:
 
 Plan is to have all this done by the end of October, definitely by the end of the year.
 
-### Breaking Changes & Compatibility :pray:
+### Breaking Changes & Compatibility :pray
 
 While we'll do our best to avoid breaking changes, some things will break.
 
@@ -137,7 +137,7 @@ for a summary of what needs to be completed before its first release.
 
 Here are some of the biggest changes expected in V2.
 
-### Performance :thumbsup:
+### Performance :thumbsup
 
 As a result of the move to Rust for the validation logic
 (and significant improvements in how validation objects are structured) pydantic V2 will be significantly faster
@@ -148,7 +148,7 @@ today, pydantic V2 is between 4x and 50x faster than pydantic V1.9.1.
 
 In general, pydantic V2 is about 17x faster than V1 when validating a model containing a range of common fields.
 
-### Strict Mode :thumbsup:
+### Strict Mode :thumbsup
 
 People have long complained about pydantic for coercing data instead of throwing an error.
 E.g. input to an `int` field could be `123` or the string `"123"` which would be converted to `123`
@@ -160,7 +160,7 @@ pydantic-core comes with "strict mode" built in. With this, only the exact data 
 
 This will allow pydantic V2 to offer a `strict` switch which can be set on either a model or a field.
 
-### Formalised Conversion Table :thumbsup:
+### Formalised Conversion Table :thumbsup
 
 As well as complaints about coercion, another legitimate complaint was inconsistency around data conversion.
 
@@ -175,7 +175,7 @@ In pydantic V2, the following principle will govern when data should be converte
 Some examples of what that means in practice:
 
 | Field Type | Input                   | Single & Intuitive R. | All Data Preserved | Result  |
-|------------|-------------------------|-----------------------|--------------------|---------|
+| ---------- | ----------------------- | --------------------- | ------------------ | ------- |
 | `int`      | `"123"`                 | :material-check:      | :material-check:   | Convert |
 | `int`      | `123.0`                 | :material-check:      | :material-check:   | Convert |
 | `int`      | `123.1`                 | :material-check:      | :material-close:   | Error   |
@@ -190,7 +190,7 @@ Some examples of what that means in practice:
 In addition to the general rule, we'll provide a conversion table which defines exactly what data will be allowed
 to which field types. See [the table below](#conversion-table) for a start on this.
 
-### Built in JSON support :thumbsup:
+### Built in JSON support :thumbsup
 
 pydantic-core can parse JSON directly into a model or output type, this both improves performance and avoids
 issue with strictness - e.g. if you have a strict model with a `datetime` field, the input must be a
@@ -217,9 +217,9 @@ In future direct validation of JSON will also allow:
     when serialising, data can be exported to a python object, then serialised,
     see [below](#improvements-to-dumpingserializationexport).
 
-### Validation without a Model :thumbsup:
+### Validation without a Model :thumbsup
 
-In pydantic V1 the core of all validation was a pydantic model, this led to a significant performance penalty 
+In pydantic V1 the core of all validation was a pydantic model, this led to a significant performance penalty
 and extra complexity when the output data type was not a model.
 
 pydantic-core operates on a tree of validators with no "model" type required at the base of that tree.
@@ -237,7 +237,7 @@ In effect - anywhere where you don't care about a traditional model class instan
 
 We'll need to add standalone methods for generating JSON Schema and dumping these objects to JSON, etc.
 
-### Required vs. Nullable Cleanup :thumbsup:
+### Required vs. Nullable Cleanup :thumbsup
 
 Pydantic previously had a somewhat confused idea about "required" vs. "nullable". This mostly resulted from
 my misgivings about marking a field as `Optional[int]` but requiring a value to be provided but allowing it to be
@@ -255,7 +255,7 @@ class Foo(BaseModel):
     f4: str = 'Foobar'  # not required, but cannot be None
 ```
 
-### Validator Function Improvements :thumbsup: :thumbsup: :thumbsup:
+### Validator Function Improvements :thumbsup: :thumbsup: :thumbsup
 
 This is one of the changes in pydantic V2 that I'm most excited about, I've been talking about something
 like this for a long time, see [pydantic#1984](https://github.com/pydantic/pydantic/issues/1984), but couldn't
@@ -295,7 +295,7 @@ class MyModel(BaseModel):
 
 As well as being powerful, this provides a great "escape hatch" when pydantic validation doesn't do what you need.
 
-### More powerful alias(es) :thumbsup:
+### More powerful alias(es) :thumbsup
 
 pydantic-core can support alias "paths" as well as simple string aliases to flatten data as it's validated.
 
@@ -327,7 +327,7 @@ assert foo.bar == 'c'
 Tagged unions will use the same logic as `aliases` meaning nested attributes can be used to select a schema
 to validate against.
 
-### Improvements to Dumping/Serialization/Export :thumbsup: :confused:
+### Improvements to Dumping/Serialization/Export :thumbsup: :confused
 
 (I haven't worked on this yet, so these ideas are only provisional)
 
@@ -356,7 +356,7 @@ translate it to Rust.
 We should also add support for `validate_alias` and `dump_alias` as well as the standard `alias`
 to allow for customising field keys.
 
-### Validation Context :thumbsup:
+### Validation Context :thumbsup
 
 Pydantic V2 will add a new optional `context` argument to `model_validate` and `model_validate_json`
 which will allow you to pass information not available when creating a model to validators.
@@ -393,7 +393,7 @@ async def add_user(post_data: bytes):
     from within validators, I strongly advise you keep IO separate from validation - do it before and use context,
     do it afterwards, avoid where possible making queries inside validation.
 
-### Model Namespace Cleanup :thumbsup:
+### Model Namespace Cleanup :thumbsup
 
 For years I've wanted to clean up the model namespace,
 see [pydantic#1001](https://github.com/pydantic/pydantic/issues/1001). This would avoid confusing gotchas when field
@@ -511,7 +511,7 @@ The following methods will be removed:
 * `.copy()` instead we'll implement `__copy__` and let people use the `copy` module
   (this removes some functionality) from `copy()` but there are bugs and ambiguities with the functionality anyway
 
-### Strict API & API documentation :thumbsup:
+### Strict API & API documentation :thumbsup
 
 When preparing for pydantic V2, we'll make a strict distinction between the public API and private functions & classes.
 Private objects will be clearly identified as private via a `_internal` sub package to discourage use.
@@ -524,7 +524,7 @@ API documentation for V2.
 
 This wouldn't replace the current example-based somewhat informal documentation style but instead will augment it.
 
-### Error descriptions :thumbsup:
+### Error descriptions :thumbsup
 
 The way line errors (the individual errors within a `ValidationError`) are built has become much more sophisticated
 in pydantic-core.
@@ -565,7 +565,7 @@ I own the `pydantic.dev` domain and will use it for at least these errors so tha
 changes, the error will still link to the correct documentation. If developers don't want to show these errors to users,
 they can always process the errors list and filter out items from each error they don't need or want.
 
-### No pure python implementation :frowning:
+### No pure python implementation :frowning
 
 Since pydantic-core is written in Rust, and I have absolutely no intention of rewriting it in python,
 pydantic V2 will only work where a binary package can be installed.
@@ -591,7 +591,7 @@ The only place where I know this will cause problems is Raspberry Pi, which is a
 Effectively, until that's fixed you'll likely have to install pydantic with
 `pip install -i https://pypi.org/simple/ pydantic`.
 
-### Pydantic becomes a pure python package :thumbsup:
+### Pydantic becomes a pure python package :thumbsup
 
 Pydantic V1.X is a pure python code base but is compiled with cython to provide some performance improvements.
 Since the "hot" code is moved to pydantic-core, pydantic itself can go back to being a pure python package.
@@ -605,7 +605,7 @@ In addition:
 
 Some pieces of edge logic could get a little slower as they're no longer compiled.
 
-### `is_instance` like checks :thumbsup:
+### `is_instance` like checks :thumbsup
 
 Strict mode also means it makes sense to provide an `is_instance` method on models which effectively run
 validation then throws away the result while avoiding the (admittedly small) overhead of creating and raising
@@ -626,7 +626,7 @@ class BaseModel:
             return True
 ```
 
-### I'm dropping the word "parse" and just using "validate" :neutral_face:
+### I'm dropping the word "parse" and just using "validate" :neutral_face
 
 Partly due to the issues with the lack of strict mode,
 I've gone back and forth between using the terms "parse" and "validate" for what pydantic does.
@@ -639,7 +639,7 @@ It's time to stop fighting that, and use consistent names.
 The word "parse" will no longer be used except when talking about JSON parsing, see
 [model methods](#model-namespace-cleanup) above.
 
-### Changes to custom field types :neutral_face:
+### Changes to custom field types :neutral_face
 
 Since the core structure of validators has changed from "a list of validators to call one after another" to
 "a tree of validators which call each other", the
@@ -689,7 +689,7 @@ which is a type defining the schema for validation schemas.
 
 We can probably provide one or more helper functions to make `__pydantic_validation_schema__` easier to generate.
 
-## Other Improvements :thumbsup:
+## Other Improvements :thumbsup
 
 Some other things which will also change, IMHO for the better:
 
@@ -714,11 +714,13 @@ Some other things which will also change, IMHO for the better:
 9. Pydantic will support [annotated-types](https://github.com/annotated-types/annotated-types),
    so you can do stuff like `Annotated[set[int], Len(0, 10)]` or `Name = Annotated[str, Len(1, 1024)]`
 10. A single decorator for general usage - we should add a `validate` decorator which can be used:
-  * on functions (replacing `validate_arguments`)
-  * on dataclasses, `pydantic.dataclasses.dataclass` will become an alias of this
-  * on `TypedDict`s
-  * On any supported type, e.g. `Union[...]`, `Dict[str, Thing]`
-  * On Custom field types - e.g. anything with a `__pydantic_schema__` attribute
+
+* on functions (replacing `validate_arguments`)
+* on dataclasses, `pydantic.dataclasses.dataclass` will become an alias of this
+* on `TypedDict`s
+* On any supported type, e.g. `Union[...]`, `Dict[str, Thing]`
+* On Custom field types - e.g. anything with a `__pydantic_schema__` attribute
+
 11. Easier validation error creation, I've often found myself wanting to raise `ValidationError`s outside
     models, particularly in FastAPI
     ([here](https://github.com/samuelcolvin/foxglove/blob/a4aaacf372178f345e5ff1d569ee8fd9d10746a4/foxglove/exceptions.py#L137-L149)
@@ -732,14 +734,14 @@ Some other things which will also change, IMHO for the better:
 16. Improve generics to use `M(Basemodel, Generic[T])` instead of `M(GenericModel, Generic[T])` - e.g. `GenericModel`
     can be removed; this results from no-longer needing to compile pydantic code with cython
 
-## Removed Features & Limitations :frowning:
+## Removed Features & Limitations :frowning
 
 The emoji here is just for variation, I'm not frowning about any of this, these changes are either good IMHO
 (will make pydantic cleaner, easier to learn and easier to maintain) or irrelevant to 99.9+% of users.
 
 1. `__root__` custom root models are no longer necessary since validation on any supported data type is allowed
    without a model
-2. `.parse_file()` and `.parse_raw()`, partially replaced with `.model_validate_json()`, 
+2. `.parse_file()` and `.parse_raw()`, partially replaced with `.model_validate_json()`,
    see [model methods](#model-namespace-cleanup)
 3. `.schema_json()` & `.copy()`, see [model methods](#model-namespace-cleanup)
 4. `TypeError` are no longer considered as validation errors, but rather as internal errors, this is to better
@@ -763,10 +765,10 @@ The emoji here is just for variation, I'm not frowning about any of this, these 
    * `json_encoders` - see the export "mode" discussion [above](#improvements-to-dumpingserializationexport)
    * `underscore_attrs_are_private` we should just choose a sensible default
    * `smart_union` - all unions are now "smart"
-9. `dict(model)` functionality should be removed, there's a much clearer distinction now that in 2017 when I 
+9. `dict(model)` functionality should be removed, there's a much clearer distinction now that in 2017 when I
    implemented this between a model and a dict
 
-## Features Remaining :neutral_face:
+## Features Remaining :neutral_face
 
 The following features will remain (mostly) unchanged:
 
@@ -775,7 +777,7 @@ The following features will remain (mostly) unchanged:
 * `validate_arguments`, might be renamed, but otherwise remain
 * hypothesis plugin, might be able to improve this as part of the general cleanup
 
-## Questions :question:
+## Questions :question
 
 I hope the explanation above is useful. I'm sure people will have questions and feedback; I'm aware
 I've skipped over some features with limited detail (this post is already fairly long :sleeping:).
@@ -787,7 +789,7 @@ We will endeavour to read and respond to everyone.
 
 ---
 
-## Implementation Details :nerd:
+## Implementation Details :nerd
 
 (This is yet to be built, so these are nascent ideas which might change)
 
@@ -843,7 +845,7 @@ The aim will be to get pydantic V2 to a place were the vast majority of tests co
 
 Thereby guaranteeing (as much as possible) that the external interface to pydantic and its behaviour are unchanged.
 
-## Conversion Table :material-table:
+## Conversion Table :material-table
 
 The table below provisionally defines what input value types are allowed to which field types.
 
@@ -855,7 +857,7 @@ An updated and complete version of this table will be included in the docs for V
     see [pydantic-core#152](https://github.com/pydantic/pydantic-core/issues/152).
 
 | Field Type    | Input       | Mode   | Input Source | Conditions                                                                  |
-|---------------|-------------|--------|--------------|-----------------------------------------------------------------------------|
+| ------------- | ----------- | ------ | ------------ | --------------------------------------------------------------------------- |
 | `str`         | `str`       | both   | python, JSON | -                                                                           |
 | `str`         | `bytes`     | lax    | python       | assumes UTF-8, error on unicode decoding error                              |
 | `str`         | `bytearray` | lax    | python       | assumes UTF-8, error on unicode decoding error                              |
@@ -912,10 +914,10 @@ An updated and complete version of this table will be included in the docs for V
 | `dict`        | `dict`      | both   | python       | -                                                                           |
 | `dict`        | `Object`    | both   | JSON         | -                                                                           |
 | `dict`        | `mapping`   | lax    | python       | must implement the mapping interface and have an `items()` method           |
-| `TypedDict`    | `dict`      | both   | python       | -                                                                           |
-| `TypedDict`    | `Object`    | both   | JSON         | -                                                                           |
-| `TypedDict`    | `Any`       | both   | python       | builtins not allowed, uses `getattr`, requires `from_attributes=True`       |
-| `TypedDict`    | `mapping`   | lax    | python       | must implement the mapping interface and have an `items()` method           |
+| `TypedDict`   | `dict`      | both   | python       | -                                                                           |
+| `TypedDict`   | `Object`    | both   | JSON         | -                                                                           |
+| `TypedDict`   | `Any`       | both   | python       | builtins not allowed, uses `getattr`, requires `from_attributes=True`       |
+| `TypedDict`   | `mapping`   | lax    | python       | must implement the mapping interface and have an `items()` method           |
 | `list`        | `list`      | both   | python       | -                                                                           |
 | `list`        | `Array`     | both   | JSON         | -                                                                           |
 | `list`        | `tuple`     | lax    | python       | -                                                                           |
