@@ -1,16 +1,16 @@
 
 <!doctype html>
-<html lang="zh" class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="使用Python类型注解进行数据校验">
+        <meta name="description" content="Data validation using Python type hints">
       
       
       
-        <link rel="canonical" href="https://hellowac.github.io/pydantic-zh-cn/v1.10.7/usage/settings/">
+        <link rel="canonical" href="https://docs.pydantic.dev/v1.10.7/usage/settings/">
       
       
         <link rel="prev" href="../validation_decorator/">
@@ -19,18 +19,18 @@
         <link rel="next" href="../postponed_annotations/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
-        <title>配置管理 - Pydantic</title>
+        <title>Settings management - Pydantic</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -80,7 +80,7 @@
       
         
         <a href="#environment-variable-names" class="md-skip">
-          跳转至
+          Skip to content
         </a>
       
     </div>
@@ -88,17 +88,13 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
-    
     
       
 
   
 
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
+  <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Pydantic" class="md-header__button md-logo" aria-label="Pydantic" data-md-component="logo">
       
   <img src="../../logo-white.svg" alt="logo">
@@ -117,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              配置管理
+              Settings management
             
           </span>
         </div>
@@ -159,14 +155,14 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="查找">
+      <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -176,7 +172,7 @@
       <div class="md-search__scrollwrap" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            正在初始化搜索引擎
+            Initializing search
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -187,13 +183,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+        <a href="https://github.com/pydantic/pydantic" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    hellowac/pydantic-zh-cn
+    pydantic/pydantic
   </div>
 </a>
       </div>
@@ -220,7 +216,7 @@
                     
 
 
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Pydantic" class="md-nav__button md-logo" aria-label="Pydantic" data-md-component="logo">
       
@@ -231,13 +227,13 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+      <a href="https://github.com/pydantic/pydantic" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    hellowac/pydantic-zh-cn
+    pydantic/pydantic
   </div>
 </a>
     </div>
@@ -253,7 +249,7 @@
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        概览
+        Overview
       </a>
     </li>
   
@@ -268,7 +264,7 @@
   
     <li class="md-nav__item">
       <a href="../../install/" class="md-nav__link">
-        安装
+        Install
       </a>
     </li>
   
@@ -294,14 +290,14 @@
       
       
         <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          使用指南
+          Usage
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
-          使用指南
+          Usage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -312,7 +308,7 @@
   
     <li class="md-nav__item">
       <a href="../models/" class="md-nav__link">
-        模型
+        Models
       </a>
     </li>
   
@@ -326,7 +322,7 @@
   
     <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
-        字段类型
+        Field Types
       </a>
     </li>
   
@@ -340,7 +336,7 @@
   
     <li class="md-nav__item">
       <a href="../validators/" class="md-nav__link">
-        字段校验
+        Validators
       </a>
     </li>
   
@@ -354,7 +350,7 @@
   
     <li class="md-nav__item">
       <a href="../model_config/" class="md-nav__link">
-        模型配置
+        Model Config
       </a>
     </li>
   
@@ -368,7 +364,7 @@
   
     <li class="md-nav__item">
       <a href="../schema/" class="md-nav__link">
-        模型图式(schema)
+        Schema
       </a>
     </li>
   
@@ -382,7 +378,7 @@
   
     <li class="md-nav__item">
       <a href="../exporting_models/" class="md-nav__link">
-        模型导出
+        Exporting models
       </a>
     </li>
   
@@ -396,7 +392,7 @@
   
     <li class="md-nav__item">
       <a href="../dataclasses/" class="md-nav__link">
-        数据类
+        Dataclasses
       </a>
     </li>
   
@@ -410,7 +406,7 @@
   
     <li class="md-nav__item">
       <a href="../validation_decorator/" class="md-nav__link">
-        校验装饰器
+        Validation decorator
       </a>
     </li>
   
@@ -431,24 +427,24 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          配置管理
+          Settings management
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        配置管理
+        Settings management
       </a>
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -550,7 +546,7 @@
   
     <li class="md-nav__item">
       <a href="../postponed_annotations/" class="md-nav__link">
-        延迟注解
+        Postponed annotations
       </a>
     </li>
   
@@ -564,21 +560,7 @@
   
     <li class="md-nav__item">
       <a href="../mypy/" class="md-nav__link">
-        和mypy一起使用
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rich/" class="md-nav__link">
-        和rich一起使用
+        Usage with mypy
       </a>
     </li>
   
@@ -592,7 +574,21 @@
   
     <li class="md-nav__item">
       <a href="../devtools/" class="md-nav__link">
-        和devtools一起使用
+        Usage with devtools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rich/" class="md-nav__link">
+        Usage with rich
       </a>
     </li>
   
@@ -623,14 +619,14 @@
       
       
         <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-          博客
+          Blog
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          博客
+          Blog
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -641,7 +637,7 @@
   
     <li class="md-nav__item">
       <a href="../../blog/pydantic-v2/" class="md-nav__link">
-        Pydantic V2 版本计划
+        Pydantic V2 Plan
       </a>
     </li>
   
@@ -663,7 +659,7 @@
   
     <li class="md-nav__item">
       <a href="../../contributing/" class="md-nav__link">
-        贡献参与
+        Contributing to pydantic
       </a>
     </li>
   
@@ -678,7 +674,7 @@
   
     <li class="md-nav__item">
       <a href="../../mypy_plugin/" class="md-nav__link">
-        Mypy插件
+        Mypy plugin
       </a>
     </li>
   
@@ -693,7 +689,7 @@
   
     <li class="md-nav__item">
       <a href="../../pycharm_plugin/" class="md-nav__link">
-        PyCharm插件
+        PyCharm plugin
       </a>
     </li>
   
@@ -708,7 +704,7 @@
   
     <li class="md-nav__item">
       <a href="../../visual_studio_code/" class="md-nav__link">
-        VSCode使用
+        Visual Studio Code
       </a>
     </li>
   
@@ -723,7 +719,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis plugin
       </a>
     </li>
   
@@ -738,7 +734,7 @@
   
     <li class="md-nav__item">
       <a href="../../datamodel_code_generator/" class="md-nav__link">
-        代码生成
+        Code Generation
       </a>
     </li>
   
@@ -753,7 +749,7 @@
   
     <li class="md-nav__item">
       <a href="../../changelog/" class="md-nav__link">
-        更新日志
+        Changelog
       </a>
     </li>
   
@@ -772,14 +768,14 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -890,7 +886,7 @@
   
 
 
-  <h1>配置管理</h1>
+  <h1>Settings management</h1>
 
 <p>One of pydantic's most useful applications is settings management.</p>
 <p>If you create a model that inherits from <code>BaseSettings</code>, the model initialiser will attempt to determine
@@ -903,6 +899,141 @@ will still be used if the matching environment variable is not set.)</p>
 <li>Manually override specific settings in the initialiser where desired (e.g. in unit tests)</li>
 </ul>
 <p>For example:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 and above</label><label for="__tabbed_1_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Set</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">BaseSettings</span><span class="p">,</span>
+    <span class="n">PyObject</span><span class="p">,</span>
+    <span class="n">RedisDsn</span><span class="p">,</span>
+    <span class="n">PostgresDsn</span><span class="p">,</span>
+    <span class="n">AmqpDsn</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SubModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+    <span class="n">apple</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">auth_key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="s1">&#39;my_api_key&#39;</span><span class="p">)</span>
+
+    <span class="n">redis_dsn</span><span class="p">:</span> <span class="n">RedisDsn</span> <span class="o">=</span> <span class="s1">&#39;redis://user:pass@localhost:6379/1&#39;</span>
+    <span class="n">pg_dsn</span><span class="p">:</span> <span class="n">PostgresDsn</span> <span class="o">=</span> <span class="s1">&#39;postgres://user:pass@localhost:5432/foobar&#39;</span>
+    <span class="n">amqp_dsn</span><span class="p">:</span> <span class="n">AmqpDsn</span> <span class="o">=</span> <span class="s1">&#39;amqp://user:pass@localhost:5672/&#39;</span>
+
+    <span class="n">special_function</span><span class="p">:</span> <span class="n">PyObject</span> <span class="o">=</span> <span class="s1">&#39;math.cos&#39;</span>
+
+    <span class="c1"># to override domains:</span>
+    <span class="c1"># export my_prefix_domains=&#39;[&quot;foo.com&quot;, &quot;bar.com&quot;]&#39;</span>
+    <span class="n">domains</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># to override more_settings:</span>
+    <span class="c1"># export my_prefix_more_settings=&#39;{&quot;foo&quot;: &quot;x&quot;, &quot;apple&quot;: 1}&#39;</span>
+    <span class="n">more_settings</span><span class="p">:</span> <span class="n">SubModel</span> <span class="o">=</span> <span class="n">SubModel</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;my_prefix_&#39;</span>  <span class="c1"># defaults to no prefix, i.e. &quot;&quot;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;auth_key&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;env&#39;</span><span class="p">:</span> <span class="s1">&#39;my_auth_key&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;redis_dsn&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;env&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;service_redis_dsn&#39;</span><span class="p">,</span> <span class="s1">&#39;redis_url&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;auth_key&#39;: &#39;xxx&#39;,</span>
+<span class="sd">    &#39;api_key&#39;: &#39;xxx&#39;,</span>
+<span class="sd">    &#39;redis_dsn&#39;: RedisDsn(&#39;redis://user:pass@localhost:6379/1&#39;, ),</span>
+<span class="sd">    &#39;pg_dsn&#39;: PostgresDsn(&#39;postgres://user:pass@localhost:5432/foobar&#39;, ),</span>
+<span class="sd">    &#39;amqp_dsn&#39;: AmqpDsn(&#39;amqp://user:pass@localhost:5672/&#39;, scheme=&#39;amqp&#39;,</span>
+<span class="sd">user=&#39;user&#39;, password=&#39;pass&#39;, host=&#39;localhost&#39;, host_type=&#39;int_domain&#39;,</span>
+<span class="sd">port=&#39;5672&#39;, path=&#39;/&#39;),</span>
+<span class="sd">    &#39;special_function&#39;: &lt;built-in function cos&gt;,</span>
+<span class="sd">    &#39;domains&#39;: set(),</span>
+<span class="sd">    &#39;more_settings&#39;: {&#39;foo&#39;: &#39;bar&#39;, &#39;apple&#39;: 1},</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseModel</span><span class="p">,</span>
+    <span class="n">BaseSettings</span><span class="p">,</span>
+    <span class="n">PyObject</span><span class="p">,</span>
+    <span class="n">RedisDsn</span><span class="p">,</span>
+    <span class="n">PostgresDsn</span><span class="p">,</span>
+    <span class="n">AmqpDsn</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SubModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span>
+    <span class="n">apple</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">auth_key</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">api_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="s1">&#39;my_api_key&#39;</span><span class="p">)</span>
+
+    <span class="n">redis_dsn</span><span class="p">:</span> <span class="n">RedisDsn</span> <span class="o">=</span> <span class="s1">&#39;redis://user:pass@localhost:6379/1&#39;</span>
+    <span class="n">pg_dsn</span><span class="p">:</span> <span class="n">PostgresDsn</span> <span class="o">=</span> <span class="s1">&#39;postgres://user:pass@localhost:5432/foobar&#39;</span>
+    <span class="n">amqp_dsn</span><span class="p">:</span> <span class="n">AmqpDsn</span> <span class="o">=</span> <span class="s1">&#39;amqp://user:pass@localhost:5672/&#39;</span>
+
+    <span class="n">special_function</span><span class="p">:</span> <span class="n">PyObject</span> <span class="o">=</span> <span class="s1">&#39;math.cos&#39;</span>
+
+    <span class="c1"># to override domains:</span>
+    <span class="c1"># export my_prefix_domains=&#39;[&quot;foo.com&quot;, &quot;bar.com&quot;]&#39;</span>
+    <span class="n">domains</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="c1"># to override more_settings:</span>
+    <span class="c1"># export my_prefix_more_settings=&#39;{&quot;foo&quot;: &quot;x&quot;, &quot;apple&quot;: 1}&#39;</span>
+    <span class="n">more_settings</span><span class="p">:</span> <span class="n">SubModel</span> <span class="o">=</span> <span class="n">SubModel</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;my_prefix_&#39;</span>  <span class="c1"># defaults to no prefix, i.e. &quot;&quot;</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;auth_key&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;env&#39;</span><span class="p">:</span> <span class="s1">&#39;my_auth_key&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s1">&#39;redis_dsn&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;env&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;service_redis_dsn&#39;</span><span class="p">,</span> <span class="s1">&#39;redis_url&#39;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;auth_key&#39;: &#39;xxx&#39;,</span>
+<span class="sd">    &#39;api_key&#39;: &#39;xxx&#39;,</span>
+<span class="sd">    &#39;redis_dsn&#39;: RedisDsn(&#39;redis://user:pass@localhost:6379/1&#39;, ),</span>
+<span class="sd">    &#39;pg_dsn&#39;: PostgresDsn(&#39;postgres://user:pass@localhost:5432/foobar&#39;, ),</span>
+<span class="sd">    &#39;amqp_dsn&#39;: AmqpDsn(&#39;amqp://user:pass@localhost:5672/&#39;, scheme=&#39;amqp&#39;,</span>
+<span class="sd">user=&#39;user&#39;, password=&#39;pass&#39;, host=&#39;localhost&#39;, host_type=&#39;int_domain&#39;,</span>
+<span class="sd">port=&#39;5672&#39;, path=&#39;/&#39;),</span>
+<span class="sd">    &#39;special_function&#39;: &lt;built-in function cos&gt;,</span>
+<span class="sd">    &#39;domains&#39;: set(),</span>
+<span class="sd">    &#39;more_settings&#39;: {&#39;foo&#39;: &#39;bar&#39;, &#39;apple&#39;: 1},</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <h2 id="environment-variable-names">Environment variable names<a class="headerlink" href="#environment-variable-names" title="Permanent link">&para;</a></h2>
 <p>The following rules are used to determine which environment variable(s) are read for a given field:</p>
 <ul>
@@ -940,6 +1071,22 @@ without a custom env var name. If you really mean to use aliases, either ignore 
 suppress it.</p>
 </div>
 <p>Case-sensitivity can be turned on through the <code>Config</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">redis_host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">case_sensitive</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <p>When <code>case_sensitive</code> is <code>True</code>, the environment variable names must match field names (optionally with a prefix),
 so in this example
 <code>redis_host</code> could only be modified via <code>export redis_host</code>. If you want to name environment variables
@@ -973,6 +1120,48 @@ If you have multiple variables with the same structure they will be merged.</p>
 <span class="nb">export</span><span class="w"> </span><span class="nv">SUB_MODEL__DEEP__V4</span><span class="o">=</span>v4
 </code></pre></div></p>
 <p>You could load a settings module thus:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">class</span> <span class="nc">DeepSubModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">v4</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">SubModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">v1</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">v2</span><span class="p">:</span> <span class="nb">bytes</span>
+    <span class="n">v3</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">deep</span><span class="p">:</span> <span class="n">DeepSubModel</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">v0</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">sub_model</span><span class="p">:</span> <span class="n">SubModel</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_nested_delimiter</span> <span class="o">=</span> <span class="s1">&#39;__&#39;</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;v0&#39;: &#39;0&#39;,</span>
+<span class="sd">    &#39;sub_model&#39;: {</span>
+<span class="sd">        &#39;v1&#39;: &#39;json-1&#39;,</span>
+<span class="sd">        &#39;v2&#39;: b&#39;nested-2&#39;,</span>
+<span class="sd">        &#39;v3&#39;: 3,</span>
+<span class="sd">        &#39;deep&#39;: {&#39;v4&#39;: &#39;v4&#39;},</span>
+<span class="sd">    },</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <p><code>env_nested_delimiter</code> can be configured via the <code>Config</code> class as shown above, or via the
 <code>_env_nested_delimiter</code> keyword argument on instantiation.</p>
 <p>JSON is only parsed in top-level fields, if you need to parse JSON in sub-models, you will need to implement
@@ -981,6 +1170,57 @@ validators on those models.</p>
 (e.g. in the example above, <code>SUB_MODEL__V2</code> trumps <code>SUB_MODEL</code>).</p>
 <p>You may also populate a complex type by providing your own parsing function to
 the <code>parse_env_var</code> classmethod in the Config object.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 and above</label><label for="__tabbed_4_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">numbers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">parse_env_var</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raw_val</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s1">&#39;numbers&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">raw_val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">json_loads</span><span class="p">(</span><span class="n">raw_val</span><span class="p">)</span>
+
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;numbers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1,2,3&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="c1">#&gt; {&#39;numbers&#39;: [1, 2, 3]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">parse_env_var</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raw_val</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">field_name</span> <span class="o">==</span> <span class="s1">&#39;numbers&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">raw_val</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">json_loads</span><span class="p">(</span><span class="n">raw_val</span><span class="p">)</span>
+
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;numbers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1,2,3&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">()</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="c1">#&gt; {&#39;numbers&#39;: [1, 2, 3]}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <h2 id="dotenv-env-support">Dotenv (.env) support<a class="headerlink" href="#dotenv-env-support" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1107,12 +1347,214 @@ callables are called to build the inputs to the fields of the settings class.</p
 <p>Each callable should take an instance of the settings class as its sole argument and return a <code>dict</code>.</p>
 <h3 id="changing-priority">Changing Priority<a class="headerlink" href="#changing-priority" title="Permanent link">&para;</a></h3>
 <p>The order of the returned callables decides the priority of inputs; first item is the highest priority.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 and above</label><label for="__tabbed_5_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">PostgresDsn</span>
+<span class="kn">from</span> <span class="nn">pydantic.env_settings</span> <span class="kn">import</span> <span class="n">SettingsSourceCallable</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">database_dsn</span><span class="p">:</span> <span class="n">PostgresDsn</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">SettingsSourceCallable</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">env_settings</span><span class="p">,</span> <span class="n">init_settings</span><span class="p">,</span> <span class="n">file_secret_settings</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">(</span><span class="n">database_dsn</span><span class="o">=</span><span class="s1">&#39;postgres://postgres@localhost:5432/kwargs_db&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; database_dsn=PostgresDsn(&#39;postgres://postgres@localhost:5432/env_db&#39;, )</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">PostgresDsn</span>
+<span class="kn">from</span> <span class="nn">pydantic.env_settings</span> <span class="kn">import</span> <span class="n">SettingsSourceCallable</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">database_dsn</span><span class="p">:</span> <span class="n">PostgresDsn</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SettingsSourceCallable</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">env_settings</span><span class="p">,</span> <span class="n">init_settings</span><span class="p">,</span> <span class="n">file_secret_settings</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">(</span><span class="n">database_dsn</span><span class="o">=</span><span class="s1">&#39;postgres://postgres@localhost:5432/kwargs_db&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; database_dsn=PostgresDsn(&#39;postgres://postgres@localhost:5432/env_db&#39;, )</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <p>By flipping <code>env_settings</code> and <code>init_settings</code>, environment variables now have precedence over <code>__init__</code> kwargs.</p>
 <h3 id="adding-sources">Adding sources<a class="headerlink" href="#adding-sources" title="Permanent link">&para;</a></h3>
 <p>As explained earlier, <em>pydantic</em> ships with multiples built-in settings sources. However, you may occasionally
 need to add your own custom sources, <code>customise_sources</code> makes this very easy:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 and above</label><label for="__tabbed_6_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">def</span> <span class="nf">json_config_settings_source</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">BaseSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple settings source that loads variables from a JSON file</span>
+<span class="sd">    at the project&#39;s root.</span>
+
+<span class="sd">    Here we happen to choose to use the `env_file_encoding` from Config</span>
+<span class="sd">    when reading `config.json`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">env_file_encoding</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;config.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">foobar</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_file_encoding</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">init_settings</span><span class="p">,</span>
+                <span class="n">json_config_settings_source</span><span class="p">,</span>
+                <span class="n">env_settings</span><span class="p">,</span>
+                <span class="n">file_secret_settings</span><span class="p">,</span>
+            <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">())</span>
+<span class="c1">#&gt; foobar=&#39;spam&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+
+
+<span class="k">def</span> <span class="nf">json_config_settings_source</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">BaseSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A simple settings source that loads variables from a JSON file</span>
+<span class="sd">    at the project&#39;s root.</span>
+
+<span class="sd">    Here we happen to choose to use the `env_file_encoding` from Config</span>
+<span class="sd">    when reading `config.json`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">env_file_encoding</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;config.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="p">))</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">foobar</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">env_file_encoding</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">init_settings</span><span class="p">,</span>
+                <span class="n">json_config_settings_source</span><span class="p">,</span>
+                <span class="n">env_settings</span><span class="p">,</span>
+                <span class="n">file_secret_settings</span><span class="p">,</span>
+            <span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">())</span>
+<span class="c1">#&gt; foobar=&#39;spam&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <h3 id="removing-sources">Removing sources<a class="headerlink" href="#removing-sources" title="Permanent link">&para;</a></h3>
 <p>You might also want to disable a source:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 and above</label><label for="__tabbed_7_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+<span class="kn">from</span> <span class="nn">pydantic.env_settings</span> <span class="kn">import</span> <span class="n">SettingsSourceCallable</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">my_api_key</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">SettingsSourceCallable</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+            <span class="c1"># here we choose to ignore arguments from init_settings</span>
+            <span class="k">return</span> <span class="n">env_settings</span><span class="p">,</span> <span class="n">file_secret_settings</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">(</span><span class="n">my_api_key</span><span class="o">=</span><span class="s1">&#39;this is ignored&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; my_api_key=&#39;xxx&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseSettings</span>
+<span class="kn">from</span> <span class="nn">pydantic.env_settings</span> <span class="kn">import</span> <span class="n">SettingsSourceCallable</span>
+
+
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">my_api_key</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">customise_sources</span><span class="p">(</span>
+            <span class="bp">cls</span><span class="p">,</span>
+            <span class="n">init_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">env_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+            <span class="n">file_secret_settings</span><span class="p">:</span> <span class="n">SettingsSourceCallable</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SettingsSourceCallable</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+            <span class="c1"># here we choose to ignore arguments from init_settings</span>
+            <span class="k">return</span> <span class="n">env_settings</span><span class="p">,</span> <span class="n">file_secret_settings</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Settings</span><span class="p">(</span><span class="n">my_api_key</span><span class="o">=</span><span class="s1">&#39;this is ignored&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; my_api_key=&#39;xxx&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script requires <code>MY_API_KEY</code> env variable to be set, e.g. <code>export MY_API_KEY=xxx</code>)</em></p>
 
 
 
@@ -1129,11 +1571,6 @@ need to add your own custom sources, <code>customise_sources</code> makes this v
   <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
         </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
-            回到页面顶部
-          </button>
         
       </main>
       
@@ -1160,10 +1597,10 @@ need to add your own custom sources, <code>customise_sources</code> makes this v
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

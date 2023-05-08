@@ -1,16 +1,16 @@
 
 <!doctype html>
-<html lang="zh" class="no-js">
+<html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="使用Python类型注解进行数据校验">
+        <meta name="description" content="Data validation using Python type hints">
       
       
       
-        <link rel="canonical" href="https://hellowac.github.io/pydantic-zh-cn/v1.10.7/usage/schema/">
+        <link rel="canonical" href="https://docs.pydantic.dev/v1.10.7/usage/schema/">
       
       
         <link rel="prev" href="../model_config/">
@@ -19,18 +19,18 @@
         <link rel="next" href="../exporting_models/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
-        <title>模型图式(schema) - Pydantic</title>
+        <title>Schema - Pydantic</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -80,7 +80,7 @@
       
         
         <a href="#getting-schema-of-a-specified-type" class="md-skip">
-          跳转至
+          Skip to content
         </a>
       
     </div>
@@ -88,17 +88,13 @@
       
     </div>
     
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
-    
     
       
 
   
 
 <header class="md-header md-header--shadow" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="页眉">
+  <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Pydantic" class="md-header__button md-logo" aria-label="Pydantic" data-md-component="logo">
       
   <img src="../../logo-white.svg" alt="logo">
@@ -117,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              模型图式(schema)
+              Schema
             
           </span>
         </div>
@@ -159,14 +155,14 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
-      <nav class="md-search__options" aria-label="查找">
+      <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -176,7 +172,7 @@
       <div class="md-search__scrollwrap" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            正在初始化搜索引擎
+            Initializing search
           </div>
           <ol class="md-search-result__list" role="presentation"></ol>
         </div>
@@ -187,13 +183,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+        <a href="https://github.com/pydantic/pydantic" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    hellowac/pydantic-zh-cn
+    pydantic/pydantic
   </div>
 </a>
       </div>
@@ -220,7 +216,7 @@
                     
 
 
-<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Pydantic" class="md-nav__button md-logo" aria-label="Pydantic" data-md-component="logo">
       
@@ -231,13 +227,13 @@
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/hellowac/pydantic-zh-cn" title="前往仓库" class="md-source" data-md-component="source">
+      <a href="https://github.com/pydantic/pydantic" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
-    hellowac/pydantic-zh-cn
+    pydantic/pydantic
   </div>
 </a>
     </div>
@@ -253,7 +249,7 @@
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        概览
+        Overview
       </a>
     </li>
   
@@ -268,7 +264,7 @@
   
     <li class="md-nav__item">
       <a href="../../install/" class="md-nav__link">
-        安装
+        Install
       </a>
     </li>
   
@@ -294,14 +290,14 @@
       
       
         <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-          使用指南
+          Usage
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
-          使用指南
+          Usage
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -312,7 +308,7 @@
   
     <li class="md-nav__item">
       <a href="../models/" class="md-nav__link">
-        模型
+        Models
       </a>
     </li>
   
@@ -326,7 +322,7 @@
   
     <li class="md-nav__item">
       <a href="../types/" class="md-nav__link">
-        字段类型
+        Field Types
       </a>
     </li>
   
@@ -340,7 +336,7 @@
   
     <li class="md-nav__item">
       <a href="../validators/" class="md-nav__link">
-        字段校验
+        Validators
       </a>
     </li>
   
@@ -354,7 +350,7 @@
   
     <li class="md-nav__item">
       <a href="../model_config/" class="md-nav__link">
-        模型配置
+        Model Config
       </a>
     </li>
   
@@ -375,24 +371,24 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          模型图式(schema)
+          Schema
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        模型图式(schema)
+        Schema
       </a>
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -474,7 +470,7 @@
   
     <li class="md-nav__item">
       <a href="../exporting_models/" class="md-nav__link">
-        模型导出
+        Exporting models
       </a>
     </li>
   
@@ -488,7 +484,7 @@
   
     <li class="md-nav__item">
       <a href="../dataclasses/" class="md-nav__link">
-        数据类
+        Dataclasses
       </a>
     </li>
   
@@ -502,7 +498,7 @@
   
     <li class="md-nav__item">
       <a href="../validation_decorator/" class="md-nav__link">
-        校验装饰器
+        Validation decorator
       </a>
     </li>
   
@@ -516,7 +512,7 @@
   
     <li class="md-nav__item">
       <a href="../settings/" class="md-nav__link">
-        配置管理
+        Settings management
       </a>
     </li>
   
@@ -530,7 +526,7 @@
   
     <li class="md-nav__item">
       <a href="../postponed_annotations/" class="md-nav__link">
-        延迟注解
+        Postponed annotations
       </a>
     </li>
   
@@ -544,21 +540,7 @@
   
     <li class="md-nav__item">
       <a href="../mypy/" class="md-nav__link">
-        和mypy一起使用
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rich/" class="md-nav__link">
-        和rich一起使用
+        Usage with mypy
       </a>
     </li>
   
@@ -572,7 +554,21 @@
   
     <li class="md-nav__item">
       <a href="../devtools/" class="md-nav__link">
-        和devtools一起使用
+        Usage with devtools
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rich/" class="md-nav__link">
+        Usage with rich
       </a>
     </li>
   
@@ -603,14 +599,14 @@
       
       
         <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-          博客
+          Blog
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          博客
+          Blog
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -621,7 +617,7 @@
   
     <li class="md-nav__item">
       <a href="../../blog/pydantic-v2/" class="md-nav__link">
-        Pydantic V2 版本计划
+        Pydantic V2 Plan
       </a>
     </li>
   
@@ -643,7 +639,7 @@
   
     <li class="md-nav__item">
       <a href="../../contributing/" class="md-nav__link">
-        贡献参与
+        Contributing to pydantic
       </a>
     </li>
   
@@ -658,7 +654,7 @@
   
     <li class="md-nav__item">
       <a href="../../mypy_plugin/" class="md-nav__link">
-        Mypy插件
+        Mypy plugin
       </a>
     </li>
   
@@ -673,7 +669,7 @@
   
     <li class="md-nav__item">
       <a href="../../pycharm_plugin/" class="md-nav__link">
-        PyCharm插件
+        PyCharm plugin
       </a>
     </li>
   
@@ -688,7 +684,7 @@
   
     <li class="md-nav__item">
       <a href="../../visual_studio_code/" class="md-nav__link">
-        VSCode使用
+        Visual Studio Code
       </a>
     </li>
   
@@ -703,7 +699,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis plugin
       </a>
     </li>
   
@@ -718,7 +714,7 @@
   
     <li class="md-nav__item">
       <a href="../../datamodel_code_generator/" class="md-nav__link">
-        代码生成
+        Code Generation
       </a>
     </li>
   
@@ -733,7 +729,7 @@
   
     <li class="md-nav__item">
       <a href="../../changelog/" class="md-nav__link">
-        更新日志
+        Changelog
       </a>
     </li>
   
@@ -752,14 +748,14 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
   
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -850,9 +846,110 @@
   
 
 
-  <h1>模型图式(schema)</h1>
+  <h1>Schema</h1>
 
 <p><em>Pydantic</em> allows auto creation of JSON Schemas from models:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+
+
+<span class="k">class</span> <span class="nc">FooBar</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">Gender</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
+    <span class="n">male</span> <span class="o">=</span> <span class="s1">&#39;male&#39;</span>
+    <span class="n">female</span> <span class="o">=</span> <span class="s1">&#39;female&#39;</span>
+    <span class="n">other</span> <span class="o">=</span> <span class="s1">&#39;other&#39;</span>
+    <span class="n">not_given</span> <span class="o">=</span> <span class="s1">&#39;not_given&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">MainModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the description of the main model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">foo_bar</span><span class="p">:</span> <span class="n">FooBar</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">gender</span><span class="p">:</span> <span class="n">Gender</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s1">&#39;Gender&#39;</span><span class="p">)</span>
+    <span class="n">snap</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="mi">42</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;The Snap&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;this is the value of snap&#39;</span><span class="p">,</span>
+        <span class="n">gt</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">lt</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Main&#39;</span>
+
+
+<span class="c1"># this is equivalent to json.dumps(MainModel.schema(), indent=2):</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">MainModel</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Main&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This is the description of the main model&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;foo_bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/FooBar&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Gender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Gender&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;snap&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Snap&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;this is the value of snap&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;exclusiveMinimum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;exclusiveMaximum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;foo_bar&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;FooBar&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FooBar&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Count&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Size&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;number&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;count&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Gender&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gender&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;An enumeration.&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;enum&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;male&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;female&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;other&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;not_given&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>The generated schemas are compliant with the specifications:
 <a href="https://json-schema.org/latest/json-schema-core.html">JSON Schema Core</a>,
 <a href="https://json-schema.org/latest/json-schema-validation.html">JSON Schema Validation</a> and
@@ -876,6 +973,185 @@ will be replaced with the model naming using <code>str.format()</code>.</p>
 apply the schema generation logic used for <em>pydantic</em> models in a more ad-hoc way.
 These functions behave similarly to <code>BaseModel.schema</code> and <code>BaseModel.schema_json</code>,
 but work with arbitrary pydantic-compatible types.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 and above</label><label for="__tabbed_2_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">schema_json_of</span>
+
+
+<span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+    <span class="n">cat_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">]</span>
+    <span class="n">dog_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">Pet</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Cat</span><span class="p">,</span> <span class="n">Dog</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;pet_type&#39;</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">schema_json_of</span><span class="p">(</span><span class="n">Pet</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;The Pet Schema&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">  &quot;title&quot;: &quot;The Pet Schema&quot;,</span>
+<span class="sd">  &quot;discriminator&quot;: {</span>
+<span class="sd">    &quot;propertyName&quot;: &quot;pet_type&quot;,</span>
+<span class="sd">    &quot;mapping&quot;: {</span>
+<span class="sd">      &quot;cat&quot;: &quot;#/definitions/Cat&quot;,</span>
+<span class="sd">      &quot;dog&quot;: &quot;#/definitions/Dog&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  },</span>
+<span class="sd">  &quot;oneOf&quot;: [</span>
+<span class="sd">    {</span>
+<span class="sd">      &quot;$ref&quot;: &quot;#/definitions/Cat&quot;</span>
+<span class="sd">    },</span>
+<span class="sd">    {</span>
+<span class="sd">      &quot;$ref&quot;: &quot;#/definitions/Dog&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  ],</span>
+<span class="sd">  &quot;definitions&quot;: {</span>
+<span class="sd">    &quot;Cat&quot;: {</span>
+<span class="sd">      &quot;title&quot;: &quot;Cat&quot;,</span>
+<span class="sd">      &quot;type&quot;: &quot;object&quot;,</span>
+<span class="sd">      &quot;properties&quot;: {</span>
+<span class="sd">        &quot;pet_type&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Pet Type&quot;,</span>
+<span class="sd">          &quot;enum&quot;: [</span>
+<span class="sd">            &quot;cat&quot;</span>
+<span class="sd">          ],</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        },</span>
+<span class="sd">        &quot;cat_name&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Cat Name&quot;,</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">      },</span>
+<span class="sd">      &quot;required&quot;: [</span>
+<span class="sd">        &quot;pet_type&quot;,</span>
+<span class="sd">        &quot;cat_name&quot;</span>
+<span class="sd">      ]</span>
+<span class="sd">    },</span>
+<span class="sd">    &quot;Dog&quot;: {</span>
+<span class="sd">      &quot;title&quot;: &quot;Dog&quot;,</span>
+<span class="sd">      &quot;type&quot;: &quot;object&quot;,</span>
+<span class="sd">      &quot;properties&quot;: {</span>
+<span class="sd">        &quot;pet_type&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Pet Type&quot;,</span>
+<span class="sd">          &quot;enum&quot;: [</span>
+<span class="sd">            &quot;dog&quot;</span>
+<span class="sd">          ],</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        },</span>
+<span class="sd">        &quot;dog_name&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Dog Name&quot;,</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">      },</span>
+<span class="sd">      &quot;required&quot;: [</span>
+<span class="sd">        &quot;pet_type&quot;,</span>
+<span class="sd">        &quot;dog_name&quot;</span>
+<span class="sd">      ]</span>
+<span class="sd">    }</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">schema_json_of</span>
+
+
+<span class="k">class</span> <span class="nc">Cat</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+    <span class="n">cat_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">Dog</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">pet_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s1">&#39;dog&#39;</span><span class="p">]</span>
+    <span class="n">dog_name</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="n">Pet</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Cat</span><span class="p">,</span> <span class="n">Dog</span><span class="p">],</span> <span class="n">Field</span><span class="p">(</span><span class="n">discriminator</span><span class="o">=</span><span class="s1">&#39;pet_type&#39;</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">schema_json_of</span><span class="p">(</span><span class="n">Pet</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;The Pet Schema&#39;</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">  &quot;title&quot;: &quot;The Pet Schema&quot;,</span>
+<span class="sd">  &quot;discriminator&quot;: {</span>
+<span class="sd">    &quot;propertyName&quot;: &quot;pet_type&quot;,</span>
+<span class="sd">    &quot;mapping&quot;: {</span>
+<span class="sd">      &quot;cat&quot;: &quot;#/definitions/Cat&quot;,</span>
+<span class="sd">      &quot;dog&quot;: &quot;#/definitions/Dog&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  },</span>
+<span class="sd">  &quot;oneOf&quot;: [</span>
+<span class="sd">    {</span>
+<span class="sd">      &quot;$ref&quot;: &quot;#/definitions/Cat&quot;</span>
+<span class="sd">    },</span>
+<span class="sd">    {</span>
+<span class="sd">      &quot;$ref&quot;: &quot;#/definitions/Dog&quot;</span>
+<span class="sd">    }</span>
+<span class="sd">  ],</span>
+<span class="sd">  &quot;definitions&quot;: {</span>
+<span class="sd">    &quot;Cat&quot;: {</span>
+<span class="sd">      &quot;title&quot;: &quot;Cat&quot;,</span>
+<span class="sd">      &quot;type&quot;: &quot;object&quot;,</span>
+<span class="sd">      &quot;properties&quot;: {</span>
+<span class="sd">        &quot;pet_type&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Pet Type&quot;,</span>
+<span class="sd">          &quot;enum&quot;: [</span>
+<span class="sd">            &quot;cat&quot;</span>
+<span class="sd">          ],</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        },</span>
+<span class="sd">        &quot;cat_name&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Cat Name&quot;,</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">      },</span>
+<span class="sd">      &quot;required&quot;: [</span>
+<span class="sd">        &quot;pet_type&quot;,</span>
+<span class="sd">        &quot;cat_name&quot;</span>
+<span class="sd">      ]</span>
+<span class="sd">    },</span>
+<span class="sd">    &quot;Dog&quot;: {</span>
+<span class="sd">      &quot;title&quot;: &quot;Dog&quot;,</span>
+<span class="sd">      &quot;type&quot;: &quot;object&quot;,</span>
+<span class="sd">      &quot;properties&quot;: {</span>
+<span class="sd">        &quot;pet_type&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Pet Type&quot;,</span>
+<span class="sd">          &quot;enum&quot;: [</span>
+<span class="sd">            &quot;dog&quot;</span>
+<span class="sd">          ],</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        },</span>
+<span class="sd">        &quot;dog_name&quot;: {</span>
+<span class="sd">          &quot;title&quot;: &quot;Dog Name&quot;,</span>
+<span class="sd">          &quot;type&quot;: &quot;string&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">      },</span>
+<span class="sd">      &quot;required&quot;: [</span>
+<span class="sd">        &quot;pet_type&quot;,</span>
+<span class="sd">        &quot;dog_name&quot;</span>
+<span class="sd">      ]</span>
+<span class="sd">    }</span>
+<span class="sd">  }</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <h2 id="field-customization">Field customization<a class="headerlink" href="#field-customization" title="Permanent link">&para;</a></h2>
 <p>Optionally, the <code>Field</code> function can be used to provide extra information about the field and validations.
 It has the following arguments:</p>
@@ -949,8 +1225,111 @@ to set all of the arguments above except <code>default</code>.</p>
 <p>If <em>pydantic</em> finds constraints which are not being enforced, an error will be raised. If you want to force the
 constraint to appear in the schema, even though it's not being checked upon parsing, you can use variadic arguments
 to <code>Field()</code> with the raw schema attribute name:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">PositiveInt</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># this won&#39;t work since PositiveInt takes precedence over the</span>
+    <span class="c1"># constraints defined in Field meaning they&#39;re ignored</span>
+    <span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+        <span class="n">foo</span><span class="p">:</span> <span class="n">PositiveInt</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    On field &quot;foo&quot; the following field constraints are set but not enforced:</span>
+<span class="sd">    lt.</span>
+<span class="sd">    For more details see https://docs.pydantic.dev/usage/schema/#unenforced-</span>
+<span class="sd">    field-constraints</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="c1"># but you can set the schema attribute directly:</span>
+<span class="c1"># (Note: here exclusiveMaximum will not be enforce)</span>
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">foo</span><span class="p">:</span> <span class="n">PositiveInt</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">exclusiveMaximum</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="o">.</span><span class="n">schema</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;title&#39;: &#39;Model&#39;,</span>
+<span class="sd">    &#39;type&#39;: &#39;object&#39;,</span>
+<span class="sd">    &#39;properties&#39;: {</span>
+<span class="sd">        &#39;foo&#39;: {</span>
+<span class="sd">            &#39;title&#39;: &#39;Foo&#39;,</span>
+<span class="sd">            &#39;exclusiveMaximum&#39;: 10,</span>
+<span class="sd">            &#39;exclusiveMinimum&#39;: 0,</span>
+<span class="sd">            &#39;type&#39;: &#39;integer&#39;,</span>
+<span class="sd">        },</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;required&#39;: [&#39;foo&#39;],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="c1"># if you find yourself needing this, an alternative is to declare</span>
+<span class="c1"># the constraints in Field (or you could use conint())</span>
+<span class="c1"># here both constraints will be enforced:</span>
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="c1"># Here both constraints will be applied and the schema</span>
+    <span class="c1"># will be generated correctly</span>
+    <span class="n">foo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="o">.</span><span class="n">schema</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;title&#39;: &#39;Model&#39;,</span>
+<span class="sd">    &#39;type&#39;: &#39;object&#39;,</span>
+<span class="sd">    &#39;properties&#39;: {</span>
+<span class="sd">        &#39;foo&#39;: {</span>
+<span class="sd">            &#39;title&#39;: &#39;Foo&#39;,</span>
+<span class="sd">            &#39;exclusiveMinimum&#39;: 0,</span>
+<span class="sd">            &#39;exclusiveMaximum&#39;: 10,</span>
+<span class="sd">            &#39;type&#39;: &#39;integer&#39;,</span>
+<span class="sd">        },</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;required&#39;: [&#39;foo&#39;],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <h3 id="typingannotated-fields">typing.Annotated Fields<a class="headerlink" href="#typingannotated-fields" title="Permanent link">&para;</a></h3>
 <p>Rather than assigning a <code>Field</code> value, it can be specified in the type hint with <code>typing.Annotated</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 and above</label><label for="__tabbed_4_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">uuid4</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">256</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">uuid4</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Annotated</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">)]</span>
+    <span class="n">name</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">256</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;Bar&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
 <p><code>Field</code> can only be supplied once per field - an error will be raised if used in <code>Annotated</code> and as the assigned value.
 Defaults can be set outside <code>Annotated</code> as the assigned value or with <code>Field.default_factory</code> inside <code>Annotated</code> - the
 <code>Field.default</code> argument is not supported inside <code>Annotated</code>.</p>
@@ -961,6 +1340,139 @@ see <a href="../types/#custom-data-types">Custom Data Types</a> for more details
 <p><code>__modify_schema__</code> can also take a <code>field</code> argument which will have type <code>Optional[ModelField]</code>.
 <em>pydantic</em> will inspect the signature of <code>__modify_schema__</code> to determine whether the <code>field</code> argument should be
 included.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 and above</label><label for="__tabbed_5_2">Python 3.9 and above</label><label for="__tabbed_5_3">Python 3.10 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">ModelField</span>
+
+
+<span class="k">class</span> <span class="nc">RestrictedAlphabetStr</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_validators__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span><span class="p">):</span>
+        <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alphabet</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1"> is not restricted to </span><span class="si">{</span><span class="n">alphabet</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__modify_schema__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">field_schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModelField</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">field</span><span class="p">:</span>
+            <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+            <span class="n">field_schema</span><span class="p">[</span><span class="s1">&#39;examples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">alphabet</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">RestrictedAlphabetStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alphabet</span><span class="o">=</span><span class="s1">&#39;ABC&#39;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Generator</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">ModelField</span>
+
+
+<span class="k">class</span> <span class="nc">RestrictedAlphabetStr</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_validators__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span><span class="p">):</span>
+        <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alphabet</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1"> is not restricted to </span><span class="si">{</span><span class="n">alphabet</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__modify_schema__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">field_schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ModelField</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">field</span><span class="p">:</span>
+            <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+            <span class="n">field_schema</span><span class="p">[</span><span class="s1">&#39;examples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">alphabet</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">RestrictedAlphabetStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alphabet</span><span class="o">=</span><span class="s1">&#39;ABC&#39;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">pydantic.fields</span> <span class="kn">import</span> <span class="n">ModelField</span>
+
+
+<span class="k">class</span> <span class="nc">RestrictedAlphabetStr</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__get_validators__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span><span class="p">):</span>
+        <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">alphabet</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1"> is not restricted to </span><span class="si">{</span><span class="n">alphabet</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__modify_schema__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">field_schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">field</span><span class="p">:</span> <span class="n">ModelField</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">field</span><span class="p">:</span>
+            <span class="n">alphabet</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">field_info</span><span class="o">.</span><span class="n">extra</span><span class="p">[</span><span class="s1">&#39;alphabet&#39;</span><span class="p">]</span>
+            <span class="n">field_schema</span><span class="p">[</span><span class="s1">&#39;examples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="o">*</span> <span class="mi">3</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">alphabet</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">RestrictedAlphabetStr</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">alphabet</span><span class="o">=</span><span class="s1">&#39;ABC&#39;</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MyModel&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Value&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;alphabet&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ABC&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;examples&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;AAA&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;BBB&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s2">&quot;CCC&quot;</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;value&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <h2 id="json-schema-types">JSON Schema Types<a class="headerlink" href="#json-schema-types" title="Permanent link">&para;</a></h2>
 <p>Types, custom field types, and constraints (like <code>max_length</code>) are mapped to the corresponding spec formats in the
 following priority order (when there is an equivalent available):</p>
@@ -971,22 +1483,1327 @@ following priority order (when there is an equivalent available):</p>
 <li>The standard <code>format</code> JSON field is used to define <em>pydantic</em> extensions for more complex <code>string</code> sub-types.</li>
 </ol>
 <p>The field schema mapping from Python / <em>pydantic</em> to JSON Schema is done as follows:</p>
+<!--
+  Generated from docs/build/schema_mapping.py, DO NOT EDIT THIS FILE DIRECTLY.
+  Instead edit docs/build/schema_mapping.py and run `make docs`.
+-->
+
+<table style="width:100%">
+<thead>
+<tr>
+  <th>Python type</th>
+  <th>JSON Schema Type</th>
+  <th>Additional JSON Schema</th>
+  <th>Defined in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>
+    <code>None</code>
+  </td>
+  <td>
+    <code>null</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Same for <code>type(None)</code> or <code>Literal[None]</code></em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>bool</code>
+  </td>
+  <td>
+    <code>boolean</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>str</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>float</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>int</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>dict</code>
+  </td>
+  <td>
+    <code>object</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>list</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {}}</code>
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>tuple</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {}}</code>
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>set</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {}, "uniqueItems": true}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>frozenset</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {}, "uniqueItems": true}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>List[str]</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {"type": "string"}}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>And equivalently for any other sub type, e.g. <code>List[int]</code>.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Tuple[str, ...]</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": {"type": "string"}}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>And equivalently for any other sub type, e.g. <code>Tuple[int, ...]</code>.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Tuple[str, int]</code>
+  </td>
+  <td>
+    <code>array</code>
+  </td>
+  <td>
+    <code>{"items": [{"type": "string"}, {"type": "integer"}], "minItems": 2, "maxItems": 2}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>And equivalently for any other set of subtypes. Note: If using schemas for OpenAPI, you shouldn't use this declaration, as it would not be valid in OpenAPI (although it is valid in JSON Schema).</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Dict[str, int]</code>
+  </td>
+  <td>
+    <code>object</code>
+  </td>
+  <td>
+    <code>{"additionalProperties": {"type": "integer"}}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>And equivalently for any other subfields for dicts. Have in mind that although you can use other types as keys for dicts with Pydantic, only strings are valid keys for JSON, and so, only str is valid as JSON Schema key types.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Union[str, int]</code>
+  </td>
+  <td>
+    <code>anyOf</code>
+  </td>
+  <td>
+    <code>{"anyOf": [{"type": "string"}, {"type": "integer"}]}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>And equivalently for any other subfields for unions.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Enum</code>
+  </td>
+  <td>
+    <code>enum</code>
+  </td>
+  <td>
+    <code>{"enum": [...]}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>All the literal values in the enum are included in the definition.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>SecretStr</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"writeOnly": true}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>SecretBytes</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"writeOnly": true}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>EmailStr</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "email"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NameEmail</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "name-email"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>AnyUrl</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uri"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Pattern</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "regex"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>bytes</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "binary"}</code>
+  </td>
+  <td>
+    OpenAPI
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Decimal</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>UUID1</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uuid1"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>UUID3</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uuid3"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>UUID4</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uuid4"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>UUID5</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uuid5"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>UUID</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "uuid"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Suggested in OpenAPI.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>FilePath</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "file-path"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>DirectoryPath</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "directory-path"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Path</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "path"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>datetime</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "date-time"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>date</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "date"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>time</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "time"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>timedelta</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"format": "time-delta"}</code>
+  </td>
+  <td>
+    Difference in seconds (a <code>float</code>), with Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Suggested in JSON Schema repository's issues by maintainer.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Json</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "json-string"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv4Address</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv4"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv6Address</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv6"}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPvAnyAddress</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipvanyaddress"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv4 or IPv6 address as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv4Interface</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv4interface"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv4 interface as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv6Interface</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv6interface"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv6 interface as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPvAnyInterface</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipvanyinterface"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv4 or IPv6 interface as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv4Network</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv4network"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv4 network as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPv6Network</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipv6network"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv6 network as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>IPvAnyNetwork</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "ipvanynetwork"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>IPv4 or IPv6 network as used in <code>ipaddress</code> module</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>StrictBool</code>
+  </td>
+  <td>
+    <code>boolean</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>StrictStr</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>ConstrainedStr</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>If the type has values declared for the constraints, they are included as validations. See the mapping for <code>constr</code> below.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>constr(regex='^text$', min_length=2, max_length=10)</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"pattern": "^text$", "minLength": 2, "maxLength": 10}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Any argument not passed to the function (not defined) will not be included in the schema.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>ConstrainedInt</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>If the type has values declared for the constraints, they are included as validations. See the mapping for <code>conint</code> below.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>conint(gt=1, ge=2, lt=6, le=5, multiple_of=2)</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+    <code>{"maximum": 5, "exclusiveMaximum": 6, "minimum": 2, "exclusiveMinimum": 1, "multipleOf": 2}</code>
+  </td>
+  <td>
+
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Any argument not passed to the function (not defined) will not be included in the schema.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>PositiveInt</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+    <code>{"exclusiveMinimum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NegativeInt</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+    <code>{"exclusiveMaximum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NonNegativeInt</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+    <code>{"minimum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NonPositiveInt</code>
+  </td>
+  <td>
+    <code>integer</code>
+  </td>
+  <td>
+    <code>{"maximum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>ConstrainedFloat</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>If the type has values declared for the constraints, they are included as validations. See the mapping for <code>confloat</code> below.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>confloat(gt=1, ge=2, lt=6, le=5, multiple_of=2)</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"maximum": 5, "exclusiveMaximum": 6, "minimum": 2, "exclusiveMinimum": 1, "multipleOf": 2}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Any argument not passed to the function (not defined) will not be included in the schema.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>PositiveFloat</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"exclusiveMinimum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NegativeFloat</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"exclusiveMaximum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NonNegativeFloat</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"minimum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>NonPositiveFloat</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"maximum": 0}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>ConstrainedDecimal</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>If the type has values declared for the constraints, they are included as validations. See the mapping for <code>condecimal</code> below.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>condecimal(gt=1, ge=2, lt=6, le=5, multiple_of=2)</code>
+  </td>
+  <td>
+    <code>number</code>
+  </td>
+  <td>
+    <code>{"maximum": 5, "exclusiveMaximum": 6, "minimum": 2, "exclusiveMinimum": 1, "multipleOf": 2}</code>
+  </td>
+  <td>
+    JSON Schema Validation
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>Any argument not passed to the function (not defined) will not be included in the schema.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>BaseModel</code>
+  </td>
+  <td>
+    <code>object</code>
+  </td>
+  <td>
+
+  </td>
+  <td>
+    JSON Schema Core
+  </td>
+</tr>
+<tr>
+  <td colspan=4 style="border-top: none; padding-top: 0">
+    <em>All the properties defined will be defined with standard JSON Schema, including submodels.</em>
+  </td>
+</tr>
+<tr>
+  <td>
+    <code>Color</code>
+  </td>
+  <td>
+    <code>string</code>
+  </td>
+  <td>
+    <code>{"format": "color"}</code>
+  </td>
+  <td>
+    Pydantic standard "format" extension
+  </td>
+</tr>
+</tbody>
+</table>
+
 <h2 id="top-level-schema-generation">Top-level schema generation<a class="headerlink" href="#top-level-schema-generation" title="Permanent link">&para;</a></h2>
 <p>You can also generate a top-level JSON Schema that only includes a list of models and related
 sub-models in its <code>definitions</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic.schema</span> <span class="kn">import</span> <span class="n">schema</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">b</span><span class="p">:</span> <span class="n">Foo</span>
+
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">c</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="n">top_level_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">([</span><span class="n">Model</span><span class="p">,</span> <span class="n">Bar</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;My Schema&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">top_level_schema</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Schema&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foo&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Model&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Model&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;b&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/definitions/Foo&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;b&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bar&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;c&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;c&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <h2 id="schema-customization">Schema customization<a class="headerlink" href="#schema-customization" title="Permanent link">&para;</a></h2>
 <p>You can customize the generated <code>$ref</code> JSON location: the definitions are always stored under the key
 <code>definitions</code>, but a specified prefix can be used for the references.</p>
 <p>This is useful if you need to extend or modify the JSON Schema default definitions location. E.g. with OpenAPI:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">pydantic.schema</span> <span class="kn">import</span> <span class="n">schema</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="n">Foo</span>
+
+
+<span class="c1"># Default location for OpenAPI</span>
+<span class="n">top_level_schema</span> <span class="o">=</span> <span class="n">schema</span><span class="p">([</span><span class="n">Model</span><span class="p">],</span> <span class="n">ref_prefix</span><span class="o">=</span><span class="s1">&#39;#/components/schemas/&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">top_level_schema</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Foo&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;A&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;a&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;Model&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Model&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;$ref&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#/components/schemas/Foo&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;a&quot;</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>It's also possible to extend/override the generated JSON schema in a model.</p>
 <p>To do it, use the <code>Config</code> sub-class attribute <code>schema_extra</code>.</p>
 <p>For example, you could add <code>examples</code> to the JSON Schema:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Python 3.7 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">schema_extra</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;examples&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;John Doe&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Name&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Age&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;age&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;examples&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <p>For more fine-grained control, you can alternatively set <code>schema_extra</code> to a callable and post-process the generated schema.
 The callable can have one or two positional arguments.
 The first will be the schema dictionary.
 The second, if accepted, will be the model class.
 The callable is expected to mutate the schema dictionary <em>in-place</em>; the return value is not used.</p>
 <p>For example, the <code>title</code> key can be removed from the model's <code>properties</code>:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Python 3.7 and above</label><label for="__tabbed_9_2">Python 3.9 and above</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span> <span class="nf">schema_extra</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s1">&#39;Person&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Person</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">age</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span> <span class="nf">schema_extra</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s1">&#39;Person&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">schema</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">prop</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">schema_json</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(This script is complete, it should run "as is")</em></p>
+<p>Outputs:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;properties&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;name&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;age&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
 
 
 
@@ -1003,11 +2820,6 @@ The callable is expected to mutate the schema dictionary <em>in-place</em>; the 
   <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
         </div>
-        
-          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
-            回到页面顶部
-          </button>
         
       </main>
       
@@ -1034,10 +2846,10 @@ The callable is expected to mutate the schema dictionary <em>in-place</em>; the 
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       
