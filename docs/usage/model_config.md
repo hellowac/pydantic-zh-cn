@@ -1,209 +1,162 @@
-Behaviour of _pydantic_ can be controlled via the `Config` class on a model or a _pydantic_ dataclass.
+_pydantic_ 的行为可以通过模型上的 `Config` 类或 _pydantic_ 数据类来控制。
 
-```python
-{!./examples/model_config_main.py!}
-```
+{!.tmp_examples/model_config_main.md!}
 
-Also, you can specify config options as model class kwargs:
-```python
-{!./examples/model_config_class_kwargs.py!}
-```
+此外，您可以将配置选项指定为模型类 kwargs：
 
-Similarly, if using the `@dataclass` decorator:
-```python
-{!./examples/model_config_dataclass.py!}
-```
+{!.tmp_examples/model_config_class_kwargs.md!}
 
-## Options
+同样，如果使用`@dataclass`装饰器：
+
+{!.tmp_examples/model_config_dataclass.md!}
+
+## 可选项(Options)
 
 **`title`**
-: the title for the generated JSON Schema
+: 生成的 JSON 模式的标题
 
 **`anystr_strip_whitespace`**
-: whether to strip leading and trailing whitespace for str & byte types (default: `False`)
+: 是否去除 str & byte 类型的前导和尾随空格（默认值：`False`）
 
 **`anystr_upper`**
-: whether to make all characters uppercase for str & byte types (default: `False`)
+: 是否将 str 和 byte 类型的所有字符都设为大写（默认值：`False`）
 
 **`anystr_lower`**
-: whether to make all characters lowercase for str & byte types (default: `False`)
+: 是否将 str 和 byte 类型的所有字符都设为小写（默认值：`False`）
 
 **`min_anystr_length`**
-: the min length for str & byte types (default: `0`)
+: str 和 byte 类型的最小长度（默认值：`0`）
 
 **`max_anystr_length`**
-: the max length for str & byte types (default: `None`)
+: str & byte 类型的最大长度（默认值：`None`）
 
 **`validate_all`**
-: whether to validate field defaults (default: `False`)
+: 是否验证字段默认值（默认值：`False`）
 
 **`extra`**
-: whether to ignore, allow, or forbid extra attributes during model initialization. Accepts the string values of
-  `'ignore'`, `'allow'`, or `'forbid'`, or values of the `Extra` enum (default: `Extra.ignore`).
-  `'forbid'` will cause validation to fail if extra attributes are included, `'ignore'` will silently ignore any extra attributes,
-  and `'allow'` will assign the attributes to the model.
+: 在模型初始化期间是否忽略、允许或禁止额外的属性。 接受`“ignore”`、`“allow”`或`“forbid”`的字符串值，或`“Extra”`枚举的值（默认值：`“Extra.ignore”`）。 如果包含额外的属性，`'forbid'` 将导致验证失败，`'ignore'` 将默默地忽略任何额外的属性，`'allow'` 将属性分配给模型。
 
 **`allow_mutation`**
-: whether or not models are faux-immutable, i.e. whether `__setattr__` is allowed (default: `True`)
+: 模型是否是伪不可变的，即是否允许 `__setattr__`（默认值：`True`）
 
 **`frozen`**
 
 !!! warning
-    This parameter is in beta
+    此参数处于测试阶段
 
-: setting `frozen=True` does everything that `allow_mutation=False` does, and also generates a `__hash__()` method for the model. This makes instances of the model potentially hashable if all the attributes are hashable. (default: `False`)
-
+: 设置 `frozen=True` 会执行 `allow_mutation=False` 所做的一切，还会为模型生成 `__hash__()` 方法。 如果所有属性都是可散列的，这使得模型的实例可能是可散列的。 （默认值：`False`）
 
 **`use_enum_values`**
-: whether to populate models with the `value` property of enums, rather than the raw enum.
-  This may be useful if you want to serialise `model.dict()` later (default: `False`)
+: 是否使用枚举的`value`属性而不是原始枚举来填充模型。 如果您想稍后序列化 `model.dict()`（默认值：`False`），这可能很有用
 
 **`fields`**
-: a `dict` containing schema information for each field; this is equivalent to
-  using [the `Field` class](schema.md), except when a field is already
-  defined through annotation or the Field class, in which case only
-  `alias`, `include`, `exclude`, `min_length`, `max_length`, `regex`, `gt`, `lt`, `gt`, `le`,
-  `multiple_of`, `max_digits`, `decimal_places`, `min_items`, `max_items`, `unique_items`
-  and allow_mutation can be set (for example you cannot set default of default_factory)
-   (default: `None`)
+: 包含每个字段的架构信息的`dict`； 这等同于使用 [`Field` 类](schema.md)，除非已经通过注释或 Field 类定义了一个字段，在这种情况下只有 `alias`、`include`、`exclude`、`min_length`, `max_length`, `regex`, `gt`, `lt`, `gt`, `le`, `multiple_of`, `max_digits`, `decimal_places`, `min_items`, `max_items`, `unique_items` 和 `allow_mutation` 可以设置（例如你不能设置 `default_factory` 的默认值）（默认值：`None`）
 
 **`validate_assignment`**
-: whether to perform validation on *assignment* to attributes (default: `False`)
+: 是否对属性的`_assignment_`执行验证（默认值：`False`）
 
 **`allow_population_by_field_name`**
-: whether an aliased field may be populated by its name as given by the model
-  attribute, as well as the alias (default: `False`)
+: 别名字段是否可以由模型属性给出的名称以及别名（默认值：`False`）填充
 
 !!! note
-    The name of this configuration setting was changed in **v1.0** from
-    `allow_population_by_alias` to `allow_population_by_field_name`.
+    此配置设置的名称在 **v1.0** 中从`allow_population_by_alias`更改为`allow_population_by_field_name`。
 
 **`error_msg_templates`**
-: a `dict` used to override the default error message templates.
-  Pass in a dictionary with keys matching the error messages you want to override (default: `{}`)
+: 用于覆盖默认错误消息模板的 `dict`。 传入一个字典，其中的键与您要覆盖的错误消息匹配（默认值：`{}`）
 
 **`arbitrary_types_allowed`**
-: whether to allow arbitrary user types for fields (they are validated simply by
-  checking if the value is an instance of the type). If `False`, `RuntimeError` will be
-  raised on model declaration (default: `False`). See an example in
-  [Field Types](types.md#arbitrary-types-allowed).
+: 是否允许字段的任意用户类型（通过检查值是否是该类型的实例来验证它们）。 如果为`False`，将在模型声明时引发`RuntimeError`（默认值：`False`）。 请参阅 [Field Types](types.md#arbitrary-types-allowed) 中的示例。
 
 **`orm_mode`**
-: whether to allow usage of [ORM mode](models.md#orm-mode-aka-arbitrary-class-instances)
+: 是否允许使用 [ORM 模式](models.md#orm-mode-aka-arbitrary-class-instances)
 
 **`getter_dict`**
-: a custom class (which should inherit from `GetterDict`) to use when decomposing arbitrary classes
-for validation, for use with `orm_mode`; see [Data binding](models.md#data-binding).
+: 在分解任意类进行验证时使用的自定义类（应继承自 `GetterDict`），与 `orm_mode` 一起使用； 参见 [数据绑定](models.md#data-binding)。
 
 **`alias_generator`**
-: a callable that takes a field name and returns an alias for it; see [the dedicated section](#alias-generator)
+: 一个可调用的，它接受一个字段名并为其返回一个别名； 参见 [专用部分](#alias-generator)
 
 **`keep_untouched`**
-: a tuple of types (e.g. descriptors) for a model's default values that should not be changed during model creation and will
-not be included in the model schemas. **Note**: this means that attributes on the model with *defaults of this type*, not *annotations of this type*, will be left alone.
+: 模型默认值的类型元组（例如描述符），在模型创建期间不应更改并且不会包含在模型模式中。 **注意**：这意味着模型上具有 _这种类型的默认值_ 而不是 _这种类型的注释_ 的属性将被单独保留。
 
 **`schema_extra`**
-: a `dict` used to extend/update the generated JSON Schema, or a callable to post-process it; see [schema customization](schema.md#schema-customization)
+: 用于扩展/更新生成的 JSON Schema 的 `dict`，或用于对其进行后处理的可调用对象； 参见 [schema 自定义](schema.md#schema-customization)
 
 **`json_loads`**
-: a custom function for decoding JSON; see [custom JSON (de)serialisation](exporting_models.md#custom-json-deserialisation)
+: 用于解码 JSON 的自定义函数； 参见 [自定义 JSON（反）序列化](exporting_models.md#custom-json-deserialisation)
 
 **`json_dumps`**
-: a custom function for encoding JSON; see [custom JSON (de)serialisation](exporting_models.md#custom-json-deserialisation)
+: 用于编码 JSON 的自定义函数； 参见 [自定义 JSON（反）序列化](exporting_models.md#custom-json-deserialisation)
 
 **`json_encoders`**
-: a `dict` used to customise the way types are encoded to JSON; see [JSON Serialisation](exporting_models.md#modeljson)
+: 用于自定义类型编码为 JSON 的方式的 `dict`； 参见 [JSON 序列化](exporting_models.md#modeljson)
 
 **`underscore_attrs_are_private`**
-: whether to treat any underscore non-class var attrs as private, or leave them as is; see [Private model attributes](models.md#private-model-attributes)
+: 是否将任何下划线非类属性视为私有，或保持原样； 参见 [私有模型属性](models.md#private-model-attributes)
 
 **`copy_on_model_validation`**
-: string literal to control how models instances are processed during validation, 
-with the following means (see [#4093](https://github.com/pydantic/pydantic/pull/4093) for a full discussion of the changes to this field):
+: 字符串文字来控制模型实例在验证过程中的处理方式，使用以下方法（有关此字段更改的完整讨论，请参阅 [#4093](https://github.com/pydantic/pydantic/pull/4093) :
 
-* `'none'` - models are not copied on validation, they're simply kept "untouched"
-* `'shallow'` - models are shallow copied, this is the default
-* `'deep'` - models are deep copied 
+* `'none'` - 模型不会在验证时被复制，它们只是保持“不变(untouched)”
+* `'shallow'` - 模型是浅拷贝的，这是默认的
+* `'deep'` - 模型被深度复制
 
 **`smart_union`**
-: whether _pydantic_ should try to check all types inside `Union` to prevent undesired coercion; see [the dedicated section](#smart-union)
+: _pydantic_ 是否应该尝试检查 `Union` 中的所有类型以防止不希望的强制转换； 请参阅 [专用部分](#smart-union)
 
 **`post_init_call`**
-: whether stdlib dataclasses `__post_init__` should be run before (default behaviour with value `'before_validation'`)
-  or after (value `'after_validation'`) parsing and validation when they are [converted](dataclasses.md#stdlib-dataclasses-and-_pydantic_-dataclasses).
+: stdlib 数据类 `__post_init__` 是否应该在解析和验证之前（默认行为值为 `'before_validation'`）或之后（值为 `'after_validation'`）运行[转换](dataclasses.md#stdlib-dataclasses-and -_pydantic_-数据类)。
 
 **`allow_inf_nan`**
-: whether to allow infinity (`+inf` an `-inf`) and NaN values to float fields, defaults to `True`,
-  set to `False` for compatibility with `JSON`,
-  see [#3994](https://github.com/pydantic/pydantic/pull/3994) for more details, added in **V1.10**
+: 是否允许无穷大（`+inf` 和 `-inf`）和 NaN 值浮动字段，默认为 `True`，设置为 `False` 以兼容 `JSON`，参见[#3994](https:// github.com/pydantic/pydantic/pull/3994）了解更多详情，添加于**V1.10**
 
-## Change behaviour globally
+## 全局改变行为(Change behaviour globally)
 
-If you wish to change the behaviour of _pydantic_ globally, you can create your own custom `BaseModel`
-with custom `Config` since the config is inherited
-```python
-{!./examples/model_config_change_globally_custom.py!}
-```
+如果您希望全局更改 _pydantic_ 的行为，您可以使用自定义 `Config` 创建自己的自定义 `BaseModel`，因为配置是继承的
 
-## Alias Generator
+{!.tmp_examples/model_config_change_globally_custom.md!}
 
-If data source field names do not match your code style (e. g. CamelCase fields),
-you can automatically generate aliases using `alias_generator`:
+## 别名生成器(Alias Generator)
 
-```python
-{!./examples/model_config_alias_generator.py!}
-```
+如果数据源字段名称与您的代码风格不匹配（例如 CamelCase 字段），您可以使用 `alias_generator` 自动生成别名：
 
-Here camel case refers to ["upper camel case"](https://en.wikipedia.org/wiki/Camel_case) aka pascal case
-e.g. `CamelCase`. If you'd like instead to use lower camel case e.g. `camelCase`,
-instead use the `to_lower_camel` function.
+{!.tmp_examples/model_config_alias_generator.md!}
 
-## Alias Precedence
+这里的驼峰案例指的是 [“大驼峰案例”](https://en.wikipedia.org/wiki/Camel_case) 又名帕斯卡案例，例如 `驼峰式`。 如果您想改用小驼峰式，例如 `camelCase`，而是使用 `to_lower_camel` 函数。
+
+## 别名优先(Alias Precedence)
 
 !!! warning
-    Alias priority logic changed in **v1.4** to resolve buggy and unexpected behaviour in previous versions.
-    In some circumstances this may represent a **breaking change**,
-    see [#1178](https://github.com/pydantic/pydantic/issues/1178) and the precedence order below for details.
+    别名优先级逻辑在 **v1.4** 中发生了变化，以解决以前版本中的错误和意外行为。
+    在某些情况下，这可能代表一个**重大变化**，请参阅 [#1178](https://github.com/pydantic/pydantic/issues/1178) 和下面的优先顺序了解详细信息。
 
-In the case where a field's alias may be defined in multiple places,
-the selected value is determined as follows (in descending order of priority):
+在一个字段的别名可能定义在多个地方的情况下，选择的值确定如下（按优先级降序排列）：
 
-1. Set via `Field(..., alias=<alias>)`, directly on the model
-2. Defined in `Config.fields`, directly on the model
-3. Set via `Field(..., alias=<alias>)`, on a parent model
-4. Defined in `Config.fields`, on a parent model
-5. Generated by `alias_generator`, regardless of whether it's on the model or a parent
+1. 通过 `Field(..., alias=<alias>)` 直接在模型上设置
+2. 在 `Config.fields` 中定义，直接在模型上
+3. 在父模型上通过 `Field(..., alias=<alias>)` 设置
+4. 在父模型的`Config.fields`中定义
+5. 由 `alias_generator` 生成，无论它是在模型上还是在父级上
 
 !!! note
-    This means an `alias_generator` defined on a child model **does not** take priority over an alias defined
-    on a field in a parent model.
+    这意味着在子模型上定义的 `alias_generator` **不会** 优先于在父模型中的字段上定义的别名。
 
-For example:
+例如：
 
-```python
-{!./examples/model_config_alias_precedence.py!}
-```
+{!.tmp_examples/model_config_alias_precedence.md!}
 
-## Smart Union
+## 智能联合(Smart Union)
 
-By default, as explained [here](types.md#unions), _pydantic_ tries to validate (and coerce if it can) in the order of the `Union`.
-So sometimes you may have unexpected coerced data.
+默认情况下，如 [此处](types.md#unions) 所述，_pydantic_ 尝试按照 `Union` 的顺序验证（并强制执行）。 所以有时候你可能会有意想不到的强制数据。
 
-```python
-{!./examples/model_config_smart_union_off.py!}
-```
+{!.tmp_examples/model_config_smart_union_off.md!}
 
-To prevent this, you can enable `Config.smart_union`. _Pydantic_ will then check all allowed types before even trying to coerce.
-Know that this is of course slower, especially if your `Union` is quite big.
+为防止这种情况，您可以启用 `Config.smart_union`。 _Pydantic_ 然后会在尝试强制之前检查所有允许的类型。 要知道这当然会更慢，尤其是当你的 `Union` 很大的时候。
 
-```python
-{!./examples/model_config_smart_union_on.py!}
-```
+{!.tmp_examples/model_config_smart_union_on.md!}
 
 !!! warning
-    Note that this option **does not support compound types yet** (e.g. differentiate `List[int]` and `List[str]`).
-    This option will be improved further once a strict mode is added in _pydantic_ and will probably be the default behaviour in v2!
+    请注意，此选项**尚不支持复合类型**（例如，区分 `List[int]` 和 `List[str]`）。
+    一旦在 _pydantic_ 中添加严格模式，此选项将得到进一步改进，并且可能成为 v2 中的默认行为！
 
-```python
-{!./examples/model_config_smart_union_on_edge_case.py!}
-```
+{!.tmp_examples/model_config_smart_union_on_edge_case.md!}

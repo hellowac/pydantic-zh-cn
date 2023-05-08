@@ -32,3 +32,8 @@ pdm add <package name>
 ```shell
 pip install mike
 ```
+
+## 前期准备
+
+1. 生成静态文件之前，需要现在项目目录下，执行`python docs/build/main.py` 将 示例中的 python 代码文件执行一遍，主要为了将示例输出添加到生成markdown文件中。
+1. 然后再进行`mike deploy <version>` 版本打包发布以及推送分支。

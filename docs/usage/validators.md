@@ -1,124 +1,86 @@
-Custom validation and complex relationships between objects can be achieved using the `validator` decorator.
+自定义验证和对象之间的复杂关系可以使用 `validator` 装饰器来实现。
 
-```python
-{!./examples/validators_simple.py!}
-```
+{!.tmp_examples/validators_simple.md!}
 
-A few things to note on validators:
+关于验证器的一些注意事项：
 
-* validators are "class methods", so the first argument value they receive is the `UserModel` class, not an instance
-  of `UserModel`.
-* the second argument is always the field value to validate; it can be named as you please
-* you can also add any subset of the following arguments to the signature (the names **must** match):
-  * `values`: a dict containing the name-to-value mapping of any previously-validated fields
-  * `config`: the model config
-  * `field`: the field being validated. Type of object is `pydantic.fields.ModelField`.
-  * `**kwargs`: if provided, this will include the arguments above not explicitly listed in the signature
-* validators should either return the parsed value or raise a `ValueError`, `TypeError`, or `AssertionError`
-  (``assert`` statements may be used).
+* 验证器是“类方法”，因此它们收到的第一个参数值是 `UserModel` 类，而不是`UserModel`的实例。
+* 第二个参数始终是要验证的字段值； 它可以随意命名
+* 您还可以将以下参数的任何子集添加到签名中（但名称**必须**匹配）：
+  * `values`: 包含任何先前验证字段的名称到值映射的字典
+  * `config`: 模型配置
+  * `field`: 正在验证的字段。 对象的类型是 `pydantic.fields.ModelField`。
+  * `**kwargs`: 如果提供，这将包括上面未在签名中明确列出的参数
+* 验证器应该返回解析后的值或引发 `ValueError`、`TypeError` 或 `AssertionError`（可以使用 ``assert`` 语句）。
 
 !!! warning
-    If you make use of `assert` statements, keep in mind that running
-    Python with the [`-O` optimization flag](https://docs.python.org/3/using/cmdline.html#cmdoption-o)
-    disables `assert` statements, and **validators will stop working**.
+    如果您使用 `assert` 语句，请记住使用 [`-O` 优化标志](https://docs.python.org/3/using/cmdline.html#cmdoption-o) 运行 Python 会禁用 `assert` 语句，**验证器将停止工作**。
 
-* where validators rely on other values, you should be aware that:
+* 在验证器依赖于其他值的地方，你应该知道：
 
-  * Validation is done in the order fields are defined.
-    E.g. in the example above, `password2` has access to `password1` (and `name`),
-    but `password1` does not have access to `password2`. See [Field Ordering](models.md#field-ordering)
-    for more information on how fields are ordered
+  * 验证时基于定义时的字段顺序.
+    例如。 在上面的示例中，`password2` 可以访问 `password1`（和 `name`），但是 `password1` 不能访问 `password2`。 有关字段如何排序的更多信息，请参阅 [字段排序](models.md#field-ordering)
 
-  * If validation fails on another field (or that field is missing) it will not be included in `values`, hence
-    `if 'password1' in values and ...` in this example.
+  * 如果在另一个字段上验证失败（或该字段丢失），它将不会包含在`values`中，比如在本例中的 “if 'password1' in values and ...”。
 
-## Pre and per-item validators
+## 前验证器和每项验证器(Pre and per-item validators)
 
-Validators can do a few more complex things:
+验证器可以做一些更复杂的事情：
 
-```python
-{!./examples/validators_pre_item.py!}
-```
+{!.tmp_examples/validators_pre_item.md!}
 
-A few more things to note:
+还有几点需要注意：
 
-* a single validator can be applied to multiple fields by passing it multiple field names
-* a single validator can also be called on *all* fields by passing the special value `'*'`
-* the keyword argument `pre` will cause the validator to be called prior to other validation
-* passing `each_item=True` will result in the validator being applied to individual values
-  (e.g. of `List`, `Dict`, `Set`, etc.), rather than the whole object
+* 通过传递多个字段名称，单个验证器可以应用于多个字段
+* 通过传递特殊值`“*”`，也可以在*所有*字段上调用单个验证器
+* 关键字参数 `pre` 将导致验证器在其他验证之前被调用
+* 传递 `each_item=True` 将导致验证器应用于单个值（例如 `List`、`Dict`、`Set` 等），而不是整个对象
 
-## Subclass Validators and `each_item`
+## 子类验证器和 `each_item`(Subclass Validators and `each_item`)
 
-If using a validator with a subclass that references a `List` type field on a parent class, using `each_item=True` will
-cause the validator not to run; instead, the list must be iterated over programmatically.
+如果将验证器与引用父类上的`List`类型字段的子类一起使用，则使用`each_item=True`将导致验证器不运行； 相反，列表必须以编程方式迭代。
 
-```python
-{!./examples/validators_subclass_each_item.py!}
-```
+{!.tmp_examples/validators_subclass_each_item.md!}
 
-## Validate Always
+## 始终验证(Validate Always)
 
-For performance reasons, by default validators are not called for fields when a value is not supplied.
-However there are situations where it may be useful or required to always call the validator, e.g.
-to set a dynamic default value.
+出于性能原因，默认情况下，当未提供值时，不会为字段调用验证器。
 
-```python
-{!./examples/validators_always.py!}
-```
+然而，在某些情况下，始终调用验证器可能是有用的或需要的，例如 设置动态默认值。
 
-You'll often want to use this together with `pre`, since otherwise with `always=True`
-*pydantic* would try to validate the default `None` which would cause an error.
+{!.tmp_examples/validators_always.md!}
 
-## Reuse validators
+您通常希望将它与 `pre` 一起使用，因为否则与 `always=True` *pydantic* 会尝试验证默认的 `None`，这会导致错误。
 
-Occasionally, you will want to use the same validator on multiple fields/models (e.g. to
-normalize some input data). The "naive" approach would be to write a separate function,
-then call it from multiple decorators.  Obviously, this entails a lot of repetition and
-boiler plate code. To circumvent this, the `allow_reuse` parameter has been added to
-`pydantic.validator` in **v1.2** (`False` by default):
+## 重用校验器(Reuse validators)
 
-```python
-{!./examples/validators_allow_reuse.py!}
-```
+有时，您会希望在多个字段/模型上使用相同的验证器（例如，规范化一些输入数据）。 比较“naive”的写法是编写一个单独的函数，然后从多个装饰器中调用它。 显然，这需要大量重复和样板代码。 为了避免这种情况，`allow_reuse` 参数已添加到 **v1.2** 中的 `pydantic.validator`（默认情况下为 `False`）：
 
-As it is obvious, repetition has been reduced and the models become again almost
-declarative.
+{!.tmp_examples/validators_allow_reuse.md!}
+
+很明显，重复已经减少，模型再次变得几乎是声明性的。
 
 !!! tip
-    If you have a lot of fields that you want to validate, it usually makes sense to
-    define a help function with which you will avoid setting `allow_reuse=True` over and
-    over again.
+    如果您有很多要验证的字段，定义一个帮助函数通常是有意义的，您可以使用它来避免一遍又一遍地设置 `allow_reuse=True` 。
 
-## Root Validators
+## 根验证器(Root Validators)
 
-Validation can also be performed on the entire model's data.
+还可以对整个模型的数据执行验证。
 
-```python
-{!./examples/validators_root.py!}
-```
+{!.tmp_examples/validators_root.md!}
 
-As with field validators, root validators can have `pre=True`, in which case they're called before field
-validation occurs (and are provided with the raw input data), or `pre=False` (the default), in which case
-they're called after field validation.
+如果 `pre=True` 根验证器引发错误，则不会进行字段验证。 与字段验证器一样，即使先前的验证器失败，默认情况下也会调用“post”（即 `pre=False`）根验证器； 可以通过为验证器设置 `skip_on_failure=True` 关键字参数来更改此行为。
 
-Field validation will not occur if `pre=True` root validators raise an error. As with field validators,
-"post" (i.e. `pre=False`) root validators by default will be called even if prior validators fail; this
-behaviour can be changed by setting the `skip_on_failure=True` keyword argument to the validator.
-The `values` argument will be a dict containing the values which passed field validation and
-field defaults where applicable.
+`values` 参数将是一个字典，其中包含通过字段验证的值和适用的字段默认值。
 
-## Field Checks
+## 字段检查(Field Checks)
 
-On class creation, validators are checked to confirm that the fields they specify actually exist on the model.
+在创建类时，会检查验证器以确认它们指定的字段确实存在于模型中。
 
-Occasionally however this is undesirable: e.g. if you define a validator to validate fields on inheriting models.
-In this case you should set `check_fields=False` on the validator.
+然而，有时这是不可取的：例如 如果您定义一个验证器来验证继承模型上的字段。 在这种情况下，您应该在验证器上设置 `check_fields=False`。
 
-## Dataclass Validators
+## 数据类验证器(Dataclass Validators)
 
-Validators also work with *pydantic* dataclasses.
+验证器还可以与 *pydantic* 数据类一起使用。
 
-```python
-{!./examples/validators_dataclass.py!}
-```
+{!.tmp_examples/validators_dataclass.md!}

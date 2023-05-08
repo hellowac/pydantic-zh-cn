@@ -12,9 +12,7 @@ This makes it easy to:
 
 For example:
 
-```python
-{!./examples/settings_main.py!}
-```
+{!.tmp_examples/settings_main.md!}
 
 ## Environment variable names
 
@@ -45,9 +43,7 @@ The following rules are used to determine which environment variable(s) are read
 
 Case-sensitivity can be turned on through the `Config`:
 
-```python
-{!./examples/settings_case_sensitive.py!}
-```
+{!.tmp_examples/settings_case_sensitive.md!}
 
 When `case_sensitive` is `True`, the environment variable names must match field names (optionally with a prefix),
 so in this example
@@ -89,9 +85,7 @@ export SUB_MODEL__DEEP__V4=v4
 ```
 
 You could load a settings module thus:
-```python
-{!./examples/settings_nested_env.py!}
-```
+{!.tmp_examples/settings_nested_env.md!}
 
 `env_nested_delimiter` can be configured via the `Config` class as shown above, or via the
 `_env_nested_delimiter` keyword argument on instantiation.
@@ -105,9 +99,7 @@ Nested environment variables take precedence over the top-level environment vari
 You may also populate a complex type by providing your own parsing function to
 the `parse_env_var` classmethod in the Config object.
 
-```python
-{!./examples/settings_with_custom_parsing.py!}
-```
+{!.tmp_examples/settings_with_custom_parsing.md!}
 
 ## Dotenv (.env) support
 
@@ -282,9 +274,7 @@ Each callable should take an instance of the settings class as its sole argument
 
 The order of the returned callables decides the priority of inputs; first item is the highest priority.
 
-```python
-{!./examples/settings_env_priority.py!}
-```
+{!.tmp_examples/settings_env_priority.md!}
 
 By flipping `env_settings` and `init_settings`, environment variables now have precedence over `__init__` kwargs.
 
@@ -293,14 +283,10 @@ By flipping `env_settings` and `init_settings`, environment variables now have p
 As explained earlier, *pydantic* ships with multiples built-in settings sources. However, you may occasionally
 need to add your own custom sources, `customise_sources` makes this very easy:
 
-```python
-{!./examples/settings_add_custom_source.py!}
-```
+{!.tmp_examples/settings_add_custom_source.md!}
 
 ### Removing sources
 
 You might also want to disable a source:
 
-```python
-{!./examples/settings_disable_source.py!}
-```
+{!.tmp_examples/settings_disable_source.md!}

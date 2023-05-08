@@ -4,9 +4,7 @@ However, Pydantic also ships with a mypy plugin that adds a number of important 
 features to mypy that improve its ability to type-check your code.
 
 For example, consider the following script:
-```python
-{!./examples/mypy_main.py!}
-```
+{!.tmp_examples/mypy_main.md!}
 
 
 Without any special configuration, mypy catches one of the errors (see [here](usage/mypy.md) for usage instructions):

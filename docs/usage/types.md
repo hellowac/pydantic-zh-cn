@@ -156,52 +156,7 @@
 
 *pydantic* 使用 PEP 484 中定义的标准库“键入”类型来定义复杂对象。
 
-```python
-from typing import (
-    Deque, Dict, FrozenSet, List, Optional, Sequence, Set, Tuple, Union
-)
-
-from pydantic import BaseModel
-
-
-class Model(BaseModel):
-    simple_list: list = None
-    list_of_ints: List[int] = None
-
-    simple_tuple: tuple = None
-    tuple_of_different_types: Tuple[int, float, str, bool] = None
-
-    simple_dict: dict = None
-    dict_str_float: Dict[str, float] = None
-
-    simple_set: set = None
-    set_bytes: Set[bytes] = None
-    frozen_set: FrozenSet[int] = None
-
-    str_or_bytes: Union[str, bytes] = None
-    none_or_str: Optional[str] = None
-
-    sequence_of_ints: Sequence[int] = None
-
-    compound: Dict[Union[str, bytes], List[Set[int]]] = None
-
-    deque: Deque[int] = None
-
-
-print(Model(simple_list=['1', '2', '3']).simple_list)
-print(Model(list_of_ints=['1', '2', '3']).list_of_ints)
-
-print(Model(simple_dict={'a': 1, b'b': 2}).simple_dict)
-print(Model(dict_str_float={'a': 1, b'b': 2}).dict_str_float)
-
-print(Model(simple_tuple=[1, 2, 3, 4]).simple_tuple)
-print(Model(tuple_of_different_types=[4, 3, 2, 1]).tuple_of_different_types)
-
-print(Model(sequence_of_ints=[1, 2, 3, 4]).sequence_of_ints)
-print(Model(sequence_of_ints=(1, 2, 3, 4)).sequence_of_ints)
-
-print(Model(deque=[1, 2, 3]).deque)
-```
+{!.tmp_examples/types_iterables.md!}
 
 ### 无限生成器(Infinite Generators)
 
@@ -209,30 +164,7 @@ print(Model(deque=[1, 2, 3]).deque)
 
 但是如果你有一个你不想被消耗的生成器，例如 无限生成器或远程数据加载器，您可以使用 `Iterable` 定义其类型：
 
-```python
-from typing import Iterable
-from pydantic import BaseModel
-
-
-class Model(BaseModel):
-    infinite: Iterable[int]
-
-
-def infinite_ints():
-    i = 0
-    while True:
-        yield i
-        i += 1
-
-
-m = Model(infinite=infinite_ints())
-print(m)
-
-for i in m.infinite:
-    print(i)
-    if i == 10:
-        break
-```
+{!.tmp_examples/types_infinite_generator.md!}
 
 !!! warning
     `Iterable` 字段只执行一个简单的检查，以确保参数是可迭代的并且不会被消耗。
@@ -248,9 +180,7 @@ for i in m.infinite:
 
 您可以创建一个 [validator](validators.md) 来验证无限生成器中的第一个值，但仍然不会完全消耗它。
 
-```python
-{!./examples/types_infinite_generator_validate_first.py!}
-```
+{!.tmp_examples/types_infinite_generator_validate_first.md!}
 
 ### 联合(Unions)
 
@@ -261,9 +191,7 @@ for i in m.infinite:
 
     不过您还可以通过使用 [智能联合](model_config.md#smart-union) 使检查更慢但更严格
 
-```python
-{!./examples/types_union_incorrect.py!}
-```
+{!.tmp_examples/types_union_incorrect.md!}
 
 但是，如上所示，*pydantic* 将尝试`match`在 `Union` 下定义的任何类型，并将使用第一个匹配的类型。 在上面的示例中，`user_03`的`id`被定义为`uuid.UUID`类（在属性的 `Union` 注释下定义），但`uuid.UUID`可以编组为`int` 它选择匹配`int`类型并忽略其他类型。
 
@@ -278,9 +206,7 @@ for i in m.infinite:
 
 在上面的示例中，`UUID` 类应该在 `int` 和 `str` 类之前，以排除这样的意外表示：
 
-```python
-{!./examples/types_union_correct.py!}
-```
+{!.tmp_examples/types_union_correct.md!}
 
 !!! tip
     `Optional[x]` 类型是 `Union[x, None]` 的简写。
@@ -303,9 +229,7 @@ for i in m.infinite:
 - 失败时仅引发一个显式错误
 - 生成的 JSON 模式实现了[相关的 OpenAPI 规范](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#discriminatorObject)
 
-```python
-{!./examples/types_union_discriminated.py!}
-```
+{!.tmp_examples/types_union_discriminated.md!}
 
 !!! note
     使用 [Annotated Fields syntax](../schema/#typingannotated-fields) 可以方便地重新组合 `Union` 和 `discriminator` 信息。 请参阅下面的示例！
@@ -321,17 +245,13 @@ for i in m.infinite:
 
 在这种情况下，您始终可以使用 `__root__` 创建“中间(intermediate)”模型并添加鉴别器。
 
-```python
-{!./examples/types_union_discriminated_nested.py!}
-```
+{!.tmp_examples/types_union_discriminated_nested.md!}
 
 ### 枚举和选择(Enums and Choices)
 
 *pydantic* 使用 Python 的标准`enum`类来定义选择。
 
-```python
-{!./examples/types_choices.py!}
-```
+{!.tmp_examples/types_choices.md!}
 
 ### 日期时间类型(Datetime Types)
 
@@ -371,9 +291,7 @@ for i in m.infinite:
     - `[-][DD ][HH:MM]SS[.ffffff]`
     - `[±]P[DD]DT[HH]H[MM]M[SS]S` ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timedelta 的格式)
 
-```python
-{!./examples/types_dt.py!}
-```
+{!.tmp_examples/types_dt.md!}
 
 ### 布尔类型(Booleans)
 
@@ -397,17 +315,13 @@ for i in m.infinite:
 
 这是一个演示其中一些行为的脚本：
 
-```python
-{!./examples/types_boolean.py!}
-```
+{!.tmp_examples/types_boolean.md!}
 
 ### 可调用类型(Callable)
 
 字段也可以是 `Callable` 类型：
 
-```python
-{!./examples/types_callable.py!}
-```
+{!.tmp_examples/types_callable.md!}
 
 !!! warning
     可调用字段仅执行简单检查参数是否可调用； 不执行参数、它们的类型或返回类型的验证。
@@ -416,23 +330,17 @@ for i in m.infinite:
 
 *pydantic* 支持使用 `Type[T]` 来指定字段只能接受作为 `T` 子类的类（而不是实例）。
 
-```python
-{!./examples/types_type.py!}
-```
+{!.tmp_examples/types_type.md!}
 
 您还可以使用 `Type` 来指定允许使用任何类。
 
-```python
-{!./examples/types_bare_type.py!}
-```
+{!.tmp_examples/types_bare_type.md!}
 
 ### 类型声明(TypeVar)
 
 `TypeVar` 支持不受约束、受约束或有界限。
 
-```python
-{!./examples/types_typevar.py!}
-```
+{!.tmp_examples/types_typevar.md!}
 
 ## 文字类型(Literal Type)
 
@@ -441,29 +349,21 @@ for i in m.infinite:
 
 *pydantic* 支持使用 `typing.Literal`（或 Python 3.8 之前的 `typing_extensions.Literal`）作为一种轻量级的方式来指定一个字段只能接受特定的文字值：
 
-```python
-{!./examples/types_literal1.py!}
-```
+{!.tmp_examples/types_literal1.md!}
 
 这种字段类型的一个好处是它可以用来检查一个或多个特定值是否相等，而无需声明自定义验证器：
 
-```python
-{!./examples/types_literal2.py!}
-```
+{!.tmp_examples/types_literal2.md!}
 
 通过在带注释的 `Union` 中正确排序，您可以使用它来解析递减特异性的类型：
 
-```python
-{!./examples/types_literal3.py!}
-```
+{!.tmp_examples/types_literal3.md!}
 
 ## 已注解类型(Annotated Types)
 
 ### 命名元组(NamedTuple)
 
-```python
-{!./examples/annotated_types_named_tuple.py!}
-```
+{!.tmp_examples/annotated_types_named_tuple.md!}
 
 ### 标记类型字典(TypedDict)
 
@@ -474,9 +374,7 @@ for i in m.infinite:
 
      因此，我们建议在 Python 3.8 中也使用 [typing-extensions](https://pypi.org/project/typing-extensions/)。
 
-```python
-{!./examples/annotated_types_typed_dict.py!}
-```
+{!.tmp_examples/annotated_types_typed_dict.md!}
 
 ## Pydantic特有类型(Pydantic Types)
 
@@ -669,9 +567,7 @@ for i in m.infinite:
 
 当提供无效 URL 时，上述类型（全部继承自 `AnyUrl`）将尝试给出描述性错误：
 
-```python
-{!./examples/types_urls.py!}
-```
+{!.tmp_examples/types_urls.md!}
 
 如果您需要自定义 URI/URL 类型，可以使用与上面定义的类型类似的方式创建它。
 
@@ -698,17 +594,13 @@ for i in m.infinite:
 
 如果需要进一步验证，验证器可以使用这些属性来强制执行特定行为：
 
-```python
-{!./examples/types_url_properties.py!}
-```
+{!.tmp_examples/types_url_properties.md!}
 
 #### 国际域名(International Domains)
 
 “国际域”（例如，主机或 TLD 包含非 ascii 字符的 URL）将通过 [punycode](https://en.wikipedia.org/wiki/Punycode) 进行编码（参见 [本文](https: //www.xudongz.com/blog/2017/idn-phishing/) 很好地说明了为什么这很重要）：
 
-```python
-{!./examples/types_url_punycode.py!}
-```
+{!.tmp_examples/types_url_punycode.md!}
 
 !!! warning
     #### 主机名中的下划线
@@ -737,9 +629,7 @@ for i in m.infinite:
 - [HSL 字符串](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#HSL_colors)
   (例如 `"hsl(270, 60%, 70%)"`, `"hsl(270, 60%, 70%, .5)"`)
 
-```python
-{!./examples/types_color.py!}
-```
+{!.tmp_examples/types_color.md!}
 
 `Color` 拥有下列方法:
 
@@ -773,25 +663,19 @@ for i in m.infinite:
 
 您可以使用 `SecretStr` 和 `SecretBytes` 数据类型来存储您不希望在日志记录或回溯中可见的敏感信息。 `SecretStr` 和 `SecretBytes` 可以幂等地初始化，也可以分别使用 `str` 或 `bytes` 进行初始化。 `SecretStr` 和 `SecretBytes` 在转换为 json 时将被格式化为 `'**********'` 或 `''`。
 
-```python
-{!./examples/types_secret_types.py!}
-```
+{!.tmp_examples/types_secret_types.md!}
 
 ### Json类型(Json Type)
 
 您可以使用 `Json` 数据类型让 *pydantic* 首先加载原始 JSON 字符串。 它还可以选择用于将加载的对象解析为另一种类型，基于参数化的`Json`类型：
 
-```python
-{!./examples/types_json_type.py!}
-```
+{!.tmp_examples/types_json_type.md!}
 
 ### 支付卡号码(Payment Card Numbers)
 
 `PaymentCardNumber` 类型验证[支付卡](https://en.wikipedia.org/wiki/Payment_card)（例如借记卡或信用卡）。
 
-```python
-{!./examples/types_payment_card_number.py!}
-```
+{!.tmp_examples/types_payment_card_number.md!}
 
 `PaymentCardBrand` 可以是基于 BIN 的以下之一：
 
@@ -810,9 +694,7 @@ for i in m.infinite:
 
 可以使用 `con*` 类型函数来限制许多常见类型的值：
 
-```python
-{!./examples/types_constrained.py!}
-```
+{!.tmp_examples/types_constrained.md!}
 
 其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
@@ -924,9 +806,7 @@ for i in m.infinite:
 - `StrictInt`（以及 `ConstrainedInt` 的 `strict` 选项）将不接受 `bool` 类型，即使 `bool` 是 Python 中 `int` 的子类。 其他子类将起作用。
 - `StrictFloat`（以及 `ConstrainedFloat` 的 `strict` 选项）将不接受 `int`。
 
-```python
-{!./examples/types_strict.py!}
-```
+{!.tmp_examples/types_strict.md!}
 
 ## 字节大小类型(ByteSize)
 
@@ -935,9 +815,7 @@ for i in m.infinite:
 !!! info
     请注意，`1b` 将被解析为`1 byte`而不是`1 bit`。
 
-```python
-{!./examples/types_bytesize.py!}
-```
+{!.tmp_examples/types_bytesize.md!}
 
 ## 自定义数据类型(Custom Data Types)
 
@@ -950,9 +828,7 @@ for i in m.infinite:
 !!! tip
     这些验证器具有与 [Validators](validators.md) 中相同的语义，您可以声明参数 `config`、`field` 等。
 
-```python
-{!./examples/types_custom_type.py!}
-```
+{!.tmp_examples/types_custom_type.md!}
 
 类似的验证可以使用 [`constr(regex=...)`](#constrained-types) 来实现，除了值不会用空格格式化，模式将只包含完整模式，返回值将是 香草字符串。
 
@@ -962,9 +838,7 @@ for i in m.infinite:
 
 您可以使用 [模型配置](model_config.md) 中的 `arbitrary_types_allowed` 配置允许任意类型。
 
-```python
-{!./examples/types_arbitrary_allowed.py!}
-```
+{!.tmp_examples/types_arbitrary_allowed.md!}
 
 ### 作为类型的通用类(Generic Classes as Types)
 
@@ -977,6 +851,4 @@ for i in m.infinite:
 
 因为您可以声明接收当前 `field` 的验证器，所以您可以提取 `sub_field` （从通用类类型参数）并使用它们验证数据。
 
-```python
-{!./examples/types_generics.py!}
-```
+{!.tmp_examples/types_generics.md!}

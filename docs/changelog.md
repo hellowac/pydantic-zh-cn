@@ -1,2 +1,1 @@
-{!.changelog.py!}
-```
+{!.changelog.md!}

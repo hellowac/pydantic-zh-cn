@@ -19,9 +19,7 @@ strategies support them without any user configuration.
 
 ### Example tests
 
-```python
-{!./examples/hypothesis_property_based_test.py!}
-```
+{!.tmp_examples/hypothesis_property_based_test.md!}
 
 
 ### Use with JSON Schemas

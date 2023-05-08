@@ -1,202 +1,149 @@
-As well as accessing model attributes directly via their names (e.g. `model.foobar`), models can be converted
-and exported in a number of ways:
+除了通过名称直接访问模型属性（例如 `model.foobar`）之外，还可以通过多种方式转换和导出模型：
 
 ## `model.dict(...)`
 
-This is the primary way of converting a model to a dictionary. Sub-models will be recursively converted to dictionaries.
+这是将模型转换为字典的主要方式。 子模型将递归地转换为字典。
 
-Arguments:
+参数:
 
-* `include`: fields to include in the returned dictionary; see [below](#advanced-include-and-exclude)
-* `exclude`: fields to exclude from the returned dictionary; see [below](#advanced-include-and-exclude)
-* `by_alias`: whether field aliases should be used as keys in the returned dictionary; default `False`
-* `exclude_unset`: whether fields which were not explicitly set when creating the model should
-  be excluded from the returned dictionary; default `False`.
-  Prior to **v1.0**, `exclude_unset` was known as `skip_defaults`; use of `skip_defaults` is now deprecated
-* `exclude_defaults`: whether fields which are equal to their default values (whether set or otherwise) should
-  be excluded from the returned dictionary; default `False`
-* `exclude_none`: whether fields which are equal to `None` should be excluded from the returned dictionary; default
-  `False`
+* `include`: 要包含在返回字典中的字段； 见 [下文](#advanced-include-and-exclude)
+* `exclude`: 从返回的字典中排除的字段； 见 [下文](#advanced-include-and-exclude)
+* `by_alias`: 字段别名是否应该用作返回字典中的键； 默认`false`
+* `exclude_unset`: 是否应从返回的字典中排除在创建模型时未明确设置的字段； 默认`false`。
+    在 **v1.0** 之前，`exclude_unset` 被称为 `skip_defaults`； `skip_defaults` 的使用现已弃用
+* `exclude_defaults`: 是否应从返回的字典中排除等于其默认值（无论是否设置）的字段； 默认“假”
+* `exclude_none`: 是否应从返回的字典中排除等于`None`的字段； 默认`false`。
 
-Example:
+例子:
 
-```python
-{!./examples/exporting_models_dict.py!}
-```
+{!.tmp_examples/exporting_models_dict.md!}
 
-## `dict(model)` and iteration
+## `dict(model)` 和迭代(`dict(model)` and iteration)
 
-*pydantic* models can also be converted to dictionaries using `dict(model)`, and you can also
-iterate over a model's field using `for field_name, value in model:`. With this approach the raw field values are
-returned, so sub-models will not be converted to dictionaries.
+*pydantic* 模型也可以使用 `dict(model)` 转换为字典，您还可以使用 `for field_name, value in model:` 迭代模型的字段。 使用这种方法返回原始字段值，因此子模型不会转换为字典。
 
-Example:
+例子:
 
-```python
-{!./examples/exporting_models_iterate.py!}
-```
+{!.tmp_examples/exporting_models_iterate.md!}
 
 ## `model.copy(...)`
 
-`copy()` allows models to be duplicated, which is particularly useful for immutable models.
+`copy()` 允许复制模型，这对于不可变模型特别有用。
 
-Arguments:
+参数:
 
-* `include`: fields to include in the returned dictionary; see [below](#advanced-include-and-exclude)
-* `exclude`: fields to exclude from the returned dictionary; see [below](#advanced-include-and-exclude)
-* `update`: a dictionary of values to change when creating the copied model
-* `deep`: whether to make a deep copy of the new model; default `False`
+* `include`: 要包含在返回字典中的字段； 见 [下文](#advanced-include-and-exclude)
+* `exclude`: 从返回的字典中排除的字段； 见 [下文](#advanced-include-and-exclude)
+* `update`: 创建复制模型时要更改的值字典
+* `deep`: 是否对新模型进行深拷贝； 默认`false`。
 
-Example:
+例子:
 
-```python
-{!./examples/exporting_models_copy.py!}
-```
+{!.tmp_examples/exporting_models_copy.md!}
 
 ## `model.json(...)`
 
 The `.json()` method will serialise a model to JSON. (For models with a [custom root type](models.md#custom-root-types),
 only the value for the `__root__` key is serialised)
 
-Arguments:
+参数:
 
-* `include`: fields to include in the returned dictionary; see [below](#advanced-include-and-exclude)
-* `exclude`: fields to exclude from the returned dictionary; see [below](#advanced-include-and-exclude)
-* `by_alias`: whether field aliases should be used as keys in the returned dictionary; default `False`
-* `exclude_unset`: whether fields which were not set when creating the model and have their default values should
-  be excluded from the returned dictionary; default `False`.
-  Prior to **v1.0**, `exclude_unset` was known as `skip_defaults`; use of `skip_defaults` is now deprecated
-* `exclude_defaults`: whether fields which are equal to their default values (whether set or otherwise) should
-  be excluded from the returned dictionary; default `False`
-* `exclude_none`: whether fields which are equal to `None` should be excluded from the returned dictionary; default
-  `False`
-* `encoder`: a custom encoder function passed to the `default` argument of `json.dumps()`; defaults to a custom
-  encoder designed to take care of all common types
-* `**dumps_kwargs`: any other keyword arguments are passed to `json.dumps()`, e.g. `indent`.
+* `include`: 要包含在返回字典中的字段； 见 [下文](#advanced-include-and-exclude)
+* `exclude`: 从返回的字典中排除的字段； 见 [下文](#advanced-include-and-exclude)
+* `by_alias`: 字段别名是否应该用作返回字典中的键； 默认`false`。
+* `exclude_unset`: 是否应从返回的字典中排除在创建模型时未设置且具有默认值的字段； 默认`false`。
+  在 **v1.0** 之前，`exclude_unset` 被称为 `skip_defaults`； `skip_defaults` 的使用现已弃用
+* `exclude_defaults`: 是否应从返回的字典中排除等于其默认值（无论是否设置）的字段； 默认`false`。
+* `exclude_none`: 是否应从返回的字典中排除等于`None`的字段； 默认`false`。
+* `encoder`: 传递给 `json.dumps()` 的 `default` 参数的自定义编码器函数； 默认为自定义编码器，旨在处理所有常见类型。
+* `**dumps_kwargs`: 任何其他关键字参数都传递给 `json.dumps()` ，例如 `indent`。
 
-*pydantic* can serialise many commonly used types to JSON (e.g. `datetime`, `date` or `UUID`) which would normally
-fail with a simple `json.dumps(foobar)`.
+*pydantic* 可以将许多常用类型序列化为 JSON（例如`datetime`、`date`或`UUID`），这通常会因简单的`json.dumps(foobar)`而失败。
 
-```python
-{!./examples/exporting_models_json.py!}
-```
+{!.tmp_examples/exporting_models_json.md!}
 
 ### `json_encoders`
 
-Serialisation can be customised on a model using the `json_encoders` config property; the keys should be types (or names of types for forward references), and
-the values should be functions which serialise that type (see the example below):
+可以使用 `json_encoders` 配置属性在模型上自定义序列化； 键应该是类型（或前向引用的类型名称），值应该是序列化该类型的函数（参见下面的示例）：
 
-```python
-{!./examples/exporting_models_json_encoders.py!}
-```
+{!.tmp_examples/exporting_models_json_encoders.md!}
 
-By default, `timedelta` is encoded as a simple float of total seconds. The `timedelta_isoformat` is provided
-as an optional alternative which implements [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) time diff encoding.
+默认情况下，`timedelta`被编码为总秒数的简单浮点数。 `timedelta_isoformat` 作为一个可选的替代方案提供，它实现了 [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) 时间差异编码。
 
-The `json_encoders` are also merged during the models inheritance with the child
-encoders taking precedence over the parent one.
+`json_encoders` 也在模型继承期间合并，子编码器优先于父编码器。
 
-```python
-{!./examples/exporting_models_json_encoders_merge.py!}
-```
+{!.tmp_examples/exporting_models_json_encoders_merge.md!}
 
-### Serialising self-reference or other models
+### 序列化自引用或其他模型(Serialising self-reference or other models)
 
-By default, models are serialised as dictionaries.
-If you want to serialise them differently, you can add `models_as_dict=False` when calling `json()` method
-and add the classes of the model in `json_encoders`.
-In case of forward references, you can use a string with the class name instead of the class itself
-```python
-{!./examples/exporting_models_json_forward_ref.py!}
-```
+默认情况下，模型被序列化为字典。
 
-### Serialising subclasses
+如果你想以不同的方式序列化它们，你可以在调用 `json()` 方法时添加 `models_as_dict=False` 并在 `json_encoders` 中添加模型的类。
+
+在前向引用的情况下，您可以使用带有类名的字符串而不是类本身
+
+{!.tmp_examples/exporting_models_json_forward_ref.md!}
+
+### 序列化子类(Serialising subclasses)
 
 !!! note
-    New in version **v1.5**.
+    版本 **v1.5** 中的新功能。
 
-    Subclasses of common types were not automatically serialised to JSON before **v1.5**.
+    在 **v1.5** 之前，普通类型的子类不会自动序列化为 JSON。
 
-Subclasses of common types are automatically encoded like their super-classes:
+公共类型的子类像它们的超类一样自动编码：
 
-```python
-{!./examples/exporting_models_json_subclass.py!}
-```
+{!.tmp_examples/exporting_models_json_subclass.md!}
 
-### Custom JSON (de)serialisation
+### 自定义 JSON（反）序列化(Custom JSON (de)serialisation)
 
-To improve the performance of encoding and decoding JSON, alternative JSON implementations
-(e.g. [ujson](https://pypi.python.org/pypi/ujson)) can be used via the
-`json_loads` and `json_dumps` properties of `Config`.
+为了提高编码和解码 JSON 的性能，可以通过 `Config` 的 `json_loads` 和 `json_dumps` 属性使用替代 JSON 实现（例如 [ujson](https://pypi.python.org/pypi/ujson)） `。
 
-```python
-{!./examples/exporting_models_ujson.py!}
-```
+{!.tmp_examples/exporting_models_ujson.md!}
 
-`ujson` generally cannot be used to dump JSON since it doesn't support encoding of objects like datetimes and does
-not accept a `default` fallback function argument. To do this, you may use another library like
-[orjson](https://github.com/ijl/orjson).
+`ujson` 通常不能用于转储 JSON，因为它不支持日期时间等对象的编码，并且不接受 `default` 回退函数参数。 为此，您可以使用另一个库，例如 [orjson](https://github.com/ijl/orjson)。
 
-```python
-{!./examples/exporting_models_orjson.py!}
-```
+{!.tmp_examples/exporting_models_orjson.md!}
 
-Note that `orjson` takes care of `datetime` encoding natively, making it faster than `json.dumps` but
-meaning you cannot always customise the encoding using `Config.json_encoders`.
+请注意，`orjson` 本身负责处理 `datetime` 编码，使其比 `json.dumps` 更快，但这意味着您不能总是使用 `Config.json_encoders` 自定义编码。
 
 ## `pickle.dumps(model)`
 
-Using the same plumbing as `copy()`, *pydantic* models support efficient pickling and unpickling.
+使用与 `copy()` 相同的方案，*pydantic* 模型支持高效的 pickling 和 unpickling。
 
-```python
-{!./examples/exporting_models_pickle.py!}
-```
+{!.tmp_examples/exporting_models_pickle.md!}
 
-## Advanced include and exclude
+## 高级包含和排除(Advanced include and exclude)
 
-The `dict`, `json`, and `copy` methods support `include` and `exclude` arguments which can either be
-sets or dictionaries. This allows nested selection of which fields to export:
+`dict`、`json` 和 `copy` 方法支持 `include` 和 `exclude` 参数，它们可以是集合或字典。 这允许嵌套选择要导出的字段：
 
-```python
-{!./examples/exporting_models_exclude1.py!}
-```
+{!.tmp_examples/exporting_models_exclude1.md!}
 
-The `True` indicates that we want to exclude or include an entire key, just as if we included it in a set.
-Of course, the same can be done at any depth level.
+`True` 表示我们想要排除或包含整个键，就好像我们将它包含在一个集合中一样。 当然，可以在任何深度级别进行相同的操作。
 
-Special care must be taken when including or excluding fields from a list or tuple of submodels or dictionaries.  In this scenario,
-`dict` and related methods expect integer keys for element-wise inclusion or exclusion. To exclude a field from **every**
-member of a list or tuple, the dictionary key `'__all__'` can be used as follows:
+在从子模型或字典的列表或元组中包含或排除字段时必须特别小心。 在这种情况下，`dict` 和相关方法需要整数键来按元素包含或排除。 要从列表或元组的**每个**成员中排除一个字段，可以使用字典键`__all__`，如下所示：
 
-```python
-{!./examples/exporting_models_exclude2.py!}
-```
+{!.tmp_examples/exporting_models_exclude2.md!}
 
-The same holds for the `json` and `copy` methods.
+`json` 和 `copy` 方法也是如此。
 
-### Model and field level include and exclude
+### 模型和字段级别包含和排除(Model and field level include and exclude)
 
-In addition to the explicit arguments `exclude` and `include` passed to `dict`, `json` and `copy` methods, we can also pass the `include`/`exclude` arguments directly to the `Field` constructor or the equivalent `field` entry in the models `Config` class:
+除了传递给 `dict`、`json` 和 `copy` 方法的显式参数 `exclude` 和 `include` 之外，我们还可以将 `include`/`exclude` 参数直接传递给 `Field` 构造函数或 模型`Config`类中的等效`Field`实例：
 
-```python
-{!./examples/exporting_models_exclude3.py!}
-```
+{!.tmp_examples/exporting_models_exclude3.md!}
 
-In the case where multiple strategies are used, `exclude`/`include` fields are merged according to the following rules:
+在使用多种策略的情况下，`exclude`/`include`字段按照以下规则进行合并：
 
-* First, model config level settings (via `"fields"` entry) are merged per field with the field constructor settings (i.e. `Field(..., exclude=True)`), with the field constructor taking priority.
-* The resulting settings are merged per class with the explicit settings on `dict`, `json`, `copy` calls with the explicit settings taking priority.
+* 首先，模型配置级别设置（通过`Field`实例）按字段与字段构造器设置（即`Field(..., exclude=True)`）合并，字段构造器优先。
+* 结果设置按类与 `dict`、`json`、`copy` 调用的显式设置合并，显式设置优先。
 
-Note that while merging settings, `exclude` entries are merged by computing the "union" of keys, while `include` entries are merged by computing the "intersection" of keys.
+请注意，在合并设置时，`exclude` 通过计算键的`union`合并，而`include` 通过计算键的`交集(intersection)`合并。
 
-The resulting merged exclude settings:
+生成的合并排除设置：
 
-```python
-{!./examples/exporting_models_exclude4.py!}
-```
+{!.tmp_examples/exporting_models_exclude4.md!}
 
-are the same as using merged include settings as follows:
+与使用合并包含设置相同，如下所示：
 
-```python
-{!./examples/exporting_models_exclude5.py!}
-```
+{!.tmp_examples/exporting_models_exclude5.md!}

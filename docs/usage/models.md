@@ -120,9 +120,7 @@ assert user.id == 321
 
 可以使用模型本身作为注释中的类型来定义更复杂的分层数据结构。
 
-```python
-{!./examples/models_recursive.py!}
-```
+{!.tmp_examples/models_recursive.md!}
 
 对于自引用模型， 见 [延时注解](postponed_annotations.md#self-referencing-models).
 
@@ -137,17 +135,13 @@ assert user.id == 321
 
 此处的示例使用 SQLAlchemy，但同样的方法适用于任何 ORM。
 
-```python
-{!./examples/models_orm_mode.py!}
-```
+{!.tmp_examples/models_orm_mode.md!}
 
-### Reserved names
+### 保留名称(Reserved names)
 
 您可能希望在保留的 SQLAlchemy 字段之后重新命名。 在这种情况下，**Field** 别名会很方便：
 
-```python
-{!./examples/models_orm_mode_reserved_name.py!}
-```
+{!.tmp_examples/models_orm_mode_reserved_name.md!}
 
 !!! note
 
@@ -159,9 +153,7 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 
 这里使用普通类来演示原理，但也可以使用任何 ORM 类。
 
-```python
-{!./examples/models_orm_mode_recursive.py!}
-```
+{!.tmp_examples/models_orm_mode_recursive.md!}
 
 ### 数据绑定(Data binding)
 
@@ -172,9 +164,7 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 
 将为每个字段调用 `GetterDict` 实例，并将标记（如果未设置其他默认值）。 返回此标记意味着该字段丢失。 任何其他值都将被解释为该字段的值。
 
-```python
-{!./examples/models_orm_mode_data_binding.py!}
-```
+{!.tmp_examples/models_orm_mode_data_binding.md!}
 
 ## 错误处理(Error Handling)
 
@@ -213,9 +203,7 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 
 作为示范：
 
-```python
-{!./examples/models_errors1.py!}
-```
+{!.tmp_examples/models_errors1.md!}
 
 ### 自定义错误(Custom Errors)
 
@@ -223,15 +211,11 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 
 有关使用 `@validator` 装饰器的更多详细信息，请参阅 [校验器](validators.md)。
 
-```python
-{!./examples/models_errors2.py!}
-```
+{!.tmp_examples/models_errors2.md!}
 
 您还可以定义自己的错误类，它可以自定义错误代码、消息模板和上下文：
 
-```python
-{!./examples/models_errors3.py!}
-```
+{!.tmp_examples/models_errors3.md!}
 
 ## 辅助函数(Helper Functions)
 
@@ -241,9 +225,7 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 * **`parse_raw`**: 这需要 *str* 或 *bytes* 并将其解析为 *json*，然后将结果传递给 `parse_obj`。通过适当设置 `content_type` 参数也支持解析 *pickle* 数据。
 * **`parse_file`**: 这需要一个文件路径，读取文件并将内容传递给`parse_raw`。 如果省略了 `content_type`，则从文件的扩展名中推断出来。
 
-```python
-{!./examples/models_parse.py!}
-```
+{!.tmp_examples/models_parse.md!}
 
 !!! warning
     引用 [官方 `pickle` 文档](https://docs.python.org/3/library/pickle.html)，“pickle 模块对于错误或恶意构造的数据不安全。切勿取消接收来自不受信任或未经身份验证的来源。”
@@ -258,9 +240,7 @@ ORM 实例将使用 `from_orm` 递归地以及在顶层进行解析。
 !!! warning
     `construct()` 不做任何验证，这意味着它可以创建无效的模型。 **您应该只对已经过验证或您信任的数据使用 `construct()` 方法。**
 
-```python
-{!./examples/models_construct.py!}
-```
+{!.tmp_examples/models_construct.md!}
 
 `construct()` 的 `_fields_set` 关键字参数是可选的，但可以让您更准确地了解哪些字段是最初设置的，哪些不是。 如果它被省略，`__fields_set__` 将只是所提供数据的键。
 
@@ -278,9 +258,7 @@ Pydantic 支持创建通用模型，以便更轻松地重用通用模型结构�
 
 下面是一个使用 `GenericModel` 创建易于重用的 HTTP 响应负载包装器的示例：
 
-```python
-{!./examples/models_generics.py!}
-```
+{!.tmp_examples/models_generics.md!}
 
 如果您在通用模型定义中设置 `Config` 或使用 `validator`，它将以与从 `BaseModel` 继承时相同的方式应用于具体子类。 在泛型类上定义的任何方法也将被继承。
 
@@ -291,27 +269,19 @@ Pydantic 的泛型也与 mypy 正确集成，因此如果您要在不使用 `Gen
 
 要从 `GenericModel` 继承而不替换 `TypeVar` 实例，类还必须从 `typing.Generic` 继承：
 
-```python
-{!./examples/models_generics_inheritance.py!}
-```
+{!.tmp_examples/models_generics_inheritance.md!}
 
 您还可以创建 `GenericModel` 的通用子类，部分或完全替换超类中的类型参数。
 
-```python
-{!./examples/models_generics_inheritance_extend.py!}
-```
+{!.tmp_examples/models_generics_inheritance_extend.md!}
 
 如果具体子类的名称很重要，您还可以覆盖默认行为：
 
-```python
-{!./examples/models_generics_naming.py!}
-```
+{!.tmp_examples/models_generics_naming.md!}
 
 在嵌套模型中使用相同的 `TypeVar` 允许您在模型的不同点强制执行类型关系：
 
-```python
-{!./examples/models_generics_nested.py!}
-```
+{!.tmp_examples/models_generics_nested.md!}
 
 Pydantic 还像处理 `List` 和 `Dict` 等内置泛型类型一样处理 `GenericModel`，以使其保持未参数化或使用有界 `TypeVar` 实例：
 
@@ -320,17 +290,13 @@ Pydantic 还像处理 `List` 和 `Dict` 等内置泛型类型一样处理 `Gener
 
 此外，与 `List` 和 `Dict` 一样，使用 `TypeVar` 指定的任何参数稍后都可以替换为具体类型。
 
-```python
-{!./examples/models_generics_typevars.py!}
-```
+{!.tmp_examples/models_generics_typevars.md!}
 
 ## 动态模型的创建(Dynamic model creation)
 
 在某些情况下，直到运行时才知道模型的形态(shape)。 为此 *pydantic* 提供了 `create_model` 方法来允许动态创建模型。
 
-```python
-{!./examples/models_dynamic_creation.py!}
-```
+{!.tmp_examples/models_dynamic_creation.md!}
 
 这里的 `StaticFoobarModel` 和 `DynamicFoobarModel` 是相同的。
 
@@ -340,23 +306,17 @@ Pydantic 还像处理 `List` 和 `Dict` 等内置泛型类型一样处理 `Gener
 
 字段由 `(<type>, <default value>)` 形式的元组或仅由默认值定义。 特殊关键字参数 `__config__` 和 `__base__` 可用于自定义新模型。 这包括使用额外字段扩展基本模型。
 
-```python
-{!./examples/models_dynamic_inheritance.py!}
-```
+{!.tmp_examples/models_dynamic_inheritance.md!}
 
 您还可以通过将字典传递给 `__validators__` 参数来添加验证器。
 
-```python
-{!./examples/models_dynamic_validators.py!}
-```
+{!.tmp_examples/models_dynamic_validators.md!}
 
 ## 从`NamedTuple`或`TypedDict`创建模型(Model creation from `NamedTuple` or `TypedDict`)
 
 有时，您已经在应用程序中使用了继承自 `NamedTuple` 或 `TypedDict` 的类，并且您不想复制所有信息以拥有 `BaseModel`。 为此*pydantic* 提供了`create_model_from_namedtuple` 和`create_model_from_typeddict` 方法。 这些方法具有与 `create_model` 完全相同的关键字参数。
 
-```python
-{!./examples/models_from_typeddict.py!}
-```
+{!.tmp_examples/models_from_typeddict.md!}
 
 ## 自定义根类型(Custom Root Types)
 
@@ -364,9 +324,7 @@ Pydantic 模型可以通过声明 `__root__` 字段来定义自定义根类型�
 
 根类型可以是 pydantic 支持的任何类型，并由 `__root__` 字段上的类型提示指定。 根值可以通过 `__root__` 关键字参数传递给模型 `__init__` ，或者作为 `parse_obj` 的第一个也是唯一一个参数。
 
-```python
-{!./examples/models_custom_root_field.py!}
-```
+{!.tmp_examples/models_custom_root_field.md!}
 
 如果您为具有自定义根类型的模型调用 `parse_obj` 方法，并将 *dict* 作为第一个参数，则使用以下逻辑：
 
@@ -376,18 +334,14 @@ Pydantic 模型可以通过声明 `__root__` 字段来定义自定义根类型�
 
 这在以下示例中得到了证明：
 
-```python
-{!./examples/models_custom_root_field_parse_obj.py!}
-```
+{!.tmp_examples/models_custom_root_field_parse_obj.md!}
 
 !!! warning
     为了向后兼容，目前支持使用单键 `"__root__"` 在 dict 上调用 `parse_obj` 方法以实现向后兼容性，但不推荐并且可能在未来版本中删除。
 
 如果您想直接访问 `__root__` 字段中的项目或迭代这些项目，您可以实现自定义 `__iter__` 和 `__getitem__` 函数，如以下示例所示。
 
-```python
-{!./examples/models_custom_root_access.py!}
-```
+{!.tmp_examples/models_custom_root_access.md!}
 
 ## 伪不变性(Faux Immutability)
 
@@ -396,9 +350,7 @@ Pydantic 模型可以通过声明 `__root__` 字段来定义自定义根类型�
 !!! warning
     Python 中的不变性从来都不是严格的。 如果开发人员有决心/愚蠢，他们总是可以修改所谓的“不可变”对象。
 
-```python
-{!./examples/models_mutation.py!}
-```
+{!.tmp_examples/models_mutation.md!}
 
 尝试更改 `a` 导致错误，而 `a` 保持不变。 然而，dict `b` 是可变的，而 `foobar` 的不变性并不能阻止 `b` 被改变。
 
@@ -406,9 +358,7 @@ Pydantic 模型可以通过声明 `__root__` 字段来定义自定义根类型�
 
 Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/library/abc.html) (ABC) 一起使用。
 
-```python
-{!./examples/models_abc.py!}
-```
+{!.tmp_examples/models_abc.md!}
 
 ## 字段顺序(Field Ordering)
 
@@ -421,9 +371,7 @@ Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/libr
 
 从 **v1.0** 开始，所有带有注解的字段（无论是仅注解还是带有默认值）都将位于所有没有注解的字段之前。 在各自的组中，字段保持其定义的顺序。
 
-```python
-{!./examples/models_field_order.py!}
-```
+{!.tmp_examples/models_field_order.md!}
 
 !!! warning
     如上面的示例所示，在同一模型中结合使用带注释和非带注释的字段可能会导致令人惊讶的字段排序。 （这是由于 Python 的限制）
@@ -434,9 +382,7 @@ Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/libr
 
 要根据需要声明一个字段，您可以仅使用注解来声明它，或者您可以使用省略号（`...`）作为值：
 
-```python
-{!./examples/models_required_fields.py!}
-```
+{!.tmp_examples/models_required_fields.md!}
 
 其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
@@ -451,9 +397,7 @@ Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/libr
 
 如果你想指定一个字段，该字段在仍然需要时可以采用“无”值，则可以将“可选”与“...”一起使用：
 
-```python
-{!./examples/models_required_field_optional.py!}
-```
+{!.tmp_examples/models_required_field_optional.md!}
 
 在这个模型中，`a`、`b` 和 `c` 可以取 `None` 作为值。 但是 `a` 是可选的，而 `b` 和 `c` 是必需的。 `b` 和 `c` 需要一个值，即使该值为 `None`。
 
@@ -466,9 +410,7 @@ Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/libr
 
 使用示例：
 
-```python
-{!./examples/models_default_factory.py!}
-```
+{!.tmp_examples/models_default_factory.md!}
 
 其中 `Field` 指的是 [字段函数](schema.md#field-customization)。
 
@@ -483,17 +425,13 @@ Pydantic 模型可以与 Python 的[抽象基类](https://docs.python.org/3/libr
 
 如果您需要改变或操作模型实例的内部属性，您可以使用 `PrivateAttr` 声明它们：
 
-```python
-{!./examples/private_attributes.py!}
-```
+{!.tmp_examples/private_attributes.md!}
 
 私有属性名称必须以下划线开头，以防止与模型字段冲突：支持 `_attr` 和 `__attr__` 。
 
 如果 `Config.underscore_attrs_are_private` 为 `True`，任何非 ClassVar 下划线属性都将被视为私有：
 
-```python
-{!./examples/private_attributes_underscore_attrs_are_private.py!}
-```
+{!.tmp_examples/private_attributes_underscore_attrs_are_private.md!}
 
 在创建类时，pydantic 构造了填充私有属性的 `__slots__` 。
 
@@ -505,9 +443,7 @@ Pydantic 包括一个独立的实用函数 `parse_obj_as` ，可用于应用用�
 
 例如：
 
-```python
-{!./examples/parse_obj_as.py!}
-```
+{!.tmp_examples/parse_obj_as.md!}
 
 此函数能够将数据解析为 pydantic 可以作为 `BaseModel` 字段处理的任何类型。
 
@@ -519,9 +455,7 @@ Pydantic 还包括两个类似的独立函数，称为 `parse_file_as` 和 `pars
 
 例如：
 
-```python
-{!./examples/models_data_conversion.py!}
-```
+{!.tmp_examples/models_data_conversion.md!}
 
 这是 *pydantic* 深思熟虑的决定，通常这是最有用的方法。 请参阅[此处](https://github.com/pydantic/pydantic/issues/578)，了解有关该主题的更长时间讨论。
 
@@ -531,17 +465,13 @@ Pydantic 还包括两个类似的独立函数，称为 `parse_file_as` 和 `pars
 
 所有 *pydantic* 模型都将根据其字段生成签名：
 
-```python
-{!./examples/models_signature.py!}
-```
+{!.tmp_examples/models_signature.md!}
 
 准确的签名对于内省目的和库（如`FastAPI`或 `hypothesis` ）很有用。
 
 生成的签名也将遵循自定义的 `__init__` 函数：
 
-```python
-{!./examples/models_signature_custom_init.py!}
-```
+{!.tmp_examples/models_signature_custom_init.md!}
 
 要包含在签名中，字段的别名或名称必须是有效的 Python 标识符。 *pydantic* 更喜欢别名而不是名称，但如果别名不是有效的 Python 标识符，则可以使用字段名称。
 
@@ -558,9 +488,7 @@ Pydantic 还包括两个类似的独立函数，称为 `parse_file_as` 和 `pars
 
 *pydantic* 支持模型的结构模式匹配，如 Python 3.10 中的 [PEP 636](https://peps.python.org/pep-0636/) 所介绍的那样。
 
-```python
-{!./examples/models_structural_pattern_matching.py!}
-```
+{!.tmp_examples/models_structural_pattern_matching.md!}
 
 !!! note
     match-case 语句看起来好像创建了一个新模型，但不要被愚弄了；

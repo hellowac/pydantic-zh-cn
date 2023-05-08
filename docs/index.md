@@ -84,9 +84,7 @@
 
 ## Example
 
-```python
-{!./examples/index_main.py!}
-```
+{!.tmp_examples/index_main.md!}
 
 这里发生了什么：
 
@@ -98,9 +96,7 @@
 
 如果验证失败，pydantic 将引发错误并详细说明错误：
 
-```python
-{!./examples/index_error.py!}
-```
+{!.tmp_examples/index_error.md!}
 
 ## 基本原理(Rationale)
 
