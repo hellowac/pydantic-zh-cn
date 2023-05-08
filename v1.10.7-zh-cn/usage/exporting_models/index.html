@@ -19,7 +19,7 @@
         <link rel="next" href="../dataclasses/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -418,8 +418,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dictmodel-and-iteration" class="md-nav__link">
-    dict(model) and iteration
+  <a href="#dictmodel-dictmodel-and-iteration" class="md-nav__link">
+    dict(model) 和迭代(dict(model) and iteration)
   </a>
   
 </li>
@@ -448,21 +448,21 @@
         
           <li class="md-nav__item">
   <a href="#serialising-self-reference-or-other-models" class="md-nav__link">
-    Serialising self-reference or other models
+    序列化自引用或其他模型(Serialising self-reference or other models)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#serialising-subclasses" class="md-nav__link">
-    Serialising subclasses
+    序列化子类(Serialising subclasses)
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#custom-json-deserialisation" class="md-nav__link">
-    Custom JSON (de)serialisation
+  <a href="#jsoncustom-json-deserialisation" class="md-nav__link">
+    自定义 JSON（反）序列化(Custom JSON (de)serialisation)
   </a>
   
 </li>
@@ -481,15 +481,15 @@
       
         <li class="md-nav__item">
   <a href="#advanced-include-and-exclude" class="md-nav__link">
-    Advanced include and exclude
+    高级包含和排除(Advanced include and exclude)
   </a>
   
-    <nav class="md-nav" aria-label="Advanced include and exclude">
+    <nav class="md-nav" aria-label="高级包含和排除(Advanced include and exclude)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#model-and-field-level-include-and-exclude" class="md-nav__link">
-    Model and field level include and exclude
+    模型和字段级别包含和排除(Model and field level include and exclude)
   </a>
   
 </li>
@@ -798,8 +798,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dictmodel-and-iteration" class="md-nav__link">
-    dict(model) and iteration
+  <a href="#dictmodel-dictmodel-and-iteration" class="md-nav__link">
+    dict(model) 和迭代(dict(model) and iteration)
   </a>
   
 </li>
@@ -828,21 +828,21 @@
         
           <li class="md-nav__item">
   <a href="#serialising-self-reference-or-other-models" class="md-nav__link">
-    Serialising self-reference or other models
+    序列化自引用或其他模型(Serialising self-reference or other models)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#serialising-subclasses" class="md-nav__link">
-    Serialising subclasses
+    序列化子类(Serialising subclasses)
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#custom-json-deserialisation" class="md-nav__link">
-    Custom JSON (de)serialisation
+  <a href="#jsoncustom-json-deserialisation" class="md-nav__link">
+    自定义 JSON（反）序列化(Custom JSON (de)serialisation)
   </a>
   
 </li>
@@ -861,15 +861,15 @@
       
         <li class="md-nav__item">
   <a href="#advanced-include-and-exclude" class="md-nav__link">
-    Advanced include and exclude
+    高级包含和排除(Advanced include and exclude)
   </a>
   
-    <nav class="md-nav" aria-label="Advanced include and exclude">
+    <nav class="md-nav" aria-label="高级包含和排除(Advanced include and exclude)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#model-and-field-level-include-and-exclude" class="md-nav__link">
-    Model and field level include and exclude
+    模型和字段级别包含和排除(Model and field level include and exclude)
   </a>
   
 </li>
@@ -906,24 +906,23 @@
 
   <h1>模型导出</h1>
 
-<p>As well as accessing model attributes directly via their names (e.g. <code>model.foobar</code>), models can be converted
-and exported in a number of ways:</p>
+<p>除了通过名称直接访问模型属性（例如 <code>model.foobar</code>）之外，还可以通过多种方式转换和导出模型：</p>
 <h2 id="modeldict"><code>model.dict(...)</code><a class="headerlink" href="#modeldict" title="Permanent link">&para;</a></h2>
-<p>This is the primary way of converting a model to a dictionary. Sub-models will be recursively converted to dictionaries.</p>
-<p>Arguments:</p>
+<p>这是将模型转换为字典的主要方式。 子模型将递归地转换为字典。</p>
+<p>参数:</p>
 <ul>
-<li><code>include</code>: fields to include in the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>exclude</code>: fields to exclude from the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>by_alias</code>: whether field aliases should be used as keys in the returned dictionary; default <code>False</code></li>
-<li><code>exclude_unset</code>: whether fields which were not explicitly set when creating the model should
-  be excluded from the returned dictionary; default <code>False</code>.
-  Prior to <strong>v1.0</strong>, <code>exclude_unset</code> was known as <code>skip_defaults</code>; use of <code>skip_defaults</code> is now deprecated</li>
-<li><code>exclude_defaults</code>: whether fields which are equal to their default values (whether set or otherwise) should
-  be excluded from the returned dictionary; default <code>False</code></li>
-<li><code>exclude_none</code>: whether fields which are equal to <code>None</code> should be excluded from the returned dictionary; default
-  <code>False</code></li>
+<li><code>include</code>: 要包含在返回字典中的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>exclude</code>: 从返回的字典中排除的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>by_alias</code>: 字段别名是否应该用作返回字典中的键； 默认<code>false</code></li>
+<li><code>exclude_unset</code>: 是否应从返回的字典中排除在创建模型时未明确设置的字段； 默认<code>false</code>。
+    在 <strong>v1.0</strong> 之前，<code>exclude_unset</code> 被称为 <code>skip_defaults</code>； <code>skip_defaults</code> 的使用现已弃用</li>
+<li><code>exclude_defaults</code>: 是否应从返回的字典中排除等于其默认值（无论是否设置）的字段； 默认“假”</li>
+<li><code>exclude_none</code>: 是否应从返回的字典中排除等于<code>None</code>的字段； 默认<code>false</code>。</li>
 </ul>
-<p>Example:</p>
+<p>例子:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 
@@ -941,14 +940,28 @@ and exported in a number of ways:</p>
 
 <span class="c1"># returns a dictionary:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;banana&#39;: 3.14,</span>
+<span class="sd">    &#39;foo&#39;: &#39;hello&#39;,</span>
+<span class="sd">    &#39;bar&#39;: {&#39;whatever&#39;: 123},</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; {&#39;foo&#39;: &#39;hello&#39;, &#39;bar&#39;: {&#39;whatever&#39;: 123}}</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; {&#39;banana&#39;: 3.14}</span>
 </code></pre></div>
-<h2 id="dictmodel-and-iteration"><code>dict(model)</code> and iteration<a class="headerlink" href="#dictmodel-and-iteration" title="Permanent link">&para;</a></h2>
-<p><em>pydantic</em> models can also be converted to dictionaries using <code>dict(model)</code>, and you can also
-iterate over a model's field using <code>for field_name, value in model:</code>. With this approach the raw field values are
-returned, so sub-models will not be converted to dictionaries.</p>
-<p>Example:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="dictmodel-dictmodel-and-iteration"><code>dict(model)</code> 和迭代(<code>dict(model)</code> and iteration)<a class="headerlink" href="#dictmodel-dictmodel-and-iteration" title="Permanent link">&para;</a></h2>
+<p><em>pydantic</em> 模型也可以使用 <code>dict(model)</code> 转换为字典，您还可以使用 <code>for field_name, value in model:</code> 迭代模型的字段。 使用这种方法返回原始字段值，因此子模型不会转换为字典。</p>
+<p>例子:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 
@@ -965,19 +978,38 @@ returned, so sub-models will not be converted to dictionaries.</p>
 <span class="n">m</span> <span class="o">=</span> <span class="n">FooBarModel</span><span class="p">(</span><span class="n">banana</span><span class="o">=</span><span class="mf">3.14</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;whatever&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">})</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;banana&#39;: 3.14,</span>
+<span class="sd">    &#39;foo&#39;: &#39;hello&#39;,</span>
+<span class="sd">    &#39;bar&#39;: BarModel(</span>
+<span class="sd">        whatever=123,</span>
+<span class="sd">    ),</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">m</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1">#&gt; banana: 3.14</span>
+    <span class="c1">#&gt; foo: hello</span>
+    <span class="c1">#&gt; bar: whatever=123</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="modelcopy"><code>model.copy(...)</code><a class="headerlink" href="#modelcopy" title="Permanent link">&para;</a></h2>
-<p><code>copy()</code> allows models to be duplicated, which is particularly useful for immutable models.</p>
-<p>Arguments:</p>
+<p><code>copy()</code> 允许复制模型，这对于不可变模型特别有用。</p>
+<p>参数:</p>
 <ul>
-<li><code>include</code>: fields to include in the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>exclude</code>: fields to exclude from the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>update</code>: a dictionary of values to change when creating the copied model</li>
-<li><code>deep</code>: whether to make a deep copy of the new model; default <code>False</code></li>
+<li><code>include</code>: 要包含在返回字典中的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>exclude</code>: 从返回的字典中排除的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>update</code>: 创建复制模型时要更改的值字典</li>
+<li><code>deep</code>: 是否对新模型进行深拷贝； 默认<code>false</code>。</li>
 </ul>
-<p>Example:</p>
+<p>例子:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 
@@ -994,34 +1026,41 @@ returned, so sub-models will not be converted to dictionaries.</p>
 <span class="n">m</span> <span class="o">=</span> <span class="n">FooBarModel</span><span class="p">(</span><span class="n">banana</span><span class="o">=</span><span class="mf">3.14</span><span class="p">,</span> <span class="n">foo</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;whatever&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">})</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; foo=&#39;hello&#39; bar=BarModel(whatever=123)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; banana=3.14</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">update</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;banana&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}))</span>
+<span class="c1">#&gt; banana=0 foo=&#39;hello&#39; bar=BarModel(whatever=123)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bar</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">bar</span><span class="p">))</span>
+<span class="c1">#&gt; 140382179354000 140382179354000</span>
 <span class="c1"># normal copy gives the same object reference for `bar`</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bar</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">bar</span><span class="p">))</span>
+<span class="c1">#&gt; 140382179354000 140382179355600</span>
 <span class="c1"># deep copy gives a new object reference for `bar`</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="modeljson"><code>model.json(...)</code><a class="headerlink" href="#modeljson" title="Permanent link">&para;</a></h2>
 <p>The <code>.json()</code> method will serialise a model to JSON. (For models with a <a href="../models/#custom-root-types">custom root type</a>,
 only the value for the <code>__root__</code> key is serialised)</p>
-<p>Arguments:</p>
+<p>参数:</p>
 <ul>
-<li><code>include</code>: fields to include in the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>exclude</code>: fields to exclude from the returned dictionary; see <a href="#advanced-include-and-exclude">below</a></li>
-<li><code>by_alias</code>: whether field aliases should be used as keys in the returned dictionary; default <code>False</code></li>
-<li><code>exclude_unset</code>: whether fields which were not set when creating the model and have their default values should
-  be excluded from the returned dictionary; default <code>False</code>.
-  Prior to <strong>v1.0</strong>, <code>exclude_unset</code> was known as <code>skip_defaults</code>; use of <code>skip_defaults</code> is now deprecated</li>
-<li><code>exclude_defaults</code>: whether fields which are equal to their default values (whether set or otherwise) should
-  be excluded from the returned dictionary; default <code>False</code></li>
-<li><code>exclude_none</code>: whether fields which are equal to <code>None</code> should be excluded from the returned dictionary; default
-  <code>False</code></li>
-<li><code>encoder</code>: a custom encoder function passed to the <code>default</code> argument of <code>json.dumps()</code>; defaults to a custom
-  encoder designed to take care of all common types</li>
-<li><code>**dumps_kwargs</code>: any other keyword arguments are passed to <code>json.dumps()</code>, e.g. <code>indent</code>.</li>
+<li><code>include</code>: 要包含在返回字典中的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>exclude</code>: 从返回的字典中排除的字段； 见 <a href="#advanced-include-and-exclude">下文</a></li>
+<li><code>by_alias</code>: 字段别名是否应该用作返回字典中的键； 默认<code>false</code>。</li>
+<li><code>exclude_unset</code>: 是否应从返回的字典中排除在创建模型时未设置且具有默认值的字段； 默认<code>false</code>。
+  在 <strong>v1.0</strong> 之前，<code>exclude_unset</code> 被称为 <code>skip_defaults</code>； <code>skip_defaults</code> 的使用现已弃用</li>
+<li><code>exclude_defaults</code>: 是否应从返回的字典中排除等于其默认值（无论是否设置）的字段； 默认<code>false</code>。</li>
+<li><code>exclude_none</code>: 是否应从返回的字典中排除等于<code>None</code>的字段； 默认<code>false</code>。</li>
+<li><code>encoder</code>: 传递给 <code>json.dumps()</code> 的 <code>default</code> 参数的自定义编码器函数； 默认为自定义编码器，旨在处理所有常见类型。</li>
+<li><code>**dumps_kwargs</code>: 任何其他关键字参数都传递给 <code>json.dumps()</code> ，例如 <code>indent</code>。</li>
 </ul>
-<p><em>pydantic</em> can serialise many commonly used types to JSON (e.g. <code>datetime</code>, <code>date</code> or <code>UUID</code>) which would normally
-fail with a simple <code>json.dumps(foobar)</code>.</p>
+<p><em>pydantic</em> 可以将许多常用类型序列化为 JSON（例如<code>datetime</code>、<code>date</code>或<code>UUID</code>），这通常会因简单的<code>json.dumps(foobar)</code>而失败。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
@@ -1037,10 +1076,17 @@ fail with a simple <code>json.dumps(foobar)</code>.</p>
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">FooBarModel</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2032</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">bar</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;whatever&#39;</span><span class="p">:</span> <span class="mi">123</span><span class="p">})</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="c1">#&gt; {&quot;foo&quot;: &quot;2032-06-01T12:13:14&quot;, &quot;bar&quot;: {&quot;whatever&quot;: 123}}</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h3 id="json_encoders"><code>json_encoders</code><a class="headerlink" href="#json_encoders" title="Permanent link">&para;</a></h3>
-<p>Serialisation can be customised on a model using the <code>json_encoders</code> config property; the keys should be types (or names of types for forward references), and
-the values should be functions which serialise that type (see the example below):</p>
+<p>可以使用 <code>json_encoders</code> 配置属性在模型上自定义序列化； 键应该是类型（或前向引用的类型名称），值应该是序列化该类型的函数（参见下面的示例）：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic.json</span> <span class="kn">import</span> <span class="n">timedelta_isoformat</span>
@@ -1059,11 +1105,17 @@ the values should be functions which serialise that type (see the example below)
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">WithCustomEncoders</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2032</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">diff</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="c1">#&gt; {&quot;dt&quot;: 1969632000.0, &quot;diff&quot;: &quot;P4DT4H0M0.000000S&quot;}</span>
 </code></pre></div>
-<p>By default, <code>timedelta</code> is encoded as a simple float of total seconds. The <code>timedelta_isoformat</code> is provided
-as an optional alternative which implements <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> time diff encoding.</p>
-<p>The <code>json_encoders</code> are also merged during the models inheritance with the child
-encoders taking precedence over the parent one.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>默认情况下，<code>timedelta</code>被编码为总秒数的简单浮点数。 <code>timedelta_isoformat</code> 作为一个可选的替代方案提供，它实现了 <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> 时间差异编码。</p>
+<p><code>json_encoders</code> 也在模型继承期间合并，子编码器优先于父编码器。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic.json</span> <span class="kn">import</span> <span class="n">timedelta_isoformat</span>
@@ -1088,12 +1140,19 @@ encoders taking precedence over the parent one.</p>
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">ChildClassWithEncoders</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2032</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">diff</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">100</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="c1">#&gt; {&quot;dt&quot;: 1969632000.0, &quot;diff&quot;: &quot;P4DT4H0M0.000000S&quot;}</span>
 </code></pre></div>
-<h3 id="serialising-self-reference-or-other-models">Serialising self-reference or other models<a class="headerlink" href="#serialising-self-reference-or-other-models" title="Permanent link">&para;</a></h3>
-<p>By default, models are serialised as dictionaries.
-If you want to serialise them differently, you can add <code>models_as_dict=False</code> when calling <code>json()</code> method
-and add the classes of the model in <code>json_encoders</code>.
-In case of forward references, you can use a string with the class name instead of the class itself
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h3 id="serialising-self-reference-or-other-models">序列化自引用或其他模型(Serialising self-reference or other models)<a class="headerlink" href="#serialising-self-reference-or-other-models" title="Permanent link">&para;</a></h3>
+<p>默认情况下，模型被序列化为字典。</p>
+<p>如果你想以不同的方式序列化它们，你可以在调用 <code>json()</code> 方法时添加 <code>models_as_dict=False</code> 并在 <code>json_encoders</code> 中添加模型的类。</p>
+<p>在前向引用的情况下，您可以使用带有类名的字符串而不是类本身</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:3"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 及以上版本</label><label for="__tabbed_7_2">Python 3.9 及以上版本</label><label for="__tabbed_7_3">Python 3.10 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1128,14 +1187,99 @@ In case of forward references, you can use a string with the class name instead 
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">wolfgang</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-</code></pre></div></p>
-<h3 id="serialising-subclasses">Serialising subclasses<a class="headerlink" href="#serialising-subclasses" title="Permanent link">&para;</a></h3>
+<span class="c1">#&gt; {&quot;name&quot;: &quot;Wolfgang&quot;, &quot;address&quot;: &quot;Berlin (Deutschland)&quot;, &quot;friends&quot;: [&quot;Pierre</span>
+<span class="c1">#&gt; in Paris (FR)&quot;, &quot;John in London (UK)&quot;]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+    <span class="n">friends</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="s1">&#39;User&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">Address</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">city</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;User&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span><span class="si">}</span><span class="s1"> &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">country</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+
+<span class="n">User</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
+
+<span class="n">wolfgang</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Wolfgang&#39;</span><span class="p">,</span>
+    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;Berlin&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;Deutschland&#39;</span><span class="p">),</span>
+    <span class="n">friends</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pierre&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;Paris&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;France&#39;</span><span class="p">)),</span>
+        <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;London&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;UK&#39;</span><span class="p">)),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wolfgang</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="c1">#&gt; {&quot;name&quot;: &quot;Wolfgang&quot;, &quot;address&quot;: &quot;Berlin (Deutschland)&quot;, &quot;friends&quot;: [&quot;Pierre</span>
+<span class="c1">#&gt; in Paris (FR)&quot;, &quot;John in London (UK)&quot;]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+    <span class="n">friends</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s1">&#39;User&#39;</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">json_encoders</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">Address</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">city</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="n">country</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;User&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> in </span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">city</span><span class="si">}</span><span class="s1"> &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">u</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">country</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+
+
+<span class="n">User</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
+
+<span class="n">wolfgang</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Wolfgang&#39;</span><span class="p">,</span>
+    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;Berlin&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;Deutschland&#39;</span><span class="p">),</span>
+    <span class="n">friends</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Pierre&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;Paris&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;France&#39;</span><span class="p">)),</span>
+        <span class="n">User</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;London&#39;</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="s1">&#39;UK&#39;</span><span class="p">)),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wolfgang</span><span class="o">.</span><span class="n">json</span><span class="p">(</span><span class="n">models_as_dict</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="c1">#&gt; {&quot;name&quot;: &quot;Wolfgang&quot;, &quot;address&quot;: &quot;Berlin (Deutschland)&quot;, &quot;friends&quot;: [&quot;Pierre</span>
+<span class="c1">#&gt; in Paris (FR)&quot;, &quot;John in London (UK)&quot;]}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h3 id="serialising-subclasses">序列化子类(Serialising subclasses)<a class="headerlink" href="#serialising-subclasses" title="Permanent link">&para;</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>New in version <strong>v1.5</strong>.</p>
-<p>Subclasses of common types were not automatically serialised to JSON before <strong>v1.5</strong>.</p>
+<p>版本 <strong>v1.5</strong> 中的新功能。</p>
+<p>在 <strong>v1.5</strong> 之前，普通类型的子类不会自动序列化为 JSON。</p>
 </div>
-<p>Subclasses of common types are automatically encoded like their super-classes:</p>
+<p>公共类型的子类像它们的超类一样自动编码：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic.validators</span> <span class="kn">import</span> <span class="n">int_validator</span>
@@ -1163,11 +1307,17 @@ In case of forward references, you can use a string with the class name instead 
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">FooModel</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="c1">#&gt; {&quot;date&quot;: &quot;2023-10-28&quot;}</span>
 </code></pre></div>
-<h3 id="custom-json-deserialisation">Custom JSON (de)serialisation<a class="headerlink" href="#custom-json-deserialisation" title="Permanent link">&para;</a></h3>
-<p>To improve the performance of encoding and decoding JSON, alternative JSON implementations
-(e.g. <a href="https://pypi.python.org/pypi/ujson">ujson</a>) can be used via the
-<code>json_loads</code> and <code>json_dumps</code> properties of <code>Config</code>.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h3 id="jsoncustom-json-deserialisation">自定义 JSON（反）序列化(Custom JSON (de)serialisation)<a class="headerlink" href="#jsoncustom-json-deserialisation" title="Permanent link">&para;</a></h3>
+<p>为了提高编码和解码 JSON 的性能，可以通过 <code>Config</code> 的 <code>json_loads</code> 和 <code>json_dumps</code> 属性使用替代 JSON 实现（例如 <a href="https://pypi.python.org/pypi/ujson">ujson</a>） `。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">ujson</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1184,10 +1334,17 @@ In case of forward references, you can use a string with the class name instead 
 
 <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="s1">&#39;{&quot;id&quot;: 123,&quot;signup_ts&quot;:1234567890,&quot;name&quot;:&quot;John Doe&quot;}&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="c1">#&gt; id=123 signup_ts=datetime.datetime(2009, 2, 13, 23, 31, 30,</span>
+<span class="c1">#&gt; tzinfo=datetime.timezone.utc) name=&#39;John Doe&#39;</span>
 </code></pre></div>
-<p><code>ujson</code> generally cannot be used to dump JSON since it doesn't support encoding of objects like datetimes and does
-not accept a <code>default</code> fallback function argument. To do this, you may use another library like
-<a href="https://github.com/ijl/orjson">orjson</a>.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p><code>ujson</code> 通常不能用于转储 JSON，因为它不支持日期时间等对象的编码，并且不接受 <code>default</code> 回退函数参数。 为此，您可以使用另一个库，例如 <a href="https://github.com/ijl/orjson">orjson</a>。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:1"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">orjson</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1210,11 +1367,18 @@ not accept a <code>default</code> fallback function argument. To do this, you ma
 
 <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="o">.</span><span class="n">parse_raw</span><span class="p">(</span><span class="s1">&#39;{&quot;id&quot;:123,&quot;signup_ts&quot;:1234567890,&quot;name&quot;:&quot;John Doe&quot;}&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">json</span><span class="p">())</span>
+<span class="c1">#&gt; {&quot;id&quot;:123,&quot;signup_ts&quot;:&quot;2009-02-13T23:31:30+00:00&quot;,&quot;name&quot;:&quot;John Doe&quot;}</span>
 </code></pre></div>
-<p>Note that <code>orjson</code> takes care of <code>datetime</code> encoding natively, making it faster than <code>json.dumps</code> but
-meaning you cannot always customise the encoding using <code>Config.json_encoders</code>.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>请注意，<code>orjson</code> 本身负责处理 <code>datetime</code> 编码，使其比 <code>json.dumps</code> 更快，但这意味着您不能总是使用 <code>Config.json_encoders</code> 自定义编码。</p>
 <h2 id="pickledumpsmodel"><code>pickle.dumps(model)</code><a class="headerlink" href="#pickledumpsmodel" title="Permanent link">&para;</a></h2>
-<p>Using the same plumbing as <code>copy()</code>, <em>pydantic</em> models support efficient pickling and unpickling.</p>
+<p>使用与 <code>copy()</code> 相同的方案，<em>pydantic</em> 模型支持高效的 pickling 和 unpickling。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:1"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
@@ -1226,14 +1390,28 @@ meaning you cannot always customise the encoding using <code>Config.json_encoder
 
 <span class="n">m</span> <span class="o">=</span> <span class="n">FooBarModel</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">123</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">#&gt; a=&#39;hello&#39; b=123</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">b&#39;\x80\x04\x95\x8e\x00\x00\x00\x00\x00\x00\x00\x8c\x17exporting_models_pickle</span>
+<span class="sd">\x94\x8c\x0bFooBarModel\x94\x93\x94)\x81\x94}\x94(\x8c\x08__dict__\x94}\x94(\</span>
+<span class="sd">x8c\x01a\x94\x8c\x05hello\x94\x8c\x01b\x94K{u\x8c\x0e__fields_set__\x94\x8f\x</span>
+<span class="sd">94(h\th\x07\x90\x8c\x1c__private_attribute_values__\x94}\x94ub.&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="n">m2</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span>
+<span class="c1">#&gt; a=&#39;hello&#39; b=123</span>
 </code></pre></div>
-<h2 id="advanced-include-and-exclude">Advanced include and exclude<a class="headerlink" href="#advanced-include-and-exclude" title="Permanent link">&para;</a></h2>
-<p>The <code>dict</code>, <code>json</code>, and <code>copy</code> methods support <code>include</code> and <code>exclude</code> arguments which can either be
-sets or dictionaries. This allows nested selection of which fields to export:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="advanced-include-and-exclude">高级包含和排除(Advanced include and exclude)<a class="headerlink" href="#advanced-include-and-exclude" title="Permanent link">&para;</a></h2>
+<p><code>dict</code>、<code>json</code> 和 <code>copy</code> 方法支持 <code>include</code> 和 <code>exclude</code> 参数，它们可以是集合或字典。 这允许嵌套选择要导出的字段：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:1"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">SecretStr</span>
 
 
@@ -1261,17 +1439,24 @@ sets or dictionaries. This allows nested selection of which fields to export:</p
 
 <span class="c1"># using a set:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;}</span>
 
 <span class="c1"># using a dict:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">},</span> <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}))</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;, &#39;user&#39;: {&#39;id&#39;: 42}}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">}}))</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;, &#39;user&#39;: {&#39;id&#39;: 42}}</span>
 </code></pre></div>
-<p>The <code>True</code> indicates that we want to exclude or include an entire key, just as if we included it in a set.
-Of course, the same can be done at any depth level.</p>
-<p>Special care must be taken when including or excluding fields from a list or tuple of submodels or dictionaries.  In this scenario,
-<code>dict</code> and related methods expect integer keys for element-wise inclusion or exclusion. To exclude a field from <strong>every</strong>
-member of a list or tuple, the dictionary key <code>'__all__'</code> can be used as follows:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p><code>True</code> 表示我们想要排除或包含整个键，就好像我们将它包含在一个集合中一样。 当然，可以在任何深度级别进行相同的操作。</p>
+<p>在从子模型或字典的列表或元组中包含或排除字段时必须特别小心。 在这种情况下，<code>dict</code> 和相关方法需要整数键来按元素包含或排除。 要从列表或元组的<strong>每个</strong>成员中排除一个字段，可以使用字典键<code>__all__</code>，如下所示：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">Python 3.7 及以上版本</label><label for="__tabbed_13_2">Python 3.9 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
@@ -1342,13 +1527,151 @@ member of a list or tuple, the dictionary key <code>'__all__'</code> can be used
 
 <span class="c1"># would be the same as user.dict(exclude=exclude_keys) in this case:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">include_keys</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;first_name&#39;: &#39;John&#39;,</span>
+<span class="sd">    &#39;address&#39;: {&#39;country&#39;: {&#39;name&#39;: &#39;USA&#39;}},</span>
+<span class="sd">    &#39;hobbies&#39;: [</span>
+<span class="sd">        {</span>
+<span class="sd">            &#39;name&#39;: &#39;Programming&#39;,</span>
+<span class="sd">            &#39;info&#39;: &#39;Writing code and stuff&#39;,</span>
+<span class="sd">        },</span>
+<span class="sd">        {&#39;name&#39;: &#39;Gaming&#39;},</span>
+<span class="sd">    ],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># To exclude a field from all members of a nested list or tuple, use &quot;__all__&quot;:</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;hobbies&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;__all__&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;info&#39;</span><span class="p">}}}))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;first_name&#39;: &#39;John&#39;,</span>
+<span class="sd">    &#39;second_name&#39;: &#39;Doe&#39;,</span>
+<span class="sd">    &#39;address&#39;: {</span>
+<span class="sd">        &#39;post_code&#39;: 123456,</span>
+<span class="sd">        &#39;country&#39;: {&#39;name&#39;: &#39;USA&#39;, &#39;phone_code&#39;: 1},</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;card_details&#39;: {</span>
+<span class="sd">        &#39;number&#39;: SecretStr(&#39;**********&#39;),</span>
+<span class="sd">        &#39;expires&#39;: datetime.date(2020, 5, 1),</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;hobbies&#39;: [{&#39;name&#39;: &#39;Programming&#39;}, {&#39;name&#39;: &#39;Gaming&#39;}],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
 </code></pre></div>
-<p>The same holds for the <code>json</code> and <code>copy</code> methods.</p>
-<h3 id="model-and-field-level-include-and-exclude">Model and field level include and exclude<a class="headerlink" href="#model-and-field-level-include-and-exclude" title="Permanent link">&para;</a></h3>
-<p>In addition to the explicit arguments <code>exclude</code> and <code>include</code> passed to <code>dict</code>, <code>json</code> and <code>copy</code> methods, we can also pass the <code>include</code>/<code>exclude</code> arguments directly to the <code>Field</code> constructor or the equivalent <code>field</code> entry in the models <code>Config</code> class:</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">SecretStr</span>
+
+
+<span class="k">class</span> <span class="nc">Country</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">phone_code</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">Address</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">post_code</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">country</span><span class="p">:</span> <span class="n">Country</span>
+
+
+<span class="k">class</span> <span class="nc">CardDetails</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">number</span><span class="p">:</span> <span class="n">SecretStr</span>
+    <span class="n">expires</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span>
+
+
+<span class="k">class</span> <span class="nc">Hobby</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">info</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">second_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+    <span class="n">card_details</span><span class="p">:</span> <span class="n">CardDetails</span>
+    <span class="n">hobbies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Hobby</span><span class="p">]</span>
+
+
+<span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span>
+    <span class="n">first_name</span><span class="o">=</span><span class="s1">&#39;John&#39;</span><span class="p">,</span>
+    <span class="n">second_name</span><span class="o">=</span><span class="s1">&#39;Doe&#39;</span><span class="p">,</span>
+    <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span>
+        <span class="n">post_code</span><span class="o">=</span><span class="mi">123456</span><span class="p">,</span>
+        <span class="n">country</span><span class="o">=</span><span class="n">Country</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;USA&#39;</span><span class="p">,</span>
+            <span class="n">phone_code</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span>
+    <span class="p">),</span>
+    <span class="n">card_details</span><span class="o">=</span><span class="n">CardDetails</span><span class="p">(</span>
+        <span class="n">number</span><span class="o">=</span><span class="mi">4212934504460000</span><span class="p">,</span>
+        <span class="n">expires</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">),</span>
+    <span class="n">hobbies</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Hobby</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Programming&#39;</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="s1">&#39;Writing code and stuff&#39;</span><span class="p">),</span>
+        <span class="n">Hobby</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Gaming&#39;</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="s1">&#39;Hell Yeah!!!&#39;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">exclude_keys</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;second_name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;post_code&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;phone_code&#39;</span><span class="p">}},</span>
+    <span class="s1">&#39;card_details&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="c1"># You can exclude fields from specific members of a tuple/list by index:</span>
+    <span class="s1">&#39;hobbies&#39;</span><span class="p">:</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;info&#39;</span><span class="p">}},</span>
+<span class="p">}</span>
+
+<span class="n">include_keys</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;first_name&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">}},</span>
+    <span class="s1">&#39;hobbies&#39;</span><span class="p">:</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">}},</span>
+<span class="p">}</span>
+
+<span class="c1"># would be the same as user.dict(exclude=exclude_keys) in this case:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="n">include_keys</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;first_name&#39;: &#39;John&#39;,</span>
+<span class="sd">    &#39;address&#39;: {&#39;country&#39;: {&#39;name&#39;: &#39;USA&#39;}},</span>
+<span class="sd">    &#39;hobbies&#39;: [</span>
+<span class="sd">        {</span>
+<span class="sd">            &#39;name&#39;: &#39;Programming&#39;,</span>
+<span class="sd">            &#39;info&#39;: &#39;Writing code and stuff&#39;,</span>
+<span class="sd">        },</span>
+<span class="sd">        {&#39;name&#39;: &#39;Gaming&#39;},</span>
+<span class="sd">    ],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># To exclude a field from all members of a nested list or tuple, use &quot;__all__&quot;:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;hobbies&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;__all__&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;info&#39;</span><span class="p">}}}))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;first_name&#39;: &#39;John&#39;,</span>
+<span class="sd">    &#39;second_name&#39;: &#39;Doe&#39;,</span>
+<span class="sd">    &#39;address&#39;: {</span>
+<span class="sd">        &#39;post_code&#39;: 123456,</span>
+<span class="sd">        &#39;country&#39;: {&#39;name&#39;: &#39;USA&#39;, &#39;phone_code&#39;: 1},</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;card_details&#39;: {</span>
+<span class="sd">        &#39;number&#39;: SecretStr(&#39;**********&#39;),</span>
+<span class="sd">        &#39;expires&#39;: datetime.date(2020, 5, 1),</span>
+<span class="sd">    },</span>
+<span class="sd">    &#39;hobbies&#39;: [{&#39;name&#39;: &#39;Programming&#39;}, {&#39;name&#39;: &#39;Gaming&#39;}],</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p><code>json</code> 和 <code>copy</code> 方法也是如此。</p>
+<h3 id="model-and-field-level-include-and-exclude">模型和字段级别包含和排除(Model and field level include and exclude)<a class="headerlink" href="#model-and-field-level-include-and-exclude" title="Permanent link">&para;</a></h3>
+<p>除了传递给 <code>dict</code>、<code>json</code> 和 <code>copy</code> 方法的显式参数 <code>exclude</code> 和 <code>include</code> 之外，我们还可以将 <code>include</code>/<code>exclude</code> 参数直接传递给 <code>Field</code> 构造函数或 模型<code>Config</code>类中的等效<code>Field</code>实例：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:1"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span>
 
 
@@ -1378,14 +1701,22 @@ member of a list or tuple, the dictionary key <code>'__all__'</code> can be used
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;, &#39;user&#39;: {&#39;id&#39;: 42}}</span>
 </code></pre></div>
-<p>In the case where multiple strategies are used, <code>exclude</code>/<code>include</code> fields are merged according to the following rules:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>在使用多种策略的情况下，<code>exclude</code>/<code>include</code>字段按照以下规则进行合并：</p>
 <ul>
-<li>First, model config level settings (via <code>"fields"</code> entry) are merged per field with the field constructor settings (i.e. <code>Field(..., exclude=True)</code>), with the field constructor taking priority.</li>
-<li>The resulting settings are merged per class with the explicit settings on <code>dict</code>, <code>json</code>, <code>copy</code> calls with the explicit settings taking priority.</li>
+<li>首先，模型配置级别设置（通过<code>Field</code>实例）按字段与字段构造器设置（即<code>Field(..., exclude=True)</code>）合并，字段构造器优先。</li>
+<li>结果设置按类与 <code>dict</code>、<code>json</code>、<code>copy</code> 调用的显式设置合并，显式设置优先。</li>
 </ul>
-<p>Note that while merging settings, <code>exclude</code> entries are merged by computing the "union" of keys, while <code>include</code> entries are merged by computing the "intersection" of keys.</p>
-<p>The resulting merged exclude settings:</p>
+<p>请注意，在合并设置时，<code>exclude</code> 通过计算键的<code>union</code>合并，而<code>include</code> 通过计算键的<code>交集(intersection)</code>合并。</p>
+<p>生成的合并排除设置：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:1"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span>
 
 
@@ -1412,8 +1743,16 @@ member of a list or tuple, the dictionary key <code>'__all__'</code> can be used
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">exclude</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;username&#39;</span><span class="p">}}))</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;, &#39;user&#39;: {&#39;id&#39;: 42}}</span>
 </code></pre></div>
-<p>are the same as using merged include settings as follows:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>与使用合并包含设置相同，如下所示：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:1"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">SecretStr</span>
 
 
@@ -1440,7 +1779,12 @@ member of a list or tuple, the dictionary key <code>'__all__'</code> can be used
 <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">}}))</span>
+<span class="c1">#&gt; {&#39;id&#39;: &#39;1234567890&#39;, &#39;user&#39;: {&#39;id&#39;: 42}}</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 
 
 
@@ -1491,7 +1835,7 @@ member of a list or tuple, the dictionary key <code>'__all__'</code> can be used
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

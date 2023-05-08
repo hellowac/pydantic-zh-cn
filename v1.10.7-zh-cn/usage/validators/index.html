@@ -19,7 +19,7 @@
         <link rel="next" href="../model_config/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -370,49 +370,49 @@
       
         <li class="md-nav__item">
   <a href="#pre-and-per-item-validators" class="md-nav__link">
-    Pre and per-item validators
+    前验证器和每项验证器(Pre and per-item validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#subclass-validators-and-each_item" class="md-nav__link">
-    Subclass Validators and each_item
+  <a href="#each_itemsubclass-validators-and-each_item" class="md-nav__link">
+    子类验证器和 each_item(Subclass Validators and each_item)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#validate-always" class="md-nav__link">
-    Validate Always
+    始终验证(Validate Always)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#reuse-validators" class="md-nav__link">
-    Reuse validators
+    重用校验器(Reuse validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#root-validators" class="md-nav__link">
-    Root Validators
+    根验证器(Root Validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#field-checks" class="md-nav__link">
-    Field Checks
+    字段检查(Field Checks)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#dataclass-validators" class="md-nav__link">
-    Dataclass Validators
+    数据类验证器(Dataclass Validators)
   </a>
   
 </li>
@@ -752,49 +752,49 @@
       
         <li class="md-nav__item">
   <a href="#pre-and-per-item-validators" class="md-nav__link">
-    Pre and per-item validators
+    前验证器和每项验证器(Pre and per-item validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#subclass-validators-and-each_item" class="md-nav__link">
-    Subclass Validators and each_item
+  <a href="#each_itemsubclass-validators-and-each_item" class="md-nav__link">
+    子类验证器和 each_item(Subclass Validators and each_item)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#validate-always" class="md-nav__link">
-    Validate Always
+    始终验证(Validate Always)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#reuse-validators" class="md-nav__link">
-    Reuse validators
+    重用校验器(Reuse validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#root-validators" class="md-nav__link">
-    Root Validators
+    根验证器(Root Validators)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#field-checks" class="md-nav__link">
-    Field Checks
+    字段检查(Field Checks)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#dataclass-validators" class="md-nav__link">
-    Dataclass Validators
+    数据类验证器(Dataclass Validators)
   </a>
   
 </li>
@@ -826,7 +826,10 @@
 
   <h1>字段校验</h1>
 
-<p>Custom validation and complex relationships between objects can be achieved using the <code>validator</code> decorator.</p>
+<p>自定义验证和对象之间的复杂关系可以使用 <code>validator</code> 装饰器来实现。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
 
 
@@ -861,6 +864,7 @@
     <span class="n">password2</span><span class="o">=</span><span class="s1">&#39;zxcvbn&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="c1">#&gt; name=&#39;Samuel Colvin&#39; username=&#39;scolvin&#39; password1=&#39;zxcvbn&#39; password2=&#39;zxcvbn&#39;</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">UserModel</span><span class="p">(</span>
@@ -871,45 +875,52 @@
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    2 validation errors for UserModel</span>
+<span class="sd">    name</span>
+<span class="sd">      must contain a space (type=value_error)</span>
+<span class="sd">    password2</span>
+<span class="sd">      passwords do not match (type=value_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>A few things to note on validators:</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>关于验证器的一些注意事项：</p>
 <ul>
-<li>validators are "class methods", so the first argument value they receive is the <code>UserModel</code> class, not an instance
-  of <code>UserModel</code>.</li>
-<li>the second argument is always the field value to validate; it can be named as you please</li>
-<li>you can also add any subset of the following arguments to the signature (the names <strong>must</strong> match):<ul>
-<li><code>values</code>: a dict containing the name-to-value mapping of any previously-validated fields</li>
-<li><code>config</code>: the model config</li>
-<li><code>field</code>: the field being validated. Type of object is <code>pydantic.fields.ModelField</code>.</li>
-<li><code>**kwargs</code>: if provided, this will include the arguments above not explicitly listed in the signature</li>
+<li>验证器是“类方法”，因此它们收到的第一个参数值是 <code>UserModel</code> 类，而不是<code>UserModel</code>的实例。</li>
+<li>第二个参数始终是要验证的字段值； 它可以随意命名</li>
+<li>您还可以将以下参数的任何子集添加到签名中（但名称<strong>必须</strong>匹配）：<ul>
+<li><code>values</code>: 包含任何先前验证字段的名称到值映射的字典</li>
+<li><code>config</code>: 模型配置</li>
+<li><code>field</code>: 正在验证的字段。 对象的类型是 <code>pydantic.fields.ModelField</code>。</li>
+<li><code>**kwargs</code>: 如果提供，这将包括上面未在签名中明确列出的参数</li>
 </ul>
 </li>
-<li>validators should either return the parsed value or raise a <code>ValueError</code>, <code>TypeError</code>, or <code>AssertionError</code>
-  (<code>assert</code> statements may be used).</li>
+<li>验证器应该返回解析后的值或引发 <code>ValueError</code>、<code>TypeError</code> 或 <code>AssertionError</code>（可以使用 <code>assert</code> 语句）。</li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you make use of <code>assert</code> statements, keep in mind that running
-Python with the <a href="https://docs.python.org/3/using/cmdline.html#cmdoption-o"><code>-O</code> optimization flag</a>
-disables <code>assert</code> statements, and <strong>validators will stop working</strong>.</p>
+<p>如果您使用 <code>assert</code> 语句，请记住使用 <a href="https://docs.python.org/3/using/cmdline.html#cmdoption-o"><code>-O</code> 优化标志</a> 运行 Python 会禁用 <code>assert</code> 语句，<strong>验证器将停止工作</strong>。</p>
 </div>
 <ul>
 <li>
-<p>where validators rely on other values, you should be aware that:</p>
+<p>在验证器依赖于其他值的地方，你应该知道：</p>
 <ul>
-<li>Validation is done in the order fields are defined.
-  E.g. in the example above, <code>password2</code> has access to <code>password1</code> (and <code>name</code>),
-  but <code>password1</code> does not have access to <code>password2</code>. See <a href="../models/#field-ordering">Field Ordering</a>
-  for more information on how fields are ordered</li>
+<li>验证时基于定义时的字段顺序.
+  例如。 在上面的示例中，<code>password2</code> 可以访问 <code>password1</code>（和 <code>name</code>），但是 <code>password1</code> 不能访问 <code>password2</code>。 有关字段如何排序的更多信息，请参阅 <a href="../models/#field-ordering">字段排序</a></li>
 </ul>
 <ul>
-<li>If validation fails on another field (or that field is missing) it will not be included in <code>values</code>, hence
-  <code>if 'password1' in values and ...</code> in this example.</li>
+<li>如果在另一个字段上验证失败（或该字段丢失），它将不会包含在<code>values</code>中，比如在本例中的 “if 'password1' in values and ...”。</li>
 </ul>
 </li>
 </ul>
-<h2 id="pre-and-per-item-validators">Pre and per-item validators<a class="headerlink" href="#pre-and-per-item-validators" title="Permanent link">&para;</a></h2>
-<p>Validators can do a few more complex things:</p>
+<h2 id="pre-and-per-item-validators">前验证器和每项验证器(Pre and per-item validators)<a class="headerlink" href="#pre-and-per-item-validators" title="Permanent link">&para;</a></h2>
+<p>验证器可以做一些更复杂的事情：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label><label for="__tabbed_2_2">Python 3.9 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
 
@@ -945,29 +956,108 @@ disables <code>assert</code> statements, and <strong>validators will stop workin
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+<span class="c1">#&gt; square_numbers=[1, 4, 9] cube_numbers=[]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="s1">&#39;1|4|16&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; square_numbers=[1, 4, 16] cube_numbers=[]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">cube_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">27</span><span class="p">]))</span>
+<span class="c1">#&gt; square_numbers=[16] cube_numbers=[8, 27]</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for DemoModel</span>
+<span class="sd">    square_numbers -&gt; 2</span>
+<span class="sd">      2 is not a square number (type=assertion_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">DemoModel</span><span class="p">(</span><span class="n">cube_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">])</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for DemoModel</span>
+<span class="sd">    cube_numbers</span>
+<span class="sd">      sum of numbers greater than 42 (type=value_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>A few more things to note:</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
+
+
+<span class="k">class</span> <span class="nc">DemoModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">square_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cube_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># &#39;*&#39; is the same as &#39;cube_numbers&#39;, &#39;square_numbers&#39; here:</span>
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">split_str</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;cube_numbers&#39;</span><span class="p">,</span> <span class="s1">&#39;square_numbers&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_sum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">42</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;sum of numbers greater than 42&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;square_numbers&#39;</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_squares</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="o">**</span> <span class="mf">0.5</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1"> is not a square number&#39;</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;cube_numbers&#39;</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_cubes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="c1"># 64 ** (1 / 3) == 3.9999999999999996 (!)</span>
+        <span class="c1"># this is not a good way of checking cubes</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1"> is not a cubed number&#39;</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">]))</span>
+<span class="c1">#&gt; square_numbers=[1, 4, 9] cube_numbers=[]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="s1">&#39;1|4|16&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; square_numbers=[1, 4, 16] cube_numbers=[]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">cube_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">27</span><span class="p">]))</span>
+<span class="c1">#&gt; square_numbers=[16] cube_numbers=[8, 27]</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">DemoModel</span><span class="p">(</span><span class="n">square_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for DemoModel</span>
+<span class="sd">    square_numbers -&gt; 2</span>
+<span class="sd">      2 is not a square number (type=assertion_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">DemoModel</span><span class="p">(</span><span class="n">cube_numbers</span><span class="o">=</span><span class="p">[</span><span class="mi">27</span><span class="p">,</span> <span class="mi">27</span><span class="p">])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for DemoModel</span>
+<span class="sd">    cube_numbers</span>
+<span class="sd">      sum of numbers greater than 42 (type=value_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>还有几点需要注意：</p>
 <ul>
-<li>a single validator can be applied to multiple fields by passing it multiple field names</li>
-<li>a single validator can also be called on <em>all</em> fields by passing the special value <code>'*'</code></li>
-<li>the keyword argument <code>pre</code> will cause the validator to be called prior to other validation</li>
-<li>passing <code>each_item=True</code> will result in the validator being applied to individual values
-  (e.g. of <code>List</code>, <code>Dict</code>, <code>Set</code>, etc.), rather than the whole object</li>
+<li>通过传递多个字段名称，单个验证器可以应用于多个字段</li>
+<li>通过传递特殊值<code>“*”</code>，也可以在<em>所有</em>字段上调用单个验证器</li>
+<li>关键字参数 <code>pre</code> 将导致验证器在其他验证之前被调用</li>
+<li>传递 <code>each_item=True</code> 将导致验证器应用于单个值（例如 <code>List</code>、<code>Dict</code>、<code>Set</code> 等），而不是整个对象</li>
 </ul>
-<h2 id="subclass-validators-and-each_item">Subclass Validators and <code>each_item</code><a class="headerlink" href="#subclass-validators-and-each_item" title="Permanent link">&para;</a></h2>
-<p>If using a validator with a subclass that references a <code>List</code> type field on a parent class, using <code>each_item=True</code> will
-cause the validator not to run; instead, the list must be iterated over programmatically.</p>
+<h2 id="each_itemsubclass-validators-and-each_item">子类验证器和 <code>each_item</code>(Subclass Validators and <code>each_item</code>)<a class="headerlink" href="#each_itemsubclass-validators-and-each_item" title="Permanent link">&para;</a></h2>
+<p>如果将验证器与引用父类上的<code>List</code>类型字段的子类一起使用，则使用<code>each_item=True</code>将导致验证器不运行； 相反，列表必须以编程方式迭代。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label><label for="__tabbed_3_2">Python 3.9 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
 
@@ -990,6 +1080,7 @@ cause the validator not to run; instead, the list must be iterated over programm
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No ValidationError caught.&#39;</span><span class="p">)</span>
+    <span class="c1">#&gt; No ValidationError caught.</span>
 
 
 <span class="k">class</span> <span class="nc">ChildModel2</span><span class="p">(</span><span class="n">ParentModel</span><span class="p">):</span>
@@ -1004,11 +1095,66 @@ cause the validator not to run; instead, the list must be iterated over programm
     <span class="n">child</span> <span class="o">=</span> <span class="n">ChildModel2</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Eve&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for ChildModel2</span>
+<span class="sd">    names</span>
+<span class="sd">      Empty strings are not allowed. (type=assertion_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<h2 id="validate-always">Validate Always<a class="headerlink" href="#validate-always" title="Permanent link">&para;</a></h2>
-<p>For performance reasons, by default validators are not called for fields when a value is not supplied.
-However there are situations where it may be useful or required to always call the validator, e.g.
-to set a dynamic default value.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">validator</span>
+
+
+<span class="k">class</span> <span class="nc">ParentModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">ChildModel</span><span class="p">(</span><span class="n">ParentModel</span><span class="p">):</span>
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">,</span> <span class="n">each_item</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_names_not_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">v</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty strings are not allowed.&#39;</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="c1"># This will NOT raise a ValidationError because the validator was not called</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="n">ChildModel</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Eve&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No ValidationError caught.&#39;</span><span class="p">)</span>
+    <span class="c1">#&gt; No ValidationError caught.</span>
+
+
+<span class="k">class</span> <span class="nc">ChildModel2</span><span class="p">(</span><span class="n">ParentModel</span><span class="p">):</span>
+    <span class="nd">@validator</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">check_names_not_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Empty strings are not allowed.&#39;</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">child</span> <span class="o">=</span> <span class="n">ChildModel2</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="s1">&#39;Bob&#39;</span><span class="p">,</span> <span class="s1">&#39;Eve&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span>
+<span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for ChildModel2</span>
+<span class="sd">    names</span>
+<span class="sd">      Empty strings are not allowed. (type=assertion_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="validate-always">始终验证(Validate Always)<a class="headerlink" href="#validate-always" title="Permanent link">&para;</a></h2>
+<p>出于性能原因，默认情况下，当未提供值时，不会为字段调用验证器。</p>
+<p>然而，在某些情况下，始终调用验证器可能是有用的或需要的，例如 设置动态默认值。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">validator</span>
@@ -1023,16 +1169,20 @@ to set a dynamic default value.</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">())</span>
+<span class="c1">#&gt; ts=datetime.datetime(2023, 5, 8, 16, 38, 2, 661248)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoModel</span><span class="p">(</span><span class="n">ts</span><span class="o">=</span><span class="s1">&#39;2017-11-08T14:00&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; ts=datetime.datetime(2017, 11, 8, 14, 0)</span>
 </code></pre></div>
-<p>You'll often want to use this together with <code>pre</code>, since otherwise with <code>always=True</code>
-<em>pydantic</em> would try to validate the default <code>None</code> which would cause an error.</p>
-<h2 id="reuse-validators">Reuse validators<a class="headerlink" href="#reuse-validators" title="Permanent link">&para;</a></h2>
-<p>Occasionally, you will want to use the same validator on multiple fields/models (e.g. to
-normalize some input data). The "naive" approach would be to write a separate function,
-then call it from multiple decorators.  Obviously, this entails a lot of repetition and
-boiler plate code. To circumvent this, the <code>allow_reuse</code> parameter has been added to
-<code>pydantic.validator</code> in <strong>v1.2</strong> (<code>False</code> by default):</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>您通常希望将它与 <code>pre</code> 一起使用，因为否则与 <code>always=True</code> <em>pydantic</em> 会尝试验证默认的 <code>None</code>，这会导致错误。</p>
+<h2 id="reuse-validators">重用校验器(Reuse validators)<a class="headerlink" href="#reuse-validators" title="Permanent link">&para;</a></h2>
+<p>有时，您会希望在多个字段/模型上使用相同的验证器（例如，规范化一些输入数据）。 比较“naive”的写法是编写一个单独的函数，然后从多个装饰器中调用它。 显然，这需要大量重复和样板代码。 为了避免这种情况，<code>allow_reuse</code> 参数已添加到 <strong>v1.2</strong> 中的 <code>pydantic.validator</code>（默认情况下为 <code>False</code>）：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">validator</span>
 
 
@@ -1059,16 +1209,20 @@ boiler plate code. To circumvent this, the <code>allow_reuse</code> parameter ha
 <span class="k">assert</span> <span class="n">jane_doe</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;Jane Doe&#39;</span>
 <span class="k">assert</span> <span class="n">john_doe</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;John Doe&#39;</span>
 </code></pre></div>
-<p>As it is obvious, repetition has been reduced and the models become again almost
-declarative.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>很明显，重复已经减少，模型再次变得几乎是声明性的。</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you have a lot of fields that you want to validate, it usually makes sense to
-define a help function with which you will avoid setting <code>allow_reuse=True</code> over and
-over again.</p>
+<p>如果您有很多要验证的字段，定义一个帮助函数通常是有意义的，您可以使用它来避免一遍又一遍地设置 <code>allow_reuse=True</code> 。</p>
 </div>
-<h2 id="root-validators">Root Validators<a class="headerlink" href="#root-validators" title="Permanent link">&para;</a></h2>
-<p>Validation can also be performed on the entire model's data.</p>
+<h2 id="root-validators">根验证器(Root Validators)<a class="headerlink" href="#root-validators" title="Permanent link">&para;</a></h2>
+<p>还可以对整个模型的数据执行验证。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">root_validator</span>
 
 
@@ -1091,10 +1245,16 @@ over again.</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">UserModel</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;scolvin&#39;</span><span class="p">,</span> <span class="n">password1</span><span class="o">=</span><span class="s1">&#39;zxcvbn&#39;</span><span class="p">,</span> <span class="n">password2</span><span class="o">=</span><span class="s1">&#39;zxcvbn&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; username=&#39;scolvin&#39; password1=&#39;zxcvbn&#39; password2=&#39;zxcvbn&#39;</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">UserModel</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;scolvin&#39;</span><span class="p">,</span> <span class="n">password1</span><span class="o">=</span><span class="s1">&#39;zxcvbn&#39;</span><span class="p">,</span> <span class="n">password2</span><span class="o">=</span><span class="s1">&#39;zxcvbn2&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for UserModel</span>
+<span class="sd">    __root__</span>
+<span class="sd">      passwords do not match (type=value_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">UserModel</span><span class="p">(</span>
@@ -1105,21 +1265,26 @@ over again.</p>
     <span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for UserModel</span>
+<span class="sd">    __root__</span>
+<span class="sd">      card_number should not be included (type=assertion_error)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>As with field validators, root validators can have <code>pre=True</code>, in which case they're called before field
-validation occurs (and are provided with the raw input data), or <code>pre=False</code> (the default), in which case
-they're called after field validation.</p>
-<p>Field validation will not occur if <code>pre=True</code> root validators raise an error. As with field validators,
-"post" (i.e. <code>pre=False</code>) root validators by default will be called even if prior validators fail; this
-behaviour can be changed by setting the <code>skip_on_failure=True</code> keyword argument to the validator.
-The <code>values</code> argument will be a dict containing the values which passed field validation and
-field defaults where applicable.</p>
-<h2 id="field-checks">Field Checks<a class="headerlink" href="#field-checks" title="Permanent link">&para;</a></h2>
-<p>On class creation, validators are checked to confirm that the fields they specify actually exist on the model.</p>
-<p>Occasionally however this is undesirable: e.g. if you define a validator to validate fields on inheriting models.
-In this case you should set <code>check_fields=False</code> on the validator.</p>
-<h2 id="dataclass-validators">Dataclass Validators<a class="headerlink" href="#dataclass-validators" title="Permanent link">&para;</a></h2>
-<p>Validators also work with <em>pydantic</em> dataclasses.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>如果 <code>pre=True</code> 根验证器引发错误，则不会进行字段验证。 与字段验证器一样，即使先前的验证器失败，默认情况下也会调用“post”（即 <code>pre=False</code>）根验证器； 可以通过为验证器设置 <code>skip_on_failure=True</code> 关键字参数来更改此行为。</p>
+<p><code>values</code> 参数将是一个字典，其中包含通过字段验证的值和适用的字段默认值。</p>
+<h2 id="field-checks">字段检查(Field Checks)<a class="headerlink" href="#field-checks" title="Permanent link">&para;</a></h2>
+<p>在创建类时，会检查验证器以确认它们指定的字段确实存在于模型中。</p>
+<p>然而，有时这是不可取的：例如 如果您定义一个验证器来验证继承模型上的字段。 在这种情况下，您应该在验证器上设置 <code>check_fields=False</code>。</p>
+<h2 id="dataclass-validators">数据类验证器(Dataclass Validators)<a class="headerlink" href="#dataclass-validators" title="Permanent link">&para;</a></h2>
+<p>验证器还可以与 <em>pydantic</em> 数据类一起使用。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">validator</span>
@@ -1136,8 +1301,14 @@ In this case you should set <code>check_fields=False</code> on the validator.</p
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoDataclass</span><span class="p">())</span>
+<span class="c1">#&gt; DemoDataclass(ts=datetime.datetime(2023, 5, 8, 16, 38, 2, 669536))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">DemoDataclass</span><span class="p">(</span><span class="n">ts</span><span class="o">=</span><span class="s1">&#39;2017-11-08T14:00&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; DemoDataclass(ts=datetime.datetime(2017, 11, 8, 14, 0))</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 
 
 
@@ -1188,7 +1359,7 @@ In this case you should set <code>check_fields=False</code> on the validator.</p
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

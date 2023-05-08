@@ -76,11 +76,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/modes_zh/</loc>
-         <lastmod>2023-05-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/mypy/</loc>
          <lastmod>2023-05-08</lastmod>
          <changefreq>daily</changefreq>

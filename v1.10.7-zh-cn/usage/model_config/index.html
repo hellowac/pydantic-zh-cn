@@ -19,7 +19,7 @@
         <link rel="next" href="../schema/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -384,35 +384,35 @@
       
         <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
-    Options
+    可选项(Options)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#change-behaviour-globally" class="md-nav__link">
-    Change behaviour globally
+    全局改变行为(Change behaviour globally)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#alias-generator" class="md-nav__link">
-    Alias Generator
+    别名生成器(Alias Generator)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#alias-precedence" class="md-nav__link">
-    Alias Precedence
+    别名优先(Alias Precedence)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#smart-union" class="md-nav__link">
-    Smart Union
+    智能联合(Smart Union)
   </a>
   
 </li>
@@ -738,35 +738,35 @@
       
         <li class="md-nav__item">
   <a href="#options" class="md-nav__link">
-    Options
+    可选项(Options)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#change-behaviour-globally" class="md-nav__link">
-    Change behaviour globally
+    全局改变行为(Change behaviour globally)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#alias-generator" class="md-nav__link">
-    Alias Generator
+    别名生成器(Alias Generator)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#alias-precedence" class="md-nav__link">
-    Alias Precedence
+    别名优先(Alias Precedence)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#smart-union" class="md-nav__link">
-    Smart Union
+    智能联合(Smart Union)
   </a>
   
 </li>
@@ -798,7 +798,10 @@
 
   <h1>模型配置</h1>
 
-<p>Behaviour of <em>pydantic</em> can be controlled via the <code>Config</code> class on a model or a <em>pydantic</em> dataclass.</p>
+<p><em>pydantic</em> 的行为可以通过模型上的 <code>Config</code> 类或 <em>pydantic</em> 数据类来控制。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span>
 
 
@@ -816,8 +819,20 @@
     <span class="n">Model</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="s1">&#39;x&#39;</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for Model</span>
+<span class="sd">    v</span>
+<span class="sd">      max_length:10 (type=value_error.any_str.max_length; limit_value=10)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<p>Also, you can specify config options as model class kwargs:
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>此外，您可以将配置选项指定为模型类 kwargs：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">Extra</span>
 
 
@@ -829,8 +844,20 @@
     <span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;spam&#39;</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;oh no&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</code></pre></div></p>
-<p>Similarly, if using the <code>@dataclass</code> decorator:
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for Model</span>
+<span class="sd">    b</span>
+<span class="sd">      extra fields not permitted (type=value_error.extra)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>同样，如果使用<code>@dataclass</code>装饰器：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">ValidationError</span>
@@ -857,112 +884,101 @@
     <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span> <span class="o">*</span> <span class="mi">20</span>
 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</code></pre></div></p>
-<h2 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    1 validation error for User</span>
+<span class="sd">    name</span>
+<span class="sd">      max_length:10 (type=value_error.any_str.max_length; limit_value=10)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="options">可选项(Options)<a class="headerlink" href="#options" title="Permanent link">&para;</a></h2>
 <dl>
 <dt><strong><code>title</code></strong></dt>
-<dd>the title for the generated JSON Schema</dd>
+<dd>生成的 JSON 模式的标题</dd>
 <dt><strong><code>anystr_strip_whitespace</code></strong></dt>
-<dd>whether to strip leading and trailing whitespace for str &amp; byte types (default: <code>False</code>)</dd>
+<dd>是否去除 str &amp; byte 类型的前导和尾随空格（默认值：<code>False</code>）</dd>
 <dt><strong><code>anystr_upper</code></strong></dt>
-<dd>whether to make all characters uppercase for str &amp; byte types (default: <code>False</code>)</dd>
+<dd>是否将 str 和 byte 类型的所有字符都设为大写（默认值：<code>False</code>）</dd>
 <dt><strong><code>anystr_lower</code></strong></dt>
-<dd>whether to make all characters lowercase for str &amp; byte types (default: <code>False</code>)</dd>
+<dd>是否将 str 和 byte 类型的所有字符都设为小写（默认值：<code>False</code>）</dd>
 <dt><strong><code>min_anystr_length</code></strong></dt>
-<dd>the min length for str &amp; byte types (default: <code>0</code>)</dd>
+<dd>str 和 byte 类型的最小长度（默认值：<code>0</code>）</dd>
 <dt><strong><code>max_anystr_length</code></strong></dt>
-<dd>the max length for str &amp; byte types (default: <code>None</code>)</dd>
+<dd>str &amp; byte 类型的最大长度（默认值：<code>None</code>）</dd>
 <dt><strong><code>validate_all</code></strong></dt>
-<dd>whether to validate field defaults (default: <code>False</code>)</dd>
+<dd>是否验证字段默认值（默认值：<code>False</code>）</dd>
 <dt><strong><code>extra</code></strong></dt>
-<dd>whether to ignore, allow, or forbid extra attributes during model initialization. Accepts the string values of
-<code>'ignore'</code>, <code>'allow'</code>, or <code>'forbid'</code>, or values of the <code>Extra</code> enum (default: <code>Extra.ignore</code>).
-<code>'forbid'</code> will cause validation to fail if extra attributes are included, <code>'ignore'</code> will silently ignore any extra attributes,
-and <code>'allow'</code> will assign the attributes to the model.</dd>
+<dd>在模型初始化期间是否忽略、允许或禁止额外的属性。 接受<code>“ignore”</code>、<code>“allow”</code>或<code>“forbid”</code>的字符串值，或<code>“Extra”</code>枚举的值（默认值：<code>“Extra.ignore”</code>）。 如果包含额外的属性，<code>'forbid'</code> 将导致验证失败，<code>'ignore'</code> 将默默地忽略任何额外的属性，<code>'allow'</code> 将属性分配给模型。</dd>
 <dt><strong><code>allow_mutation</code></strong></dt>
-<dd>whether or not models are faux-immutable, i.e. whether <code>__setattr__</code> is allowed (default: <code>True</code>)</dd>
+<dd>模型是否是伪不可变的，即是否允许 <code>__setattr__</code>（默认值：<code>True</code>）</dd>
 </dl>
 <p><strong><code>frozen</code></strong></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>This parameter is in beta</p>
+<p>此参数处于测试阶段</p>
 </div>
 <dl>
-<dd>setting <code>frozen=True</code> does everything that <code>allow_mutation=False</code> does, and also generates a <code>__hash__()</code> method for the model. This makes instances of the model potentially hashable if all the attributes are hashable. (default: <code>False</code>)</dd>
+<dd>设置 <code>frozen=True</code> 会执行 <code>allow_mutation=False</code> 所做的一切，还会为模型生成 <code>__hash__()</code> 方法。 如果所有属性都是可散列的，这使得模型的实例可能是可散列的。 （默认值：<code>False</code>）</dd>
 <dt><strong><code>use_enum_values</code></strong></dt>
-<dd>whether to populate models with the <code>value</code> property of enums, rather than the raw enum.
-This may be useful if you want to serialise <code>model.dict()</code> later (default: <code>False</code>)</dd>
+<dd>是否使用枚举的<code>value</code>属性而不是原始枚举来填充模型。 如果您想稍后序列化 <code>model.dict()</code>（默认值：<code>False</code>），这可能很有用</dd>
 <dt><strong><code>fields</code></strong></dt>
-<dd>a <code>dict</code> containing schema information for each field; this is equivalent to
-using <a href="../schema/">the <code>Field</code> class</a>, except when a field is already
-defined through annotation or the Field class, in which case only
-<code>alias</code>, <code>include</code>, <code>exclude</code>, <code>min_length</code>, <code>max_length</code>, <code>regex</code>, <code>gt</code>, <code>lt</code>, <code>gt</code>, <code>le</code>,
-<code>multiple_of</code>, <code>max_digits</code>, <code>decimal_places</code>, <code>min_items</code>, <code>max_items</code>, <code>unique_items</code>
-and allow_mutation can be set (for example you cannot set default of default_factory)
- (default: <code>None</code>)</dd>
+<dd>包含每个字段的架构信息的<code>dict</code>； 这等同于使用 <a href="../schema/"><code>Field</code> 类</a>，除非已经通过注释或 Field 类定义了一个字段，在这种情况下只有 <code>alias</code>、<code>include</code>、<code>exclude</code>、<code>min_length</code>, <code>max_length</code>, <code>regex</code>, <code>gt</code>, <code>lt</code>, <code>gt</code>, <code>le</code>, <code>multiple_of</code>, <code>max_digits</code>, <code>decimal_places</code>, <code>min_items</code>, <code>max_items</code>, <code>unique_items</code> 和 <code>allow_mutation</code> 可以设置（例如你不能设置 <code>default_factory</code> 的默认值）（默认值：<code>None</code>）</dd>
 <dt><strong><code>validate_assignment</code></strong></dt>
-<dd>whether to perform validation on <em>assignment</em> to attributes (default: <code>False</code>)</dd>
+<dd>是否对属性的<code>_assignment_</code>执行验证（默认值：<code>False</code>）</dd>
 <dt><strong><code>allow_population_by_field_name</code></strong></dt>
-<dd>whether an aliased field may be populated by its name as given by the model
-attribute, as well as the alias (default: <code>False</code>)</dd>
+<dd>别名字段是否可以由模型属性给出的名称以及别名（默认值：<code>False</code>）填充</dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The name of this configuration setting was changed in <strong>v1.0</strong> from
-<code>allow_population_by_alias</code> to <code>allow_population_by_field_name</code>.</p>
+<p>此配置设置的名称在 <strong>v1.0</strong> 中从<code>allow_population_by_alias</code>更改为<code>allow_population_by_field_name</code>。</p>
 </div>
 <dl>
 <dt><strong><code>error_msg_templates</code></strong></dt>
-<dd>a <code>dict</code> used to override the default error message templates.
-Pass in a dictionary with keys matching the error messages you want to override (default: <code>{}</code>)</dd>
+<dd>用于覆盖默认错误消息模板的 <code>dict</code>。 传入一个字典，其中的键与您要覆盖的错误消息匹配（默认值：<code>{}</code>）</dd>
 <dt><strong><code>arbitrary_types_allowed</code></strong></dt>
-<dd>whether to allow arbitrary user types for fields (they are validated simply by
-checking if the value is an instance of the type). If <code>False</code>, <code>RuntimeError</code> will be
-raised on model declaration (default: <code>False</code>). See an example in
-<a href="../types/#arbitrary-types-allowed">Field Types</a>.</dd>
+<dd>是否允许字段的任意用户类型（通过检查值是否是该类型的实例来验证它们）。 如果为<code>False</code>，将在模型声明时引发<code>RuntimeError</code>（默认值：<code>False</code>）。 请参阅 <a href="../types/#arbitrary-types-allowed">Field Types</a> 中的示例。</dd>
 <dt><strong><code>orm_mode</code></strong></dt>
-<dd>whether to allow usage of <a href="../models/#orm-mode-aka-arbitrary-class-instances">ORM mode</a></dd>
+<dd>是否允许使用 <a href="../models/#orm-mode-aka-arbitrary-class-instances">ORM 模式</a></dd>
 <dt><strong><code>getter_dict</code></strong></dt>
-<dd>a custom class (which should inherit from <code>GetterDict</code>) to use when decomposing arbitrary classes
-for validation, for use with <code>orm_mode</code>; see <a href="../models/#data-binding">Data binding</a>.</dd>
+<dd>在分解任意类进行验证时使用的自定义类（应继承自 <code>GetterDict</code>），与 <code>orm_mode</code> 一起使用； 参见 <a href="../models/#data-binding">数据绑定</a>。</dd>
 <dt><strong><code>alias_generator</code></strong></dt>
-<dd>a callable that takes a field name and returns an alias for it; see <a href="#alias-generator">the dedicated section</a></dd>
+<dd>一个可调用的，它接受一个字段名并为其返回一个别名； 参见 <a href="#alias-generator">专用部分</a></dd>
 <dt><strong><code>keep_untouched</code></strong></dt>
-<dd>a tuple of types (e.g. descriptors) for a model's default values that should not be changed during model creation and will
-not be included in the model schemas. <strong>Note</strong>: this means that attributes on the model with <em>defaults of this type</em>, not <em>annotations of this type</em>, will be left alone.</dd>
+<dd>模型默认值的类型元组（例如描述符），在模型创建期间不应更改并且不会包含在模型模式中。 <strong>注意</strong>：这意味着模型上具有 <em>这种类型的默认值</em> 而不是 <em>这种类型的注释</em> 的属性将被单独保留。</dd>
 <dt><strong><code>schema_extra</code></strong></dt>
-<dd>a <code>dict</code> used to extend/update the generated JSON Schema, or a callable to post-process it; see <a href="../schema/#schema-customization">schema customization</a></dd>
+<dd>用于扩展/更新生成的 JSON Schema 的 <code>dict</code>，或用于对其进行后处理的可调用对象； 参见 <a href="../schema/#schema-customization">schema 自定义</a></dd>
 <dt><strong><code>json_loads</code></strong></dt>
-<dd>a custom function for decoding JSON; see <a href="../exporting_models/#custom-json-deserialisation">custom JSON (de)serialisation</a></dd>
+<dd>用于解码 JSON 的自定义函数； 参见 <a href="../exporting_models/#custom-json-deserialisation">自定义 JSON（反）序列化</a></dd>
 <dt><strong><code>json_dumps</code></strong></dt>
-<dd>a custom function for encoding JSON; see <a href="../exporting_models/#custom-json-deserialisation">custom JSON (de)serialisation</a></dd>
+<dd>用于编码 JSON 的自定义函数； 参见 <a href="../exporting_models/#custom-json-deserialisation">自定义 JSON（反）序列化</a></dd>
 <dt><strong><code>json_encoders</code></strong></dt>
-<dd>a <code>dict</code> used to customise the way types are encoded to JSON; see <a href="../exporting_models/#modeljson">JSON Serialisation</a></dd>
+<dd>用于自定义类型编码为 JSON 的方式的 <code>dict</code>； 参见 <a href="../exporting_models/#modeljson">JSON 序列化</a></dd>
 <dt><strong><code>underscore_attrs_are_private</code></strong></dt>
-<dd>whether to treat any underscore non-class var attrs as private, or leave them as is; see <a href="../models/#private-model-attributes">Private model attributes</a></dd>
+<dd>是否将任何下划线非类属性视为私有，或保持原样； 参见 <a href="../models/#private-model-attributes">私有模型属性</a></dd>
 <dt><strong><code>copy_on_model_validation</code></strong></dt>
-<dd>string literal to control how models instances are processed during validation, 
-with the following means (see <a href="https://github.com/pydantic/pydantic/pull/4093">#4093</a> for a full discussion of the changes to this field):</dd>
+<dd>字符串文字来控制模型实例在验证过程中的处理方式，使用以下方法（有关此字段更改的完整讨论，请参阅 <a href="https://github.com/pydantic/pydantic/pull/4093">#4093</a> :</dd>
 </dl>
 <ul>
-<li><code>'none'</code> - models are not copied on validation, they're simply kept "untouched"</li>
-<li><code>'shallow'</code> - models are shallow copied, this is the default</li>
-<li><code>'deep'</code> - models are deep copied </li>
+<li><code>'none'</code> - 模型不会在验证时被复制，它们只是保持“不变(untouched)”</li>
+<li><code>'shallow'</code> - 模型是浅拷贝的，这是默认的</li>
+<li><code>'deep'</code> - 模型被深度复制</li>
 </ul>
 <dl>
 <dt><strong><code>smart_union</code></strong></dt>
-<dd>whether <em>pydantic</em> should try to check all types inside <code>Union</code> to prevent undesired coercion; see <a href="#smart-union">the dedicated section</a></dd>
+<dd><em>pydantic</em> 是否应该尝试检查 <code>Union</code> 中的所有类型以防止不希望的强制转换； 请参阅 <a href="#smart-union">专用部分</a></dd>
 <dt><strong><code>post_init_call</code></strong></dt>
-<dd>whether stdlib dataclasses <code>__post_init__</code> should be run before (default behaviour with value <code>'before_validation'</code>)
-or after (value <code>'after_validation'</code>) parsing and validation when they are <a href="../dataclasses/#stdlib-dataclasses-and-_pydantic_-dataclasses">converted</a>.</dd>
+<dd>stdlib 数据类 <code>__post_init__</code> 是否应该在解析和验证之前（默认行为值为 <code>'before_validation'</code>）或之后（值为 <code>'after_validation'</code>）运行<a href="../dataclasses/#stdlib-dataclasses-and -_pydantic_-数据类">转换</a>。</dd>
 <dt><strong><code>allow_inf_nan</code></strong></dt>
-<dd>whether to allow infinity (<code>+inf</code> an <code>-inf</code>) and NaN values to float fields, defaults to <code>True</code>,
-set to <code>False</code> for compatibility with <code>JSON</code>,
-see <a href="https://github.com/pydantic/pydantic/pull/3994">#3994</a> for more details, added in <strong>V1.10</strong></dd>
+<dd>是否允许无穷大（<code>+inf</code> 和 <code>-inf</code>）和 NaN 值浮动字段，默认为 <code>True</code>，设置为 <code>False</code> 以兼容 <code>JSON</code>，参见[#3994](https:// github.com/pydantic/pydantic/pull/3994）了解更多详情，添加于<strong>V1.10</strong></dd>
 </dl>
-<h2 id="change-behaviour-globally">Change behaviour globally<a class="headerlink" href="#change-behaviour-globally" title="Permanent link">&para;</a></h2>
-<p>If you wish to change the behaviour of <em>pydantic</em> globally, you can create your own custom <code>BaseModel</code>
-with custom <code>Config</code> since the config is inherited
+<h2 id="change-behaviour-globally">全局改变行为(Change behaviour globally)<a class="headerlink" href="#change-behaviour-globally" title="Permanent link">&para;</a></h2>
+<p>如果您希望全局更改 <em>pydantic</em> 的行为，您可以使用自定义 <code>Config</code> 创建自己的自定义 <code>BaseModel</code>，因为配置是继承的</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span> <span class="k">as</span> <span class="n">PydanticBaseModel</span>
 
 
@@ -977,10 +993,16 @@ with custom <code>Config</code> since the config is inherited
 
 <span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">MyClass</span>
-</code></pre></div></p>
-<h2 id="alias-generator">Alias Generator<a class="headerlink" href="#alias-generator" title="Permanent link">&para;</a></h2>
-<p>If data source field names do not match your code style (e. g. CamelCase fields),
-you can automatically generate aliases using <code>alias_generator</code>:</p>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="alias-generator">别名生成器(Alias Generator)<a class="headerlink" href="#alias-generator" title="Permanent link">&para;</a></h2>
+<p>如果数据源字段名称与您的代码风格不匹配（例如 CamelCase 字段），您可以使用 <code>alias_generator</code> 自动生成别名：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 
@@ -998,33 +1020,37 @@ you can automatically generate aliases using <code>alias_generator</code>:</p>
 
 <span class="n">voice</span> <span class="o">=</span> <span class="n">Voice</span><span class="p">(</span><span class="n">Name</span><span class="o">=</span><span class="s1">&#39;Filiz&#39;</span><span class="p">,</span> <span class="n">LanguageCode</span><span class="o">=</span><span class="s1">&#39;tr-TR&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">voice</span><span class="o">.</span><span class="n">language_code</span><span class="p">)</span>
+<span class="c1">#&gt; tr-TR</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">voice</span><span class="o">.</span><span class="n">dict</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="c1">#&gt; {&#39;Name&#39;: &#39;Filiz&#39;, &#39;LanguageCode&#39;: &#39;tr-TR&#39;}</span>
 </code></pre></div>
-<p>Here camel case refers to <a href="https://en.wikipedia.org/wiki/Camel_case">"upper camel case"</a> aka pascal case
-e.g. <code>CamelCase</code>. If you'd like instead to use lower camel case e.g. <code>camelCase</code>,
-instead use the <code>to_lower_camel</code> function.</p>
-<h2 id="alias-precedence">Alias Precedence<a class="headerlink" href="#alias-precedence" title="Permanent link">&para;</a></h2>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>这里的驼峰案例指的是 <a href="https://en.wikipedia.org/wiki/Camel_case">“大驼峰案例”</a> 又名帕斯卡案例，例如 <code>驼峰式</code>。 如果您想改用小驼峰式，例如 <code>camelCase</code>，而是使用 <code>to_lower_camel</code> 函数。</p>
+<h2 id="alias-precedence">别名优先(Alias Precedence)<a class="headerlink" href="#alias-precedence" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Alias priority logic changed in <strong>v1.4</strong> to resolve buggy and unexpected behaviour in previous versions.
-In some circumstances this may represent a <strong>breaking change</strong>,
-see <a href="https://github.com/pydantic/pydantic/issues/1178">#1178</a> and the precedence order below for details.</p>
+<p>别名优先级逻辑在 <strong>v1.4</strong> 中发生了变化，以解决以前版本中的错误和意外行为。
+在某些情况下，这可能代表一个<strong>重大变化</strong>，请参阅 <a href="https://github.com/pydantic/pydantic/issues/1178">#1178</a> 和下面的优先顺序了解详细信息。</p>
 </div>
-<p>In the case where a field's alias may be defined in multiple places,
-the selected value is determined as follows (in descending order of priority):</p>
+<p>在一个字段的别名可能定义在多个地方的情况下，选择的值确定如下（按优先级降序排列）：</p>
 <ol>
-<li>Set via <code>Field(..., alias=&lt;alias&gt;)</code>, directly on the model</li>
-<li>Defined in <code>Config.fields</code>, directly on the model</li>
-<li>Set via <code>Field(..., alias=&lt;alias&gt;)</code>, on a parent model</li>
-<li>Defined in <code>Config.fields</code>, on a parent model</li>
-<li>Generated by <code>alias_generator</code>, regardless of whether it's on the model or a parent</li>
+<li>通过 <code>Field(..., alias=&lt;alias&gt;)</code> 直接在模型上设置</li>
+<li>在 <code>Config.fields</code> 中定义，直接在模型上</li>
+<li>在父模型上通过 <code>Field(..., alias=&lt;alias&gt;)</code> 设置</li>
+<li>在父模型的<code>Config.fields</code>中定义</li>
+<li>由 <code>alias_generator</code> 生成，无论它是在模型上还是在父级上</li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This means an <code>alias_generator</code> defined on a child model <strong>does not</strong> take priority over an alias defined
-on a field in a parent model.</p>
+<p>这意味着在子模型上定义的 <code>alias_generator</code> <strong>不会</strong> 优先于在父模型中的字段上定义的别名。</p>
 </div>
-<p>For example:</p>
+<p>例如：</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
 
@@ -1047,10 +1073,28 @@ on a field in a parent model.</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Character</span><span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">by_alias</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">{</span>
+<span class="sd">    &#39;title&#39;: &#39;Character&#39;,</span>
+<span class="sd">    &#39;type&#39;: &#39;object&#39;,</span>
+<span class="sd">    &#39;properties&#39;: {</span>
+<span class="sd">        &#39;ActorName&#39;: {&#39;title&#39;: &#39;Actorname&#39;, &#39;type&#39;: &#39;string&#39;},</span>
+<span class="sd">        &#39;lang&#39;: {&#39;title&#39;: &#39;Lang&#39;, &#39;type&#39;: &#39;string&#39;},</span>
+<span class="sd">        &#39;Mood&#39;: {&#39;title&#39;: &#39;Mood&#39;, &#39;type&#39;: &#39;string&#39;},</span>
+<span class="sd">        &#39;Act&#39;: {&#39;title&#39;: &#39;Act&#39;, &#39;default&#39;: 1, &#39;type&#39;: &#39;integer&#39;},</span>
+<span class="sd">    },</span>
+<span class="sd">}</span>
+<span class="sd">&quot;&quot;&quot;</span>
 </code></pre></div>
-<h2 id="smart-union">Smart Union<a class="headerlink" href="#smart-union" title="Permanent link">&para;</a></h2>
-<p>By default, as explained <a href="../types/#unions">here</a>, <em>pydantic</em> tries to validate (and coerce if it can) in the order of the <code>Union</code>.
-So sometimes you may have unexpected coerced data.</p>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<h2 id="smart-union">智能联合(Smart Union)<a class="headerlink" href="#smart-union" title="Permanent link">&para;</a></h2>
+<p>默认情况下，如 <a href="../types/#unions">此处</a> 所述，<em>pydantic</em> 尝试按照 <code>Union</code> 的顺序验证（并强制执行）。 所以有时候你可能会有意想不到的强制数据。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 及以上版本</label><label for="__tabbed_7_2">Python 3.10 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1070,9 +1114,37 @@ So sometimes you may have unexpected coerced data.</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Bar</span><span class="p">()))</span>
+<span class="c1">#&gt; x=&#39;1&#39; y=Foo()</span>
 </code></pre></div>
-<p>To prevent this, you can enable <code>Config.smart_union</code>. <em>Pydantic</em> will then check all allowed types before even trying to coerce.
-Know that this is of course slower, especially if your <code>Union</code> is quite big.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Foo</span> <span class="o">|</span> <span class="n">Bar</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Bar</span><span class="p">()))</span>
+<span class="c1">#&gt; x=&#39;1&#39; y=Foo()</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
+<p>为防止这种情况，您可以启用 <code>Config.smart_union</code>。 <em>Pydantic</em> 然后会在尝试强制之前检查所有允许的类型。 要知道这当然会更慢，尤其是当你的 <code>Union</code> 很大的时候。</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Python 3.7 及以上版本</label><label for="__tabbed_8_2">Python 3.10 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1095,12 +1167,44 @@ Know that this is of course slower, especially if your <code>Union</code> is qui
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Bar</span><span class="p">()))</span>
+<span class="c1">#&gt; x=1 y=Bar()</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Bar</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Foo</span> <span class="o">|</span> <span class="n">Bar</span>
+
+    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+        <span class="n">smart_union</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">Bar</span><span class="p">()))</span>
+<span class="c1">#&gt; x=1 y=Bar()</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Note that this option <strong>does not support compound types yet</strong> (e.g. differentiate <code>List[int]</code> and <code>List[str]</code>).
-This option will be improved further once a strict mode is added in <em>pydantic</em> and will probably be the default behaviour in v2!</p>
+<p>请注意，此选项<strong>尚不支持复合类型</strong>（例如，区分 <code>List[int]</code> 和 <code>List[str]</code>）。
+一旦在 <em>pydantic</em> 中添加严格模式，此选项将得到进一步改进，并且可能成为 v2 中的默认行为！</p>
 </div>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:3"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><input id="__tabbed_9_3" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Python 3.7 及以上版本</label><label for="__tabbed_9_2">Python 3.9 及以上版本</label><label for="__tabbed_9_3">Python 3.10 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -1112,10 +1216,52 @@ This option will be improved further once a strict mode is added in <em>pydantic
 
 <span class="c1"># Expected coercion</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
 
 <span class="c1"># Unexpected coercion</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">smart_union</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
+
+
+<span class="c1"># Expected coercion</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
+
+<span class="c1"># Unexpected coercion</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">smart_union</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+
+
+<span class="c1"># Expected coercion</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
+
+<span class="c1"># Unexpected coercion</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+<span class="c1">#&gt; x=[&#39;1&#39;, &#39;2&#39;]</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 
 
 
@@ -1166,7 +1312,7 @@ This option will be improved further once a strict mode is added in <em>pydantic
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

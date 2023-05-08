@@ -19,7 +19,7 @@
         <link rel="next" href="../mypy/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -748,6 +748,9 @@
 </div>
 <p>Postponed annotations (as described in <a href="https://www.python.org/dev/peps/pep-0563/">PEP563</a>)
 "just work".</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label><label for="__tabbed_1_2">Python 3.9 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
@@ -759,7 +762,27 @@
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;ok&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; a=[1, 2, 3] b=&#39;ok&#39;</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+
+<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">b</span><span class="p">:</span> <span class="n">Any</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="s1">&#39;ok&#39;</span><span class="p">))</span>
+<span class="c1">#&gt; a=[1, 2, 3] b=&#39;ok&#39;</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <p>Internally, <em>pydantic</em>  will call a method similar to <code>typing.get_type_hints</code> to resolve annotations.</p>
 <p>In cases where the referenced type is not yet defined, <code>ForwardRef</code> can be used (although referencing the
 type directly or by its string is a simpler solution in the case of
@@ -767,6 +790,9 @@ type directly or by its string is a simpler solution in the case of
 <p>In some cases, a <code>ForwardRef</code> won't be able to be resolved during model creation.
 For example, this happens whenever a model references itself as a field type.
 When this happens, you'll need to call <code>update_forward_refs</code> after the model has been created before it can be used:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ForwardRef</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
@@ -781,8 +807,14 @@ When this happens, you'll need to call <code>update_forward_refs</code> after th
 <span class="n">Foo</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">())</span>
+<span class="c1">#&gt; a=123 b=None</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;321&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; a=123 b=Foo(a=321, b=None)</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>To resolve strings (type names) into annotations (types), <em>pydantic</em> needs a namespace dict in which to
@@ -790,6 +822,9 @@ perform the lookup. For this it uses <code>module.__dict__</code>, just like <co
 This means <em>pydantic</em> may not play well with types not defined in the global scope of a module.</p>
 </div>
 <p>For example, this works fine:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">HttpUrl</span>  <span class="c1"># HttpUrl is defined in the module&#39;s global scope</span>
@@ -800,11 +835,19 @@ This means <em>pydantic</em> may not play well with types not defined in the glo
         <span class="n">a</span><span class="p">:</span> <span class="n">HttpUrl</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">))</span>
+    <span class="c1">#&gt; a=HttpUrl(&#39;https://example.com&#39;, )</span>
 
 
 <span class="n">this_works</span><span class="p">()</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <p>While this will break:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">pydantic.errors</span> <span class="kn">import</span> <span class="n">ConfigError</span>
@@ -820,20 +863,30 @@ This means <em>pydantic</em> may not play well with types not defined in the glo
         <span class="n">Model</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="s1">&#39;https://example.com&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ConfigError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="c1">#&gt; field &quot;a&quot; not yet prepared so type is still a ForwardRef, you might</span>
+        <span class="c1">#&gt; need to call Model.update_forward_refs().</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">Model</span><span class="o">.</span><span class="n">update_forward_refs</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">NameError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="c1">#&gt; name &#39;HttpUrl&#39; is not defined</span>
 
 
 <span class="n">this_is_broken</span><span class="p">()</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <p>Resolving this is beyond the call for <em>pydantic</em>: either remove the future import or declare the types globally.</p>
 <h2 id="self-referencing-models">Self-referencing Models<a class="headerlink" href="#self-referencing-models" title="Permanent link">&para;</a></h2>
 <p>Data structures with self-referencing models are also supported. Self-referencing fields will be automatically
 resolved after model creation.</p>
 <p>Within the model, you can refer to the not-yet-constructed model using a string:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
 
@@ -844,11 +897,20 @@ resolved after model creation.</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">())</span>
+<span class="c1">#&gt; a=123 sibling=None</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">(</span><span class="n">sibling</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;321&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; a=123 sibling=Foo(a=321, sibling=None)</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <p>Since Python 3.7, you can also refer it by its type, provided you import <code>annotations</code> (see
 <a href="./">above</a> for support depending on Python
 and <em>pydantic</em> versions).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 <span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 
@@ -860,8 +922,14 @@ and <em>pydantic</em> versions).</p>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">())</span>
+<span class="c1">#&gt; a=123 sibling=None</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">Foo</span><span class="p">(</span><span class="n">sibling</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;321&#39;</span><span class="p">}))</span>
+<span class="c1">#&gt; a=123 sibling=Foo(a=321, sibling=None)</span>
 </code></pre></div>
+</div>
+</div>
+</div>
+<p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 
 
 
@@ -912,7 +980,7 @@ and <em>pydantic</em> versions).</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       
