@@ -23,6 +23,8 @@ theme:
       name: "Switch to light mode"
   features:
     - content.tabs.link
+    - navigation.top  # 返回顶部按钮
+    - content.code.copy # 代码支持copy
   logo: 'logo-white.svg'
   favicon: 'favicon.png'
 
@@ -30,6 +32,10 @@ repo_name: pydantic/pydantic
 repo_url: https://github.com/pydantic/pydantic
 edit_uri: edit/main/docs/
 
+extra:
+  version:
+    provider: mike
+    default: stable
 extra_css:
 - 'extra/terminal.css'
 - 'extra/tweaks.css'
@@ -81,6 +87,7 @@ markdown_extensions:
 
 plugins:
 - search
+- mike
 - exclude:
     glob:
     - _build/*
