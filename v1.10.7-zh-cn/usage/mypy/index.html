@@ -19,7 +19,7 @@
         <link rel="next" href="../rich/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -482,21 +482,21 @@
       
         <li class="md-nav__item">
   <a href="#strict-optional" class="md-nav__link">
-    Strict Optional
+    严格可选项(Strict Optional)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#mypy-plugin" class="md-nav__link">
-    Mypy Plugin
+    Mypy 插件(Plugin)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#other-pydantic-interfaces" class="md-nav__link">
-    Other pydantic interfaces
+    其他接口(Other pydantic interfaces)
   </a>
   
 </li>
@@ -662,7 +662,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis插件
       </a>
     </li>
   
@@ -724,21 +724,21 @@
       
         <li class="md-nav__item">
   <a href="#strict-optional" class="md-nav__link">
-    Strict Optional
+    严格可选项(Strict Optional)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#mypy-plugin" class="md-nav__link">
-    Mypy Plugin
+    Mypy 插件(Plugin)
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#other-pydantic-interfaces" class="md-nav__link">
-    Other pydantic interfaces
+    其他接口(Other pydantic interfaces)
   </a>
   
 </li>
@@ -770,8 +770,7 @@
 
   <h1>和mypy一起使用</h1>
 
-<p><em>pydantic</em> models work with <a href="http://mypy-lang.org/">mypy</a> provided you use the annotation-only version of
-required fields:</p>
+<p><em>pydantic</em> 模型与 <a href="http://mypy-lang.org/">mypy</a> 一起使用，前提是您使用必填字段的仅注释版本：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label><label for="__tabbed_1_2">Python 3.9 及以上版本</label><label for="__tabbed_1_3">Python 3.10 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -833,34 +832,32 @@ required fields:</p>
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>You can run your code through mypy with:</p>
+<p>你可以通过 mypy 运行你的代码：</p>
 <div class="highlight"><pre><span></span><code>mypy<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--ignore-missing-imports<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--follow-imports<span class="o">=</span>skip<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--strict-optional<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>pydantic_mypy_test.py
 </code></pre></div>
-<p>If you call mypy on the example code above, you should see mypy detect the attribute access error:
-<div class="highlight"><pre><span></span><code>13: error: &quot;Model&quot; has no attribute &quot;middle_name&quot;
-</code></pre></div></p>
-<h2 id="strict-optional">Strict Optional<a class="headerlink" href="#strict-optional" title="Permanent link">&para;</a></h2>
-<p>For your code to pass with <code>--strict-optional</code>, you need to to use <code>Optional[]</code> or an alias of <code>Optional[]</code>
-for all fields with <code>None</code> as the default. (This is standard with mypy.)</p>
-<p>Pydantic provides a few useful optional or union types:</p>
+<p>如果您在上面的示例代码中调用 mypy，您应该会看到 mypy 检测到属性访问错误：</p>
+<div class="highlight"><pre><span></span><code><span class="mi">13</span><span class="p">:</span> <span class="n">error</span><span class="p">:</span> <span class="s2">&quot;Model&quot;</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s2">&quot;middle_name&quot;</span>
+</code></pre></div>
+<h2 id="strict-optional">严格可选项(Strict Optional)<a class="headerlink" href="#strict-optional" title="Permanent link">&para;</a></h2>
+<p>为了让您的代码通过 <code>--strict-optional</code> 传递，您需要使用 <code>Optional[]</code> 或 <code>Optional[]</code> 的别名，用于默认为 <code>None</code> 的所有字段。 （这是 mypy 的标准。）</p>
+<p>Pydantic 提供了一些有用的可选或联合类型：</p>
 <ul>
 <li><code>NoneStr</code> aka. <code>Optional[str]</code></li>
 <li><code>NoneBytes</code> aka. <code>Optional[bytes]</code></li>
 <li><code>StrBytes</code> aka. <code>Union[str, bytes]</code></li>
 <li><code>NoneStrBytes</code> aka. <code>Optional[StrBytes]</code></li>
 </ul>
-<p>If these aren't sufficient you can of course define your own.</p>
-<h2 id="mypy-plugin">Mypy Plugin<a class="headerlink" href="#mypy-plugin" title="Permanent link">&para;</a></h2>
-<p>Pydantic ships with a mypy plugin that adds a number of important pydantic-specific
-features to mypy that improve its ability to type-check your code.</p>
-<p>See the <a href="../../mypy_plugin/">pydantic mypy plugin docs</a> for more details.</p>
-<h2 id="other-pydantic-interfaces">Other pydantic interfaces<a class="headerlink" href="#other-pydantic-interfaces" title="Permanent link">&para;</a></h2>
-<p>Pydantic <a href="../dataclasses/">dataclasses</a> and the <a href="../validation_decorator/"><code>validate_arguments</code> decorator</a>
-should also work well with mypy.</p>
+<p>如果这些还不够，您当然可以定义自己的。</p>
+<h2 id="mypy-plugin">Mypy 插件(Plugin)<a class="headerlink" href="#mypy-plugin" title="Permanent link">&para;</a></h2>
+<p>Pydantic 附带一个 mypy 插件，该插件向 mypy 添加了许多重要的 pydantic 特定功能，以提高其对代码进行类型检查的能力。</p>
+<p>有关详细信息，请参阅 <a href="../../mypy_plugin/">pydantic mypy 插件文档</a>。</p>
+<h2 id="other-pydantic-interfaces">其他接口(Other pydantic interfaces)<a class="headerlink" href="#other-pydantic-interfaces" title="Permanent link">&para;</a></h2>
+<p>Pydantic <a href="../dataclasses/">dataclasses</a> 和 <a href="../validation_decorator/"><code>validate_arguments</code> 装饰器</a>
+也应该与 mypy 一起工作。</p>
 
 
 
@@ -911,7 +908,7 @@ should also work well with mypy.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

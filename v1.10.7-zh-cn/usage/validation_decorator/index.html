@@ -19,7 +19,7 @@
         <link rel="next" href="../settings/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -518,28 +518,28 @@
         
           <li class="md-nav__item">
   <a href="#performance" class="md-nav__link">
-    Performance)
+    性能(Performance)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#return-value" class="md-nav__link">
-    Return Value)
+    返回值(Return Value)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#config-and-validators" class="md-nav__link">
-    Config and Validators)
+    配置和校验(Config and Validators)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#model-fields-and-reserved-arguments" class="md-nav__link">
-    Model fields and reserved arguments)
+    模型字段和保留参数(Model fields and reserved arguments)
   </a>
   
 </li>
@@ -752,7 +752,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis插件
       </a>
     </li>
   
@@ -892,28 +892,28 @@
         
           <li class="md-nav__item">
   <a href="#performance" class="md-nav__link">
-    Performance)
+    性能(Performance)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#return-value" class="md-nav__link">
-    Return Value)
+    返回值(Return Value)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#config-and-validators" class="md-nav__link">
-    Config and Validators)
+    配置和校验(Config and Validators)
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#model-fields-and-reserved-arguments" class="md-nav__link">
-    Model fields and reserved arguments)
+    模型字段和保留参数(Model fields and reserved arguments)
   </a>
   
 </li>
@@ -950,18 +950,12 @@
 
   <h1>校验装饰器</h1>
 
-<p>The <code>validate_arguments</code> decorator allows the arguments passed to a function to be parsed and validated using
-the function's annotations before the function is called. While under the hood this uses the same approach of model
-creation and initialisation; it provides an extremely easy way to apply validation to your code with minimal
-boilerplate.</p>
+<p><code>validate_arguments</code> 装饰器允许传递给函数的参数在调用函数之前使用函数的注释进行解析和验证。 在引擎盖下，它使用相同的模型创建和初始化方法； 它提供了一种极其简单的方法，可以使用最少的样板文件将验证应用于您的代码。</p>
 <div class="admonition info">
-<p class="admonition-title">In Beta</p>
-<p>The <code>validate_arguments</code> decorator is in <strong>beta</strong>, it has been added to <em>pydantic</em> in <strong>v1.5</strong> on a
-<strong>provisional basis</strong>. It may change significantly in future releases and its interface will not be concrete
-until <strong>v2</strong>. Feedback from the community while it's still provisional would be extremely useful; either comment
-on <a href="https://github.com/pydantic/pydantic/issues/1205">#1205</a> or create a new issue.</p>
+<p class="admonition-title">测试版</p>
+<p><code>validate_arguments</code> 装饰器在 <strong>beta</strong> 中，它已在<strong>临时基础</strong>上添加到 <strong>v1.5</strong> 中的 <em>pydantic</em>。 它可能会在未来的版本中发生重大变化，其界面将在 <strong>v2</strong> 之前具体化。 来自社区的反馈在它仍然是临时的时候将非常有用； 评论 <a href="https://github.com/pydantic/pydantic/issues/1205">#1205</a> 或创建一个新问题。</p>
 </div>
-<p>Example of usage:</p>
+<p>使用示例：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -997,10 +991,7 @@ on <a href="https://github.com/pydantic/pydantic/issues/1205">#1205</a> or creat
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="argument-types">参数类型(Argument Types)<a class="headerlink" href="#argument-types" title="Permanent link">&para;</a></h2>
-<p>Argument types are inferred from type annotations on the function, arguments without a type decorator are considered
-as <code>Any</code>. Since <code>validate_arguments</code> internally uses a standard <code>BaseModel</code>, all types listed in
-<a href="../types/">types</a> can be validated, including <em>pydantic</em> models and <a href="../types/#custom-data-types">custom types</a>.
-As with the rest of <em>pydantic</em>, types can be coerced by the decorator before they're passed to the actual function:</p>
+<p>参数类型是从函数的类型注释中推断出来的，没有类型装饰器的参数被认为是<code>Any</code>。 由于 <code>validate_arguments</code> 在内部使用标准的 <code>BaseModel</code>，因此可以验证 <a href="../types/">types</a> 中列出的所有类型，包括 <em>pydantic</em> 模型和 <a href="../types/#custom-data-types">自定义类型</a>。 与 <em>pydantic</em> 的其余部分一样，类型可以在传递给实际函数之前由装饰器强制转换：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label><label for="__tabbed_2_2">Python 3.9 及以上版本</label><label for="__tabbed_2_3">Python 3.10 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1024,8 +1015,8 @@ As with the rest of <em>pydantic</em>, types can be coerced by the decorator bef
 <span class="n">this_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^validation.*&#39;</span><span class="p">))</span>
-<span class="c1">#&gt; /home/user/myprojects/pydantic-zh-</span>
-<span class="c1">#&gt; cn/docs/examples/validation_decorator_parameter_types.py</span>
+<span class="c1">#&gt; /Users/wangchao/myprojects/pydantic-zh-</span>
+<span class="c1">#&gt; cn/docs/examples/validation_decorator_main.py</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^foobar.*&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 <span class="c1">#&gt; None</span>
 </code></pre></div>
@@ -1052,8 +1043,8 @@ As with the rest of <em>pydantic</em>, types can be coerced by the decorator bef
 <span class="n">this_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^validation.*&#39;</span><span class="p">))</span>
-<span class="c1">#&gt; /home/user/myprojects/pydantic-zh-</span>
-<span class="c1">#&gt; cn/docs/.tmp_examples/upgraded/validation_decorator_types_3_10.py</span>
+<span class="c1">#&gt; /Users/wangchao/myprojects/pydantic-zh-</span>
+<span class="c1">#&gt; cn/docs/.tmp_examples/upgraded/validation_decorator_types_3_9.py</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^foobar.*&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 <span class="c1">#&gt; None</span>
 </code></pre></div>
@@ -1079,8 +1070,8 @@ As with the rest of <em>pydantic</em>, types can be coerced by the decorator bef
 <span class="n">this_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^validation.*&#39;</span><span class="p">))</span>
-<span class="c1">#&gt; /home/user/myprojects/pydantic-zh-</span>
-<span class="c1">#&gt; cn/docs/.tmp_examples/upgraded/validation_decorator_types_3_10.py</span>
+<span class="c1">#&gt; /Users/wangchao/myprojects/pydantic-zh-</span>
+<span class="c1">#&gt; cn/docs/.tmp_examples/upgraded/validation_decorator_types_3_9.py</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">find_file</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="s1">&#39;^foobar.*&#39;</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
 <span class="c1">#&gt; None</span>
 </code></pre></div>
@@ -1088,25 +1079,22 @@ As with the rest of <em>pydantic</em>, types can be coerced by the decorator bef
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>A few notes:</p>
+<p>一些注意事项：</p>
 <ul>
-<li>though they're passed as strings, <code>path</code> and <code>regex</code> are converted to a <code>Path</code> object and regex respectively
-by the decorator</li>
-<li><code>max</code> has no type annotation, so will be considered as <code>Any</code> by the decorator</li>
+<li>尽管它们作为字符串传递，但装饰器将 <code>path</code> 和 <code>regex</code> 分别转换为 <code>Path</code> 对象和 <code>regex</code></li>
+<li><code>max</code> 没有类型注释，因此将被装饰器视为 <code>Any</code></li>
 </ul>
-<p>Type coercion like this can be extremely helpful but also confusing or not desired,
-see <a href="#coercion-and-strictness">below</a> for a discussion of <code>validate_arguments</code>'s limitations in this regard.</p>
+<p>像这样的类型强制可能非常有用，但也会造成混淆或不受欢迎，请参阅<a href="#coercion-and-strictness">下文</a>，了解 <code>validate_arguments</code> 在这方面的局限性。</p>
 <h2 id="function-signatures">函数签名(Function Signatures)<a class="headerlink" href="#function-signatures" title="Permanent link">&para;</a></h2>
-<p>The decorator is designed to work with functions using all possible parameter configurations and all possible
-combinations of these:</p>
+<p>装饰器旨在使用所有可能的参数配置及其所有可能的组合来处理函数：</p>
 <ul>
-<li>positional or keyword arguments with or without defaults</li>
-<li>variable positional arguments defined via <code>*</code> (often <code>*args</code>)</li>
-<li>variable keyword arguments defined via <code>**</code> (often <code>**kwargs</code>)</li>
-<li>keyword only arguments - arguments after <code>*,</code></li>
-<li>positional only arguments - arguments before <code>, /</code> (new in Python 3.8)</li>
+<li>带或不带默认值的位置或关键字参数</li>
+<li>通过 <code>*</code> 定义的变量位置参数（通常是 <code>*args</code>）</li>
+<li>通过 <code>**</code> 定义的变量关键字参数（通常是 <code>**kwargs</code>）</li>
+<li>仅关键字参数 - <code>*,</code> 之后的参数</li>
+<li>仅位置参数 - <code>, /</code> 之前的参数（Python 3.8 中的新功能）</li>
 </ul>
-<p>To demonstrate all the above parameter types:</p>
+<p>演示以上所有参数类型：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.8 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1198,10 +1186,7 @@ combinations of these:</p>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="fieldusing-field-to-describe-function-arguments">使用Field描述函数参数(Using Field to describe function arguments)<a class="headerlink" href="#fieldusing-field-to-describe-function-arguments" title="Permanent link">&para;</a></h2>
-<p><a href="../schema/#field-customization">Field</a> can also be used with <code>validate_arguments</code> to provide extra information about
-the field and validations. In general it should be used in a type hint with
-<a href="../schema/#typingannotated-fields">Annotated</a>, unless <code>default_factory</code> is specified, in which case it should be used
-as the default value of the field:</p>
+<p><a href="../schema/#field-customization">Field</a> 也可以与<code>validate_arguments</code>一起使用，以提供有关字段和验证的额外信息。 一般来说，它应该在带有 <a href="../schema/#typingannotated-fields">Annotated</a> 的类型提示中使用，除非指定了 <code>default_factory</code>，在这种情况下，它应该用作字段的默认值：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1239,7 +1224,7 @@ as the default value of the field:</p>
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>The <a href="../model_config/#alias-precedence">alias</a> can be used with the decorator as normal.</p>
+<p><a href="../model_config/#alias-precedence">别名</a> 可以像往常一样与装饰器一起使用。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1259,14 +1244,9 @@ as the default value of the field:</p>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="mypyusage-with-mypy">和mypy一起使用(Usage with mypy)<a class="headerlink" href="#mypyusage-with-mypy" title="Permanent link">&para;</a></h2>
-<p>The <code>validate_arguments</code> decorator should work "out of the box" with <a href="http://mypy-lang.org/">mypy</a> since it's
-defined to return a function with the same signature as the function it decorates. The only limitation is that
-since we trick mypy into thinking the function returned by the decorator is the same as the function being
-decorated; access to the <a href="#raw-function">raw function</a> or other attributes will require <code>type: ignore</code>.</p>
+<p><code>validate_arguments</code> 装饰器应该与 <a href="http://mypy-lang.org/">mypy</a> 一起“开箱即用”，因为它被定义为返回一个与它装饰的函数具有相同签名的函数。 唯一的限制是因为我们欺骗 <code>mypy</code> 认为装饰器返回的函数与被装饰的函数相同； 访问 <a href="#raw-function">raw function</a> 或其他属性将需要设置 <code>type: ignore</code>。</p>
 <h2 id="validate-without-calling-the-function">无需调用函数的校验(Validate without calling the function)<a class="headerlink" href="#validate-without-calling-the-function" title="Permanent link">&para;</a></h2>
-<p>By default, arguments validation is done by directly calling the decorated function with parameters.
-But what if you wanted to validate them without <em>actually</em> calling the function?
-To do that you can call the <code>validate</code> method bound to the decorated function.</p>
+<p>默认情况下，参数验证是通过直接调用带有参数的装饰函数来完成的。 但是，如果您想在不 <em>实际</em> 调用函数的情况下验证它们怎么办？ 为此，您可以调用绑定到装饰函数的 <code>validate</code> 方法。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1299,8 +1279,7 @@ To do that you can call the <code>validate</code> method bound to the decorated 
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="raw-function">原始函数(Raw function)<a class="headerlink" href="#raw-function" title="Permanent link">&para;</a></h2>
-<p>The raw function which was decorated is accessible, this is useful if in some scenarios you trust your input
-arguments and want to call the function in the most performant way (see <a href="#performance">notes on performance</a> below):</p>
+<p>被装饰的原始函数是可访问的，如果在某些情况下您信任您的输入参数并希望以最高性能的方式调用该函数，这将很有用（请参阅下面的<a href="#performance">性能说明</a>）：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1326,7 +1305,7 @@ arguments and want to call the function in the most performant way (see <a href=
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="async-functions">异步函数(Async Functions)<a class="headerlink" href="#async-functions" title="Permanent link">&para;</a></h2>
-<p><code>validate_arguments</code> can also be used on async functions:</p>
+<p><code>validate_arguments</code> 也可以用于异步函数：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="8:1"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1369,17 +1348,14 @@ arguments and want to call the function in the most performant way (see <a href=
 </div>
 </div>
 </div>
-<p><em>(这个脚本依赖 <code>conn.execute()</code> that will return <code>'testing@example.com'</code>)</em></p>
+<p><em>(这个脚本需要 <code>conn.execute()</code> that will return <code>'testing@example.com'</code>)</em></p>
 <h2 id="custom-config">自定义配置(Custom Config)<a class="headerlink" href="#custom-config" title="Permanent link">&para;</a></h2>
-<p>The model behind <code>validate_arguments</code> can be customised using a config setting which is equivalent to
-setting the <code>Config</code> sub-class in normal models.</p>
+<p><code>validate_arguments</code> 背后的模型可以使用配置设置进行自定义，这相当于在普通模型中设置 <code>Config</code> 子类。</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The <code>fields</code> and <code>alias_generator</code> properties of <code>Config</code> which allow aliases to be configured are not supported
-yet with <code>@validate_arguments</code>, using them will raise an error.</p>
+<p><code>@validate_arguments</code> 尚不支持允许配置别名的 <code>Config</code> 的 <code>fields</code> 和 <code>alias_generator</code> 属性，使用它们会引发错误。</p>
 </div>
-<p>Configuration is set using the <code>config</code> keyword argument to the decorator, it may be either a config class
-or a dict of properties which are converted to a class later.</p>
+<p>配置是使用装饰器的 <code>config</code> 关键字参数设置的，它可以是配置类或稍后转换为类的属性字典。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="9:1"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -1425,49 +1401,31 @@ or a dict of properties which are converted to a class later.</p>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <h2 id="limitations">限制(Limitations)<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
-<p><code>validate_arguments</code> has been released on a provisional basis without all the bells and whistles, which may
-be added later, see <a href="https://github.com/pydantic/pydantic/issues/1205">#1205</a> for some more discussion of this.</p>
-<p>In particular:</p>
+<p><code>validate_arguments</code> 已在临时基础上发布，没有所有花里胡哨的东西，可能会在以后添加，请参阅 <a href="https://github.com/pydantic/pydantic/issues/1205">#1205</a> 以获得更多关于这方面的信息。</p>
+<p>尤其：</p>
 <h3 id="validation-exception">校验异常(Validation Exception)<a class="headerlink" href="#validation-exception" title="Permanent link">&para;</a></h3>
-<p>Currently upon validation failure, a standard <em>pydantic</em> <code>ValidationError</code> is raised,
-see <a href="../models/#error-handling">model error handling</a>.</p>
-<p>This is helpful since it's <code>str()</code> method provides useful details of the error which occurred and methods like
-<code>.errors()</code> and <code>.json()</code> can be useful when exposing the errors to end users, however <code>ValidationError</code> inherits
-from <code>ValueError</code> <strong>not</strong> <code>TypeError</code> which may be unexpected since Python would raise a <code>TypeError</code> upon invalid
-or missing arguments. This may be addressed in future by either allow a custom error or raising a different
-exception by default, or both.</p>
+<p>目前在验证失败时，会引发标准的 <em>pydantic</em> <code>ValidationError</code>，请参阅<a href="../models/#error-handling">模型错误处理</a>。</p>
+<p>这很有用，因为它的 <code>str()</code> 方法提供了所发生错误的有用详细信息，而 <code>.errors()</code> 和 <code>.json()</code> 等方法在向最终用户公开错误时很有用，但是 <code>ValidationError</code> 继承自 <code>ValueError</code> <strong>不是</strong> <code>TypeError</code> 这可能是意外的，因为 Python 会在无效或缺少参数时引发 <code>TypeError</code>。 将来可以通过允许自定义错误或默认引发不同的异常或两者同时解决。</p>
 <h3 id="coercion-and-strictness">强制和严格(Coercion and Strictness)<a class="headerlink" href="#coercion-and-strictness" title="Permanent link">&para;</a></h3>
-<p><em>pydantic</em> currently leans on the side of trying to coerce types rather than raise an error if a type is wrong,
-see <a href="../models/#data-conversion">model data conversion</a> and <code>validate_arguments</code> is no different.</p>
-<p>See <a href="https://github.com/pydantic/pydantic/issues/1098">#1098</a> and other issues with the "strictness" label
-for a discussion of this. If <em>pydantic</em> gets a "strict" mode in future, <code>validate_arguments</code> will have an option
-to use this, it may even become the default for the decorator.</p>
-<h3 id="performance">Performance)<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
-<p>We've made a big effort to make <em>pydantic</em> as performant as possible
-and argument inspect and model creation is only performed once when the function is defined, however
-there will still be a performance impact to using the <code>validate_arguments</code> decorator compared to
-calling the raw function.</p>
-<p>In many situations this will have little or no noticeable effect, however be aware that
-<code>validate_arguments</code> is not an equivalent or alternative to function definitions in strongly typed languages;
-it never will be.</p>
-<h3 id="return-value">Return Value)<a class="headerlink" href="#return-value" title="Permanent link">&para;</a></h3>
-<p>The return value of the function is not validated against its return type annotation, this may be added as an option
-in future.</p>
-<h3 id="config-and-validators">Config and Validators)<a class="headerlink" href="#config-and-validators" title="Permanent link">&para;</a></h3>
-<p><code>fields</code> and <code>alias_generator</code> on custom <a href="../model_config/"><code>Config</code></a> are not supported, see <a href="#custom-config">above</a>.</p>
-<p>Neither are <a href="../validators/">validators</a>.</p>
-<h3 id="model-fields-and-reserved-arguments">Model fields and reserved arguments)<a class="headerlink" href="#model-fields-and-reserved-arguments" title="Permanent link">&para;</a></h3>
-<p>The following names may not be used by arguments since they can be used internally to store information about
-the function's signature:</p>
+<p><em>pydantic</em> 目前倾向于尝试强制类型而不是在类型错误时引发错误，请参阅 <a href="../models/#data-conversion">模型数据转换</a> 和 <code>validate_arguments</code> 也不例外。</p>
+<p>请参阅 <a href="https://github.com/pydantic/pydantic/issues/1098">#1098</a> 和其他带有“严格”标签的问题，以了解对此的讨论。 如果 <em>pydantic</em> 将来获得“严格”模式，<code>validate_arguments</code> 将可以选择使用它，它甚至可能成为装饰器的默认模式。</p>
+<h3 id="performance">性能(Performance)<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
+<p>我们付出了巨大的努力使 <em>pydantic</em> 尽可能高效，并且参数检查和模型创建仅在定义函数时执行一次，但是与调用原始函数相比，使用 <code>validate_arguments</code> 装饰器仍然会对性能产生影响。</p>
+<p>在许多情况下，这几乎没有或根本没有明显的影响，但是请注意，<code>validate_arguments</code> 不是强类型语言中函数定义的等效项或替代项； 永远不会。</p>
+<h3 id="return-value">返回值(Return Value)<a class="headerlink" href="#return-value" title="Permanent link">&para;</a></h3>
+<p>函数的返回值未根据其返回类型注释进行验证，这可能会在将来添加为一个选项。</p>
+<h3 id="config-and-validators">配置和校验(Config and Validators)<a class="headerlink" href="#config-and-validators" title="Permanent link">&para;</a></h3>
+<p>不支持自定义 <a href="../model_config/"><code>Config</code></a> 上的 <code>fields</code> 和 <code>alias_generator</code>，请参见 <a href="#custom-config">above</a>。</p>
+<p><a href="../validators/">验证器</a> 也不是。</p>
+<h3 id="model-fields-and-reserved-arguments">模型字段和保留参数(Model fields and reserved arguments)<a class="headerlink" href="#model-fields-and-reserved-arguments" title="Permanent link">&para;</a></h3>
+<p>以下名称可能不会被参数使用，因为它们可以在内部用于存储有关函数签名的信息：</p>
 <ul>
 <li><code>v__args</code></li>
 <li><code>v__kwargs</code></li>
 <li><code>v__positional_only</code></li>
 </ul>
-<p>These names (together with <code>"args"</code> and <code>"kwargs"</code>) may or may not (depending on the function's signature) appear as
-fields on the internal <em>pydantic</em> model accessible via <code>.model</code> thus this model isn't especially useful
-(e.g. for generating a schema) at the moment.</p>
-<p>This should be fixable in future as the way error are raised is changed.</p>
+<p>这些名称（与<code>“args”</code>和<code>“kwargs”</code>一起）可能会或可能不会（取决于函数的签名）显示为内部<em>pydantic</em>模型上的字段，可通过<code>.model</code>访问，因此该模型不是 目前特别有用（例如用于生成模式）。</p>
+<p>随着错误产生方式的改变，这在未来应该是可以修复的。</p>
 
 
 
@@ -1518,7 +1476,7 @@ fields on the internal <em>pydantic</em> model accessible via <code>.model</code
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

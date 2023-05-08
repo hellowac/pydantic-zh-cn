@@ -19,18 +19,18 @@
         <link rel="next" href="../datamodel_code_generator/">
       
       <link rel="icon" href="../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
-        <title>Hypothesis插件' - Pydantic</title>
+        <title>Hypothesis插件 - Pydantic</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hypothesis插件'
+              Hypothesis插件
             
           </span>
         </div>
@@ -616,12 +616,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Hypothesis插件'
+          Hypothesis插件
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Hypothesis插件'
+        Hypothesis插件
       </a>
       
         
@@ -639,14 +639,14 @@
       
         <li class="md-nav__item">
   <a href="#example-tests" class="md-nav__link">
-    Example tests
+    示例测试 Example tests
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-with-json-schemas" class="md-nav__link">
-    Use with JSON Schemas
+  <a href="#json-use-with-json-schemas" class="md-nav__link">
+    与 JSON 模式一起使用 Use with JSON Schemas
   </a>
   
 </li>
@@ -715,14 +715,14 @@
       
         <li class="md-nav__item">
   <a href="#example-tests" class="md-nav__link">
-    Example tests
+    示例测试 Example tests
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-with-json-schemas" class="md-nav__link">
-    Use with JSON Schemas
+  <a href="#json-use-with-json-schemas" class="md-nav__link">
+    与 JSON 模式一起使用 Use with JSON Schemas
   </a>
   
 </li>
@@ -752,26 +752,15 @@
   
 
 
-  <h1>Hypothesis插件'</h1>
+  <h1>Hypothesis插件</h1>
 
-<p><a href="https://hypothesis.readthedocs.io/">Hypothesis</a> is the Python library for
-<a href="https://increment.com/testing/in-praise-of-property-based-testing/">property-based testing</a>.
-Hypothesis can infer how to construct type-annotated classes, and supports builtin types,
-many standard library types, and generic types from the
-<a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> and
-<a href="https://pypi.org/project/typing-extensions/"><code>typing_extensions</code></a> modules by default.</p>
-<p>From Pydantic v1.8 and <a href="https://hypothesis.readthedocs.io/en/latest/changes.html#v5-29-0">Hypothesis v5.29.0</a>,
-Hypothesis will automatically load support for <a href="../usage/types/">custom types</a> like
-<code>PaymentCardNumber</code> and <code>PositiveFloat</code>, so that the
-<a href="https://hypothesis.readthedocs.io/en/latest/data.html#hypothesis.strategies.builds"><code>st.builds()</code></a>
-and <a href="https://hypothesis.readthedocs.io/en/latest/data.html#hypothesis.strategies.from_type"><code>st.from_type()</code></a>
-strategies support them without any user configuration.</p>
+<p><a href="https://hypothesis.readthedocs.io/">Hypothesis</a> 是用于<a href="https://increment.com/testing/in-praise-of-property-based-testing/">基于属性的测试</a> 的 Python 库。 Hypothesis 可以从 <a href="https://docs.python.org/3/library/typing.html"><code>typing</code></a> 中推断出如何构造带类型注释的类，并支持内置类型、许多标准库类型和泛型类型 和 <a href="https://pypi.org/project/typing-extensions/"><code>typing_extensions</code></a> 默认模块。</p>
+<p>从 Pydantic v1.8 和 <a href="https://hypothesis.readthedocs.io/en/latest/changes.html#v5-29-0">Hypothesis v5.29.0</a>，Hypothesis 将自动加载对<a href="../usage/types/">自定义类型</a> 像 <code>PaymentCardNumber</code> 和 <code>PositiveFloat</code>，这样 <a href="https://hypothesis.readthedocs.io/en/latest/data.html#hypothesis.strategies.builds"><code>st.builds()</code></a> 和 <a href="https://hypothesis.readthedocs.io/en/latest/data.html#hypothesis.strategies.from_type"><code>st.from_type()</code></a> 策略无需任何用户配置即可支持它们。</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Please note, while the plugin supports these types, hypothesis will(currently) generate values outside 
-of given args for the constrained function types.</p>
+<p>请注意，虽然插件支持这些类型，但假设将（当前）为受约束的函数类型生成给定参数之外的值。</p>
 </div>
-<h3 id="example-tests">Example tests<a class="headerlink" href="#example-tests" title="Permanent link">&para;</a></h3>
+<h3 id="example-tests">示例测试 Example tests<a class="headerlink" href="#example-tests" title="Permanent link">&para;</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label><label for="__tabbed_1_2">Python 3.9 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -830,12 +819,8 @@ of given args for the constrained function types.</p>
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<h3 id="use-with-json-schemas">Use with JSON Schemas<a class="headerlink" href="#use-with-json-schemas" title="Permanent link">&para;</a></h3>
-<p>To test client-side code, you can use <a href="../usage/models/"><code>Model.schema()</code></a> with the
-<a href="https://pypi.org/project/hypothesis-jsonschema/"><code>hypothesis-jsonschema</code> package</a>
-to generate arbitrary JSON instances matching the schema.
-For web API testing, <a href="https://schemathesis.readthedocs.io">Schemathesis</a> provides
-a higher-level wrapper and can detect both errors and security vulnerabilities.</p>
+<h3 id="json-use-with-json-schemas">与 JSON 模式一起使用 Use with JSON Schemas<a class="headerlink" href="#json-use-with-json-schemas" title="Permanent link">&para;</a></h3>
+<p>要测试客户端代码，您可以将 <a href="../usage/models/"><code>Model.schema()</code></a> 与 <a href="https://pypi.org/project/hypothesis-jsonschema /"><code>hypothesis-jsonschema</code> 包</a> 生成与模式匹配的任意 JSON 实例。 对于 Web API 测试，<a href="https://schemathesis.readthedocs.io">Schemathesis</a> 提供了更高级别的包装器，可以检测错误和安全漏洞。</p>
 
 
 
@@ -886,7 +871,7 @@ a higher-level wrapper and can detect both errors and security vulnerabilities.<
     <script id="__config" type="application/json">{"base": "..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../extra/redirects.js"></script>
       

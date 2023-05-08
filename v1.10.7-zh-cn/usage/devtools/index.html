@@ -19,7 +19,7 @@
         <link rel="next" href="../../blog/pydantic-v2/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -614,7 +614,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis插件
       </a>
     </li>
   
@@ -695,14 +695,11 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><strong>Admission:</strong> I (the primary developer of <em>pydantic</em>) also develop python-devtools.</p>
+<p><strong>承认:</strong> 我（<em>pydantic</em> 的主要开发人员）也开发了 python-devtools。</p>
 </div>
-<p><a href="https://python-devtools.helpmanual.io/">python-devtools</a> (<code>pip install devtools</code>) provides a number of tools which
-are useful during Python development, including <code>debug()</code> an alternative to <code>print()</code> which formats output in a way
-which should be easier to read than <code>print</code> as well as giving information about which file/line the print statement 
-is on and what value was printed.</p>
-<p><em>pydantic</em> integrates with <em>devtools</em> by implementing the <code>__pretty__</code> method on most public classes.</p>
-<p>In particular <code>debug()</code> is useful when inspecting models:</p>
+<p><a href="https://python-devtools.helpmanual.io/">python-devtools</a> (<code>pip install devtools</code>) 提供了许多在 Python 开发过程中非常有用的工具，包括<code>debug()</code> 作为<code>print( )</code> 以比 <code>print</code> 更容易阅读的方式格式化输出，并提供有关打印语句所在的文件/行以及打印的值的信息。</p>
+<p><em>pydantic</em> 通过在大多数公共类上实现 <code>__pretty__</code> 方法与 <em>devtools</em> 集成。</p>
+<p>特别是 <code>debug()</code> 在检查模型时很有用：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label><label for="__tabbed_1_2">Python 3.9 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -777,11 +774,11 @@ is on and what value was printed.</p>
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>Will output in your terminal:</p>
+<p>将在您的终端输出：</p>
 <div class="terminal">
 <pre class="terminal-content">
-<span class="ansi35">docs/examples/devtools_main.py</span>:<span class="ansi32">31</span> <span class="ansi3 ansi32">&lt;module&gt;</span><span class="ansi2"> (executing failed to find the calling node)</span>
-    <span class="ansi38-252">User</span><span class="ansi38-252">(</span>
+<span class="ansi35">docs/examples/devtools_main.py</span>:<span class="ansi32">31</span> <span class="ansi3 ansi32">&lt;module&gt;</span>
+    <span class="ansi34">user</span>: <span class="ansi38-252">User</span><span class="ansi38-252">(</span>
 <span class="ansi38-252">        </span><span class="ansi38-5">id</span><span class="ansi38-68">=</span><span class="ansi38-5">123</span><span class="ansi38-252">,</span>
 <span class="ansi38-252">        </span><span class="ansi38-252">name</span><span class="ansi38-68">=</span><span class="ansi38-1">'</span><span class="ansi38-1">John Doe</span><span class="ansi38-1">'</span><span class="ansi38-252">,</span>
 <span class="ansi38-252">        </span><span class="ansi38-252">signup_ts</span><span class="ansi38-68">=</span><span class="ansi38-252">datetime</span><span class="ansi38-68">.</span><span class="ansi38-252">datetime</span><span class="ansi38-252">(</span><span class="ansi38-5">2019</span><span class="ansi38-252">,</span><span class="ansi38-252"> </span><span class="ansi38-5">6</span><span class="ansi38-252">,</span><span class="ansi38-252"> </span><span class="ansi38-5">1</span><span class="ansi38-252">,</span><span class="ansi38-252"> </span><span class="ansi38-5">12</span><span class="ansi38-252">,</span><span class="ansi38-252"> </span><span class="ansi38-5">22</span><span class="ansi38-252">)</span><span class="ansi38-252">,</span>
@@ -853,7 +850,7 @@ user: id=123 name='John Doe' signup_ts=datetime.datetime(2019, 6, 1, 12, 22) fri
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

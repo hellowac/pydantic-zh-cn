@@ -19,7 +19,7 @@
         <link rel="next" href="../mypy/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -468,7 +468,7 @@
       
         <li class="md-nav__item">
   <a href="#self-referencing-models" class="md-nav__link">
-    Self-referencing Models
+    自引用模型(Self-referencing Models)
   </a>
   
 </li>
@@ -648,7 +648,7 @@
   
     <li class="md-nav__item">
       <a href="../../hypothesis_plugin/" class="md-nav__link">
-        Hypothesis插件'
+        Hypothesis插件
       </a>
     </li>
   
@@ -710,7 +710,7 @@
       
         <li class="md-nav__item">
   <a href="#self-referencing-models" class="md-nav__link">
-    Self-referencing Models
+    自引用模型(Self-referencing Models)
   </a>
   
 </li>
@@ -744,10 +744,9 @@
 
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Both postponed annotations via the future import and <code>ForwardRef</code> require Python 3.7+.</p>
+<p>通过 <code>future import</code> 和 <code>ForwardRef</code> 推迟的注释都需要 Python 3.7+。</p>
 </div>
-<p>Postponed annotations (as described in <a href="https://www.python.org/dev/peps/pep-0563/">PEP563</a>)
-"just work".</p>
+<p>延时注解（如 <a href="https://www.python.org/dev/peps/pep-0563/">PEP563</a> 中所述）“正常工作”。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label><label for="__tabbed_1_2">Python 3.9 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -783,13 +782,9 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>Internally, <em>pydantic</em>  will call a method similar to <code>typing.get_type_hints</code> to resolve annotations.</p>
-<p>In cases where the referenced type is not yet defined, <code>ForwardRef</code> can be used (although referencing the
-type directly or by its string is a simpler solution in the case of
-<a href="#self-referencing-models">self-referencing models</a>).</p>
-<p>In some cases, a <code>ForwardRef</code> won't be able to be resolved during model creation.
-For example, this happens whenever a model references itself as a field type.
-When this happens, you'll need to call <code>update_forward_refs</code> after the model has been created before it can be used:</p>
+<p>在内部，<em>pydantic</em> 将调用类似于<code>typing.get_type_hints</code>的方法来解析注释。</p>
+<p>在尚未定义引用类型的情况下，可以使用<code>ForwardRef</code>（尽管在 <a href="#self-referencing-models">自引用模型</a> 的情况下，直接引用类型或通过其字符串引用是一种更简单的解决方案） .</p>
+<p>在某些情况下，<code>ForwardRef</code>在模型创建期间将无法解析。 例如，只要模型将自身引用为字段类型，就会发生这种情况。 发生这种情况时，您需要在创建模型后调用 <code>update_forward_refs</code> 才能使用它：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -817,11 +812,10 @@ When this happens, you'll need to call <code>update_forward_refs</code> after th
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>To resolve strings (type names) into annotations (types), <em>pydantic</em> needs a namespace dict in which to
-perform the lookup. For this it uses <code>module.__dict__</code>, just like <code>get_type_hints</code>.
-This means <em>pydantic</em> may not play well with types not defined in the global scope of a module.</p>
+<p>要将字符串（类型名称）解析为注释（类型），<em>pydantic</em> 需要一个名称空间字典来执行查找。 为此，它使用 <code>module.__dict__</code> ，就像 <code>get_type_hints</code> 一样。</p>
+<p>这意味着 <em>pydantic</em> 可能无法很好地处理未在模块全局范围内定义的类型。</p>
 </div>
-<p>For example, this works fine:</p>
+<p>例如，这个可以正常工作：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -844,7 +838,7 @@ This means <em>pydantic</em> may not play well with types not defined in the glo
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>While this will break:</p>
+<p>但这个就会中断：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:1"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -879,11 +873,10 @@ This means <em>pydantic</em> may not play well with types not defined in the glo
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>Resolving this is beyond the call for <em>pydantic</em>: either remove the future import or declare the types globally.</p>
-<h2 id="self-referencing-models">Self-referencing Models<a class="headerlink" href="#self-referencing-models" title="Permanent link">&para;</a></h2>
-<p>Data structures with self-referencing models are also supported. Self-referencing fields will be automatically
-resolved after model creation.</p>
-<p>Within the model, you can refer to the not-yet-constructed model using a string:</p>
+<p>解决这个问题超出了对 <em>pydantic</em> 的调用：要么删除未来的导入，要么在全局范围内声明类型。</p>
+<h2 id="self-referencing-models">自引用模型(Self-referencing Models)<a class="headerlink" href="#self-referencing-models" title="Permanent link">&para;</a></h2>
+<p>还支持具有自引用模型的数据结构。 自引用字段将在模型创建后自动解析。</p>
+<p>在模型中，您可以使用字符串引用尚未构建的模型：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:1"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -905,9 +898,7 @@ resolved after model creation.</p>
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>Since Python 3.7, you can also refer it by its type, provided you import <code>annotations</code> (see
-<a href="./">above</a> for support depending on Python
-and <em>pydantic</em> versions).</p>
+<p>从 Python 3.7 开始，你也可以通过它的类型来引用它，前提是你导入了<code>annotations</code>（参见 <a href="./">上面</a> 以获得依赖于 Python 和 <em>pydantic</em> 版本的支持）。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -980,7 +971,7 @@ and <em>pydantic</em> versions).</p>
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       
