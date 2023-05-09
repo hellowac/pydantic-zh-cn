@@ -51,7 +51,7 @@ nav:
   - 字段类型: usage/types.md
   - 字段校验: usage/validators.md
   - 模型配置: usage/model_config.md
-  - 模型图式(schema): usage/schema.md
+  - schema: usage/schema.md
   - 模型导出: usage/exporting_models.md
   - 数据类: usage/dataclasses.md
   - 校验装饰器: usage/validation_decorator.md

@@ -1,3 +1,11 @@
+!!! note
+
+    译者注: **JSON Schema** 就是一种描述JSON数据长什么样子的规范和格式，详情参考[JSON Schema 规范（中文版）](https://json-schema.apifox.cn/){target="_blank"}
+
+    对于将 JSON-schema 转化为 md 文档，参考: [jsonschema2md2](https://pypi.org/project/jsonschema2md2/){target="_blank"}
+
+    对于 在mkdocs 中展示 JSON-schema, 参考: [mkdocs-schema-reader](https://pypi.org/project/mkdocs-schema-reader/){target="_blank"}
+
 *Pydantic* 允许从模型自动创建 JSON 模式(Schema)：
 
 {!.tmp_examples/schema_main.md!}
@@ -22,14 +30,14 @@
 `$ref` 的格式（上面的`"#/definitions/FooBar"`）可以通过使用 `ref_template` 关键字参数调用 `schema()` 或 `schema_json()` 来改变，
 例如 `ApplePie.schema(ref_template='/schemas/{model}.json#/')`，这里的 `{model}` 将替换为使用 `str.format()` 的模型命名。
 
-## 获取指定类型的模式(Getting schema of a specified type)
+## 获取指定类型的schema Getting schema of a specified type
 
 *Pydantic* 包括两个独立的实用程序函数 `schema_of` 和 `schema_json_of`，可用于以更特殊的方式应用用于 *pydantic* 模型的模式生成逻辑。
 这些函数的行为类似于 `BaseModel.schema` 和 `BaseModel.schema_json`，但适用于任意与 pydantic 兼容的类型。
 
 {!.tmp_examples/schema_ad_hoc.md!}
 
-## Field定制(Field customization)
+## Field定制 Field customization
 
 可选地，`Field`函数可用于提供有关字段和验证的额外信息。
 
@@ -74,13 +82,13 @@
 
 除了使用`Field`，[Config 类](model_config.md) 的`fields`属性可用于设置除`default`之外的所有上述参数。
 
-### 非强制字段约束(Unenforced Field constraints)
+### 非强制字段约束 Unenforced Field constraints
 
 如果 *pydantic* 发现未强制执行的约束，则会引发错误。 如果你想强制约束出现在模式中，即使它在解析时没有被检查，你可以使用带有原始模式属性名称的 `Field()` 的可变参数：
 
 {!.tmp_examples/schema_unenforced_constraints.md!}
 
-### typing.Annotated 字段(Fields)
+### typing.Annotated 字段 Fields
 
 与其分配`Field`值，不如在类型提示中使用`typing.Annotated`指定：
 
@@ -92,7 +100,7 @@
 
 对于 3.9 之前的 Python 版本，可以使用 `typing_extensions.Annotated`。
 
-## 修改自定义字段中的模式(Modifying schema in custom fields)
+## 修改自定义字段的schema Modifying schema in custom fields
 
 自定义字段类型可以使用 `__modify_schema__` 类方法自定义为它们生成的模式； 有关详细信息，请参阅 [自定义数据类型](types.md#custom-data-types)。
 
@@ -113,13 +121,13 @@
 
 {!.tmp_schema_mappings.html!}
 
-## 顶层模式生成(Top-level schema generation)
+## 顶层Schema生成 Top-level schema generation
 
 您还可以生成一个顶级 JSON 架构，该架构仅在其`definitions`中包含模型列表和相关子模型：
 
 {!.tmp_examples/schema_top_level.md!}
 
-## 模式定制(Schema customization)
+## schema定制 Schema customization
 
 您可以自定义生成的 `$ref` JSON 位置：定义始终存储在键 `definitions` 下，但可以为引用使用指定的前缀。
 
