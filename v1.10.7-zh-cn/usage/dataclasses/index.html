@@ -19,7 +19,7 @@
         <link rel="next" href="../validation_decorator/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
@@ -27,10 +27,10 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -368,7 +368,7 @@
   
     <li class="md-nav__item">
       <a href="../schema/" class="md-nav__link">
-        模型图式(schema)
+        schema
       </a>
     </li>
   
@@ -1120,21 +1120,21 @@
 <span class="kn">from</span> <span class="nn">pydantic.dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
 
 
-<span class="c1"># 方式 1 - 直接使用字典</span>
-<span class="c1"># 注意: `mypy` 仍然会引发拼写错误</span>
+<span class="c1"># Option 1 - use directly a dict</span>
+<span class="c1"># Note: `mypy` will still raise typo error</span>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">class</span> <span class="nc">MyDataclass1</span><span class="p">:</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">int</span>
 
 
-<span class="c1"># 方式 2 - 使用`ConfigDict`</span>
-<span class="c1"># （在运行时与之前相同，因为它是一个 TypedDict 但具有智能感知）</span>
+<span class="c1"># Option 2 - use `ConfigDict`</span>
+<span class="c1"># (same as before at runtime since it&#39;s a `TypedDict` but with intellisense)</span>
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">ConfigDict</span><span class="p">(</span><span class="n">validate_assignment</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 <span class="k">class</span> <span class="nc">MyDataclass2</span><span class="p">:</span>
     <span class="n">a</span><span class="p">:</span> <span class="nb">int</span>
 
 
-<span class="c1"># Option 3 - 使用类似于 BaseModel 的 `Config` 类 </span>
+<span class="c1"># Option 3 - use a `Config` class like for a `BaseModel`</span>
 <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
     <span class="n">validate_assignment</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -1777,7 +1777,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       

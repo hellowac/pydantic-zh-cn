@@ -19,18 +19,18 @@
         <link rel="next" href="../exporting_models/">
       
       <link rel="icon" href="../../favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.9">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.8">
     
     
       
-        <title>模型图式(schema) - Pydantic</title>
+        <title>schema - Pydantic</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ded33207.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
       
       
 
@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-schema-of-a-specified-type" class="md-skip">
+        <a href="#schema-getting-schema-of-a-specified-type" class="md-skip">
           跳转至
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              模型图式(schema)
+              schema
             
           </span>
         </div>
@@ -375,12 +375,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          模型图式(schema)
+          schema
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        模型图式(schema)
+        schema
       </a>
       
         
@@ -397,30 +397,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#getting-schema-of-a-specified-type" class="md-nav__link">
-    获取指定类型的模式(Getting schema of a specified type)
+  <a href="#schema-getting-schema-of-a-specified-type" class="md-nav__link">
+    获取指定类型的schema Getting schema of a specified type
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#fieldfield-customization" class="md-nav__link">
-    Field定制(Field customization)
+  <a href="#field-field-customization" class="md-nav__link">
+    Field定制 Field customization
   </a>
   
-    <nav class="md-nav" aria-label="Field定制(Field customization)">
+    <nav class="md-nav" aria-label="Field定制 Field customization">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#unenforced-field-constraints" class="md-nav__link">
-    非强制字段约束(Unenforced Field constraints)
+    非强制字段约束 Unenforced Field constraints
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#typingannotated-fields" class="md-nav__link">
-    typing.Annotated 字段(Fields)
+    typing.Annotated 字段 Fields
   </a>
   
 </li>
@@ -431,8 +431,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#modifying-schema-in-custom-fields" class="md-nav__link">
-    修改自定义字段中的模式(Modifying schema in custom fields)
+  <a href="#schema-modifying-schema-in-custom-fields" class="md-nav__link">
+    修改自定义字段的schema Modifying schema in custom fields
   </a>
   
 </li>
@@ -445,15 +445,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#top-level-schema-generation" class="md-nav__link">
-    顶层模式生成(Top-level schema generation)
+  <a href="#schema-top-level-schema-generation" class="md-nav__link">
+    顶层Schema生成 Top-level schema generation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#schema-customization" class="md-nav__link">
-    模式定制(Schema customization)
+  <a href="#schema-schema-customization" class="md-nav__link">
+    schema定制 Schema customization
   </a>
   
 </li>
@@ -764,30 +764,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#getting-schema-of-a-specified-type" class="md-nav__link">
-    获取指定类型的模式(Getting schema of a specified type)
+  <a href="#schema-getting-schema-of-a-specified-type" class="md-nav__link">
+    获取指定类型的schema Getting schema of a specified type
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#fieldfield-customization" class="md-nav__link">
-    Field定制(Field customization)
+  <a href="#field-field-customization" class="md-nav__link">
+    Field定制 Field customization
   </a>
   
-    <nav class="md-nav" aria-label="Field定制(Field customization)">
+    <nav class="md-nav" aria-label="Field定制 Field customization">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#unenforced-field-constraints" class="md-nav__link">
-    非强制字段约束(Unenforced Field constraints)
+    非强制字段约束 Unenforced Field constraints
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#typingannotated-fields" class="md-nav__link">
-    typing.Annotated 字段(Fields)
+    typing.Annotated 字段 Fields
   </a>
   
 </li>
@@ -798,8 +798,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#modifying-schema-in-custom-fields" class="md-nav__link">
-    修改自定义字段中的模式(Modifying schema in custom fields)
+  <a href="#schema-modifying-schema-in-custom-fields" class="md-nav__link">
+    修改自定义字段的schema Modifying schema in custom fields
   </a>
   
 </li>
@@ -812,15 +812,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#top-level-schema-generation" class="md-nav__link">
-    顶层模式生成(Top-level schema generation)
+  <a href="#schema-top-level-schema-generation" class="md-nav__link">
+    顶层Schema生成 Top-level schema generation
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#schema-customization" class="md-nav__link">
-    模式定制(Schema customization)
+  <a href="#schema-schema-customization" class="md-nav__link">
+    schema定制 Schema customization
   </a>
   
 </li>
@@ -850,8 +850,14 @@
   
 
 
-  <h1>模型图式(schema)</h1>
+  <h1>schema</h1>
 
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>译者注: <strong>JSON Schema</strong> 就是一种描述JSON数据长什么样子的规范和格式，详情参考<a href="https://json-schema.apifox.cn/" target="_blank">JSON Schema 规范（中文版）</a></p>
+<p>对于将 JSON-schema 转化为 md 文档，参考: <a href="https://pypi.org/project/jsonschema2md2/" target="_blank">jsonschema2md2</a></p>
+<p>对于 在mkdocs 中展示 JSON-schema, 参考: <a href="https://pypi.org/project/mkdocs-schema-reader/" target="_blank">mkdocs-schema-reader</a></p>
+</div>
 <p><em>Pydantic</em> 允许从模型自动创建 JSON 模式(Schema)：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
@@ -898,7 +904,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Main&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;This is the description of the main model&quot;</span><span class="p">,</span>
@@ -966,7 +972,7 @@
 <p>默认情况下，模式是使用别名作为键生成的，但可以使用模型属性名称通过调用 <code>MainModel.schema/schema_json(by_alias=False)</code> 来生成。</p>
 <p><code>$ref</code> 的格式（上面的<code>"#/definitions/FooBar"</code>）可以通过使用 <code>ref_template</code> 关键字参数调用 <code>schema()</code> 或 <code>schema_json()</code> 来改变，
 例如 <code>ApplePie.schema(ref_template='/schemas/{model}.json#/')</code>，这里的 <code>{model}</code> 将替换为使用 <code>str.format()</code> 的模型命名。</p>
-<h2 id="getting-schema-of-a-specified-type">获取指定类型的模式(Getting schema of a specified type)<a class="headerlink" href="#getting-schema-of-a-specified-type" title="Permanent link">&para;</a></h2>
+<h2 id="schema-getting-schema-of-a-specified-type">获取指定类型的schema Getting schema of a specified type<a class="headerlink" href="#schema-getting-schema-of-a-specified-type" title="Permanent link">&para;</a></h2>
 <p><em>Pydantic</em> 包括两个独立的实用程序函数 <code>schema_of</code> 和 <code>schema_json_of</code>，可用于以更特殊的方式应用用于 <em>pydantic</em> 模型的模式生成逻辑。
 这些函数的行为类似于 <code>BaseModel.schema</code> 和 <code>BaseModel.schema_json</code>，但适用于任意与 pydantic 兼容的类型。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python 3.7 及以上版本</label><label for="__tabbed_2_2">Python 3.9 及以上版本</label></div>
@@ -1148,7 +1154,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<h2 id="fieldfield-customization">Field定制(Field customization)<a class="headerlink" href="#fieldfield-customization" title="Permanent link">&para;</a></h2>
+<h2 id="field-field-customization">Field定制 Field customization<a class="headerlink" href="#field-field-customization" title="Permanent link">&para;</a></h2>
 <p>可选地，<code>Field</code>函数可用于提供有关字段和验证的额外信息。</p>
 <p>它有以下参数：</p>
 <ul>
@@ -1192,7 +1198,7 @@
 <li><code>**</code> 任何其他关键字参数（例如 <code>examples</code>）将被逐字添加到字段的模式中</li>
 </ul>
 <p>除了使用<code>Field</code>，<a href="../model_config/">Config 类</a> 的<code>fields</code>属性可用于设置除<code>default</code>之外的所有上述参数。</p>
-<h3 id="unenforced-field-constraints">非强制字段约束(Unenforced Field constraints)<a class="headerlink" href="#unenforced-field-constraints" title="Permanent link">&para;</a></h3>
+<h3 id="unenforced-field-constraints">非强制字段约束 Unenforced Field constraints<a class="headerlink" href="#unenforced-field-constraints" title="Permanent link">&para;</a></h3>
 <p>如果 <em>pydantic</em> 发现未强制执行的约束，则会引发错误。 如果你想强制约束出现在模式中，即使它在解析时没有被检查，你可以使用带有原始模式属性名称的 <code>Field()</code> 的可变参数：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
@@ -1268,7 +1274,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<h3 id="typingannotated-fields">typing.Annotated 字段(Fields)<a class="headerlink" href="#typingannotated-fields" title="Permanent link">&para;</a></h3>
+<h3 id="typingannotated-fields">typing.Annotated 字段 Fields<a class="headerlink" href="#typingannotated-fields" title="Permanent link">&para;</a></h3>
 <p>与其分配<code>Field</code>值，不如在类型提示中使用<code>typing.Annotated</code>指定：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python 3.7 及以上版本</label><label for="__tabbed_4_2">Python 3.9 及以上版本</label></div>
 <div class="tabbed-content">
@@ -1302,7 +1308,7 @@
 <p><code>Field</code> 每个字段只能提供一次 - 如果在 <code>Annotated</code> 中使用并作为赋值，将引发错误。</p>
 <p>默认值可以在 <code>Annotated</code> 之外设置为指定值，也可以在 <code>Annotated</code> 内使用 <code>Field.default_factory</code> 设置 - <code>Field.default</code> 参数在 <code>Annotated</code> 中不受支持。</p>
 <p>对于 3.9 之前的 Python 版本，可以使用 <code>typing_extensions.Annotated</code>。</p>
-<h2 id="modifying-schema-in-custom-fields">修改自定义字段中的模式(Modifying schema in custom fields)<a class="headerlink" href="#modifying-schema-in-custom-fields" title="Permanent link">&para;</a></h2>
+<h2 id="schema-modifying-schema-in-custom-fields">修改自定义字段的schema Modifying schema in custom fields<a class="headerlink" href="#schema-modifying-schema-in-custom-fields" title="Permanent link">&para;</a></h2>
 <p>自定义字段类型可以使用 <code>__modify_schema__</code> 类方法自定义为它们生成的模式； 有关详细信息，请参阅 <a href="../types/#custom-data-types">自定义数据类型</a>。</p>
 <p><code>__modify_schema__</code> 也可以采用类型为 <code>Optional[ModelField]</code> 的 <code>field</code> 参数。 <em>pydantic</em> 将检查 <code>__modify_schema__</code> 的签名以确定是否应包含 <code>field</code> 参数。</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python 3.7 及以上版本</label><label for="__tabbed_5_2">Python 3.9 及以上版本</label><label for="__tabbed_5_3">Python 3.10 及以上版本</label></div>
@@ -1417,7 +1423,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;MyModel&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
@@ -2514,7 +2520,7 @@
 </tbody>
 </table>
 
-<h2 id="top-level-schema-generation">顶层模式生成(Top-level schema generation)<a class="headerlink" href="#top-level-schema-generation" title="Permanent link">&para;</a></h2>
+<h2 id="schema-top-level-schema-generation">顶层Schema生成 Top-level schema generation<a class="headerlink" href="#schema-top-level-schema-generation" title="Permanent link">&para;</a></h2>
 <p>您还可以生成一个顶级 JSON 架构，该架构仅在其<code>definitions</code>中包含模型列表和相关子模型：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="6:1"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python 3.7 及以上版本</label></div>
 <div class="tabbed-content">
@@ -2543,7 +2549,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Schema&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2585,7 +2591,7 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<h2 id="schema-customization">模式定制(Schema customization)<a class="headerlink" href="#schema-customization" title="Permanent link">&para;</a></h2>
+<h2 id="schema-schema-customization">schema定制 Schema customization<a class="headerlink" href="#schema-schema-customization" title="Permanent link">&para;</a></h2>
 <p>您可以自定义生成的 <code>$ref</code> JSON 位置：定义始终存储在键 <code>definitions</code> 下，但可以为引用使用指定的前缀。</p>
 <p>如果您需要扩展或修改 JSON Schema 默认定义位置，这将很有用。 例如: 使用 OpenAPI：</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="7:1"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python 3.7 及以上版本</label></div>
@@ -2612,7 +2618,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;definitions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;Foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
@@ -2673,7 +2679,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
@@ -2748,7 +2754,7 @@
 </div>
 </div>
 <p><em>(这个脚本是完整的，它应该“按原样”运行)</em></p>
-<p>输出为:
+<p>输出:
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Person&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object&quot;</span><span class="p">,</span>
@@ -2816,7 +2822,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fac441b0.min.js"></script>
+      <script src="../../assets/javascripts/bundle.51198bba.min.js"></script>
       
         <script src="../../extra/redirects.js"></script>
       
