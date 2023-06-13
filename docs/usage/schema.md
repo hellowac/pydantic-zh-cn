@@ -6,6 +6,8 @@
 
     对于 在mkdocs 中展示 JSON-schema, 参考: [mkdocs-schema-reader](https://pypi.org/project/mkdocs-schema-reader/){target="_blank"}
 
+    对于 直接根据 JSON-schema 生成 HTML文档, 参考: [json-schema-for-humans](https://pypi.org/project/json-schema-for-humans/){target="_blank"}
+
 *Pydantic* 允许从模型自动创建 JSON 模式(Schema)：
 
 {!.tmp_examples/schema_main.md!}
