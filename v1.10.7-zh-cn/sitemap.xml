@@ -2,117 +2,117 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/changelog/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/contributing/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/datamodel_code_generator/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/hypothesis_plugin/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/install/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/mypy_plugin/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/pycharm_plugin/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/visual_studio_code/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/blog/pydantic-v2/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/dataclasses/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/devtools/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/exporting_models/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/model_config/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/models/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/mypy/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/postponed_annotations/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/rich/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/schema/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/settings/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/types/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/validation_decorator/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://hellowac.github.io/pydantic-zh-cn/v1.10.7-zh-cn/usage/validators/</loc>
-         <lastmod>2023-05-09</lastmod>
+         <lastmod>2023-06-13</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
